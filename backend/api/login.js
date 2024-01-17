@@ -6,6 +6,8 @@ let Users = require('../models/users');
 const logger = require('../modules/logger');
 const bcrypt = require('bcrypt');
 
+//Can explore google login https://developers.google.com/identity/sign-in/web/sign-in
+
 router.post('/', async function (req, res, next) {
     try {
         const { username, password } = req.body;

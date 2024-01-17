@@ -63,7 +63,3 @@ material-kit-react
 			├── login.js
 			└── register.js
 ```
-
-## Contact Us
-
-- Email Us: support@deviasio.zendesk.com

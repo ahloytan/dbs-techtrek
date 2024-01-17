@@ -109,7 +109,7 @@ export const AuthProvider = (props) => {
   const signIn = async (email, password) => {
     try {
       await login(email, password);
-      // window.sessionStorage.setItem('authenticated', 'true');
+      window.sessionStorage.setItem('authenticated', 'true');
     } catch (err) {
       console.error(err);
       throw new Error('Invalid email or password! Please try again');
