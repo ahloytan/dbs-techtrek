@@ -1,6 +1,13 @@
 <a name="readme-top"></a>
-# DBS TechTrek Hackathon 2024
+# ![dbs](https://github.com/ahloytan/dbs-techtrek/assets/28771440/3e0d3888-bfb9-4600-b832-d4ced17574b7) DBS TechTrek Hackathon 2024 
 A proof of concept full-stack web application for the DBS TechTrek Hackathon on 20th January 2024
+
+# Docs
+- API documentation: `insert-link-here`
+- Presentation slides: `insert-link-here`
+- [How to Set Up](#how-to-set-up)
+- [Tech Stack](#tech-stack)
+- [Contact Me](#contact-me)
 
 # How to set-up
 
@@ -8,6 +15,7 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 1. Ensure you have [Node.js](https://nodejs.org/en/download) installed
 2. Node.js (v18.18.0) | npm (v10.2.0)
 3. Ensure you have [WAMP](https://www.wampserver.com/en/) or [MAMP](https://www.mamp.info/en/downloads/)
+
 
 ## Frontend
 1. Open command prompt, type in `cd frontend`
@@ -38,6 +46,8 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 [Node.js](https://nodejs.org/en), [Express.js](https://expressjs.com/), [MySQL](https://www.mysql.com/) <br>
 ![My Skills](https://skillicons.dev/icons?i=nodejs,express,mysql&perline=3)
 
+## Deployment
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Libraries
@@ -52,5 +62,11 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 8. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
 9. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
 10. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+# Contact Me
+1. To explore more of my works, head over to [Portfolio Website](https://ahloytan.netlify.app)
+2. Feel free to contact me if there are issues or if there are opportunities that I can help you with!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
