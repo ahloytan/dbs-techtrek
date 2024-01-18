@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 let apiRouter = require('./api/index');
 app.use('/api', apiRouter);
 
-const bot = require('./modules/telegramBot');
-bot.launch();
+// const bot = require('../modules/telegramBot');
+// bot.launch();
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
@@ -32,5 +32,6 @@ app.use(function(err, req, res, next) {
   logger.error(err);
   res.sendStatus(err.status || 500);
 });
+
 
 module.exports = app;
