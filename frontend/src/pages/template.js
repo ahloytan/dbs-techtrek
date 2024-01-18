@@ -41,7 +41,7 @@ const Page = () => {
         <>
           <Head>
             <title>
-              ChatGPT | DBS TechTrek
+              Template | DBS TechTrek
             </title>
           </Head>
           <Box

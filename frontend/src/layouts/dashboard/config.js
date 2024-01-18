@@ -18,8 +18,8 @@ export const items = [
     )
   },
   {
-    title: 'ChatGPT',
-    path: '/chatgpt',
+    title: 'Template',
+    path: '/template',
     icon: (
       <SvgIcon fontSize="small">
         <DocumentIcon />

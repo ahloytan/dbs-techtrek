@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
@@ -9,8 +10,9 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
-import { getAllCustomers } from '../api/index.js';
+import { getAllCustomers } from '../../api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
+import FormDialog from './create1.js';
 
 const useCustomers = (customersList, page, rowsPerPage) => {
 
@@ -35,7 +37,8 @@ const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
-  const customers = useCustomers(customersList, page, rowsPerPage);
+  const [filteredCustomersList, setFilteredCustomers] = useState([]);
+  const customers = useCustomers(filteredCustomersList, page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
@@ -43,6 +46,7 @@ const Page = () => {
     const fetchData = async () => {
       const customers = await getAllCustomers();
       setCustomers(customers)
+      setFilteredCustomers(customers)
     };
   
     fetchData();
@@ -61,6 +65,18 @@ const Page = () => {
     },
     []
   );
+ const handleChildStateChange = (newState) => {
+    let res = [];
+    if (newState === '') {
+      res = customersList;
+    } else {
+      res = customers.filter((el) => {
+        return el.name.toLowerCase().includes(newState);
+      })
+    }
+
+    setFilteredCustomers(res);
+  }
 
   const exportCustomerRecords = () => {
     const csvConfig = mkConfig({ useKeysAsHeaders: true });
@@ -122,7 +138,10 @@ const Page = () => {
                 </Stack>
               </Stack>
               <div>
+                <FormDialog />
                 <Button
+                  component={NextLink}
+                  href="/customers/create"
                   startIcon={(
                     <SvgIcon fontSize="small">
                       <PlusIcon />
@@ -134,7 +153,7 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch />
+            <CustomersSearch onChildStateChange={handleChildStateChange}/>
             <CustomersTable
               count={customersList.length}
               items={customers}
