@@ -35,8 +35,8 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 
 ## Frontend
 ### Framework
-[Next.js](https://nextjs.org/), [React.js](https://react.dev/) <br>
-![My Skills](https://skillicons.dev/icons?i=next,react&perline=3)
+[Next.js](https://nextjs.org/), [React.js](https://react.dev/), [Redux](https://redux.js.org/) <br>
+![My Skills](https://skillicons.dev/icons?i=next,react,redux&perline=3)
 
 ### Styling
 [Material UI](https://mui.com/), [Tailwind](https://tailwindcss.com/) <br>
