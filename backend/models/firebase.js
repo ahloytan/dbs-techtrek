@@ -1,6 +1,6 @@
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
-const serviceAccount = require('../modules/dbs-techtrek-abbe7-2dbf02763804.json');
+const serviceAccount = require('../modules/firestore-credentials.json');
 
 initializeApp({
   credential: cert(serviceAccount)
