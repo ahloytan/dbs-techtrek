@@ -24,10 +24,11 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 
 ## Backend
 1. Ensure that you have a `.env` file with all the credentials in the root folder
-2. Load the `.sql` script located in `backend/sql_scripts`
-3. Open command prompt, type in `cd backend`
-4. If this is your first time setting up the project, type `npm i`
-5. Launch the project using `npm run start`
+2. Launch WAMP/MAMP
+3. Load the `.sql` script located in `backend/sql_scripts`
+4. Open command prompt, type in `cd backend`
+5. If this is your first time setting up the project, type `npm i`
+6. Launch the project using `npm run start`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
