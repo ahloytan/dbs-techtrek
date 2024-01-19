@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 let Customers = require('../models/customers');
-let Firebase = require('../models/firebase');
+// let Firebase = require('../models/firebase');
 const logger = require('../modules/logger');
 
 
