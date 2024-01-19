@@ -9,9 +9,10 @@ const logger = require('../modules/logger');
 
 router.post('/', async function (req, res, next) {
     try {
-        let customer = await Customers.addCustomer();
+        const { address, avatar, createdAt, email, name, phoneNumber } = req.body;
+        await Customers.addCustomer(address, avatar, createdAt, email, name, phoneNumber);
 
-        res.json({ customer });
+        res.json({ 'message': `Record for ${email} has successfully been created!`, 'severity': 'success' });
 
     } catch (error) {
         logger.warn(error);

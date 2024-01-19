@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, SvgIcon, Typography} from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
-import { getAllCustomers } from '../../api/index.js';
+import { getAllCustomers } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import FormDialog from './create1.js';
+import FormDialog from '../sections/customer/create-customer.js';
+import Snackbar from '@/components/snackbar.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbarStatus } from '@/store/index';
 
 const useCustomers = (customersList, page, rowsPerPage) => {
 
@@ -34,7 +35,10 @@ const useCustomerIds = (customers) => {
 };
 
 const Page = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
+  const { status, message, severity } = useSelector((state) => state.app.snackBar);
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
   const [filteredCustomersList, setFilteredCustomers] = useState([]);
@@ -65,7 +69,8 @@ const Page = () => {
     },
     []
   );
- const handleChildStateChange = (newState) => {
+
+  const handleChildStateChange = (newState) => {
     let res = [];
     if (newState === '') {
       res = customersList;
@@ -139,23 +144,11 @@ const Page = () => {
               </Stack>
               <div>
                 <FormDialog />
-                <Button
-                  component={NextLink}
-                  href="/customers/create"
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Add
-                </Button>
               </div>
             </Stack>
             <CustomersSearch onChildStateChange={handleChildStateChange}/>
             <CustomersTable
-              count={customersList.length}
+              count={customers.length}
               items={customers}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
@@ -168,6 +161,7 @@ const Page = () => {
               selected={customersSelection.selected}
             />
           </Stack>
+          <Snackbar isOpen={status} handleClose={() => dispatch(setSnackbarStatus(false))} message={message} severity={severity ?? 'error'}/>
         </Container>
       </Box>
     </>

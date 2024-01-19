@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/api';
+const { NODE_ENV, PROD_URL } = process.env;
+const BASE_URL = NODE_ENV === 'production' ? PROD_URL : 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -12,25 +12,44 @@ const api = axios.create({
 
 const login = async (username, password) => {
   try { 
-    const {data} = await api.post('/login', {
+    await api.post('/login', {
       username, 
       password
     })
-    console.log(data)
-    return true;
+    window.sessionStorage.setItem('authenticated', 'true');
+
   } catch (error) {
-    throw new Error(error);
+    throw new Error('Invalid email or password! Please try again');
   }
 }
+
+const addCustomer = async (address, avatar, createdAt, email, name, phoneNumber) => {
+  try {
+    const { data } = await api.post('/customers', {
+      address, 
+      avatar, 
+      createdAt, 
+      email, 
+      name, 
+      phoneNumber
+    });
+
+    return data
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
 
 const getAllCustomers = async () => {
   try {
     const { data: { customers } } = await api.get('/customers');
     return customers
+
   } catch (error) {
     console.log(error);
-    return false
   }
 }
 
-export {login, getAllCustomers};
+export {login, addCustomer, getAllCustomers};

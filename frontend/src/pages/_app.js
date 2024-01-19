@@ -8,6 +8,8 @@ import { AuthConsumer, AuthProvider } from 'src/contexts/auth-context';
 import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
+import { Provider } from 'react-redux';
+import store from "@/store/index";
 import 'simplebar-react/dist/simplebar.min.css';
 import '../App.css'
 
@@ -25,31 +27,36 @@ const App = (props) => {
   const theme = createTheme();
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>
-          DBS TechTrek 2024
-        </title>
-        <meta
-          name="viewport"
-          content="initial-scale=1, width=device-width"
-        />
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AuthConsumer>
-              {
-                (auth) => auth.isLoading
-                  ? <SplashScreen />
-                  : getLayout(<Component {...pageProps} />)
-              }
-            </AuthConsumer>
-          </ThemeProvider>
-        </AuthProvider>
-      </LocalizationProvider>
-    </CacheProvider>
+
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>
+            DBS TechTrek 2024
+          </title>
+          <meta
+            name="viewport"
+            content="initial-scale=1, width=device-width"
+          />
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <AuthProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <AuthConsumer>
+                {
+                  (auth) => auth.isLoading
+                    ? <SplashScreen />
+                    : getLayout(    
+                      <Provider store={store}>
+                        <Component {...pageProps} />
+                      </Provider>
+                      )
+                }
+              </AuthConsumer>
+            </ThemeProvider>
+          </AuthProvider>
+        </LocalizationProvider>
+      </CacheProvider>
   );
 };
 
