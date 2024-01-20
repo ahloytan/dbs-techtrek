@@ -1,102 +1,170 @@
-import Head from "next/head";
-import { useState } from "react";
-import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { setSnackbarStatus } from "@/store/index";
+import * as Yup from "yup";
+import {
+  Button,
+  SvgIcon,
+  Dialog,
+  Stack,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import { createDestination } from "@/api/index.js";
+import { format } from "date-fns";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+export default function FormDialog() {
+  const dispatch = useDispatch();
+  const [isModalOpen, setModalStatus] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const formik = useFormik({
+    initialValues: {
+      country: "",
+      budget: "",
+      title: "",
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      cost: Yup.number().required("Cost is required"),
+      name: Yup.string().max(255).required("Name is required"),
+    }),
+    onSubmit: async (values, helpers) => {
+      try {
+        console.log(values, 'XDD1')
+        // let { country, budget, title } = values;
+        // console.log(country, budget, title, 'XDD')
+        // const result = await createDestination(country, budget, title);
+        // dispatch(
+        //   setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
+        // );
+        // closeModal();
+        // formik.resetForm({
+        //   values: {
+        //     country: "",
+        //     budget: "",
+        //     title: "",
+        //   },
+        // });
+      } catch (err) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+      }
+    },
+  });
 
-const Page = () => {
-  const [itinerary, setItinerary] = useState("");
-  const [budget, setBudget] = useState("");
-  const [country, setCountry] = useState("");
-  const [destination, setDestination] = useState("");
+  const openModal = () => setModalStatus(true);
+  const closeModal = () => setModalStatus(false);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // update the itinerary, budget, country, and destination in the database
-    console.log("yes");
-    const newItinerary = {
-      title: itinerary,
-      budget: budget,
-      country: country,
-      destination: destination,
-    };
-    console.log(newItinerary);
+  // Manually set data for now, to be removed
+  useEffect(() => {
+    getCountries();
+  }, []);
+  const getCountries = () => {
+    // Todo - retrieve countries from backend using axios
+
+    // For now, use dummy data
+    setCountries([
+      {
+        id: 1,
+        name: "Singapore",
+      },
+      {
+        id: 2,
+        name: "Malaysia",
+      },
+      {
+        id: 3,
+        name: "Thailand",
+      },
+    ]);
   };
 
   return (
     <>
-      <Head>
-        <h1>Create Itinerary</h1>
-      </Head>
-      <Box
-        component="main"
+      <Button
+        startIcon={
+          <SvgIcon fontSize="small">
+            <PlusIcon />
+          </SvgIcon>
+        }
         sx={{
-          flexGrow: 1,
-          py: 8,
+          marginRight: "20px",
         }}
+        variant="contained"
+        onClick={openModal}
       >
-        <Container maxWidth="xl">
-          <form onSubmit={handleFormSubmit}>
-            <label htmlFor="itinerary">Itinerary:</label>
-            <input
-              type="text"
-              id="itinerary"
-              value={itinerary}
-              onChange={(e) => setItinerary(e.target.value)}
-            />
-            <label htmlFor="budget">Budget:</label>
-            <input
-              type="text"
-              id="budget"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-            />
-            <label htmlFor="country">Country:</label>
-            <input
-              type="text"
-              id="country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
-            <label htmlFor="destination">Destination:</label>
-            <input
-              type="text"
-              id="destination"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        </Container>
-      </Box>
+        Add Itinerary
+      </Button>
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <form noValidate onSubmit={formik.handleSubmit}>
+          <DialogTitle>New Itinerary</DialogTitle>
+          <DialogContent>
+            <Stack spacing={3}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="country"
+                value={formik.values.country}
+                label="Country"
+                name='country'
+                onChange={formik.handleChange}
+              >
+                {countries.length !== 0 ? (
+                  countries.map((country) => <MenuItem value={country.id} key={country.id}>{country.name}</MenuItem>)
+                ) : (
+                  <MenuItem value={0}>No countries found</MenuItem>
+                )}
+              </Select>
+              <TextField
+                error={!!(formik.touched.budget && formik.errors.budget)}
+                fullWidth
+                helperText={formik.touched.budget && formik.errors.budget}
+                label="Budget"
+                name="budget"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.budget}
+              />
+              <TextField
+                error={!!(formik.touched.title && formik.errors.title)}
+                fullWidth
+                helperText={formik.touched.title && formik.errors.title}
+                label="Title"
+                name="name"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.name}
+              />
+              {/* <TextField
+                error={!!(formik.touched.notes && formik.errors.notes)}
+                fullWidth
+                helperText={formik.touched.notes && formik.errors.notes}
+                label="Notes"
+                name="notes"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.notes}
+              /> */}
+            </Stack>
+            {formik.errors.submit && (
+              <Typography color="error" sx={{ mt: 10 }} variant="body2">
+                {formik.errors.submit}
+              </Typography>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeModal}>Cancel</Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </>
   );
-};
-
-Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
-
-export default Page;
+}
