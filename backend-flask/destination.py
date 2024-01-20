@@ -38,6 +38,62 @@ def get_all_destinations():
     resp.status_code = 200
     return resp
     
+@app.route("/destinations", methods = ['POST'])
+def add_destination():
+    conn = None
+    cursor = None
+    row = None
+    resp = jsonify([])
+
+    country_id = request.json['countryId']
+    name = request.json['name']
+    notes = request.json['notes']
+    cost = request.json['cost']
+    itinerary_id = request.json['itineraryId']
+
+    # print(type(country_id))
+    # print(type(name))
+    # print(type(notes))
+    # print(type(cost))
+    # print(type(itinerary_id))
+
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+        cursor.execute('INSERT INTO destination \
+                       (country_id, cost, name, notes) \
+                       VALUES (%s, %s, %s, %s);', (country_id, cost, name, notes))
+        
+        cursor.execute('SELECT LAST_INSERT_ID() AS id;')
+        row = cursor.fetchone()
+        destination_id = row["id"]
+
+        ## inserting into joint table
+        cursor.execute('INSERT INTO itinerary_destination \
+                       (destination_id, itinerary_id) \
+                       VALUES (%s, %s);', (destination_id, itinerary_id))
+
+        ## select the join with country to get country name
+        cursor.execute("SELECT destination.name, country.name as countryName, destination.cost, destination.notes, destination.id \
+                       FROM country INNER JOIN destination \
+                       ON country.id = destination.country_id \
+                       WHERE destination.id = %s;", (destination_id))
+        row = cursor.fetchone()
+        conn.commit()
+        if row != None:
+            resp = jsonify(row)
+    except Exception as e:
+        print(e, "error")
+        resp.status_code = 404
+    finally:
+        if conn:
+            conn.close()
+        if cursor:
+            cursor.close() 
+        
+    resp.status_code = 200
+    return resp
 
 @app.errorhandler(404)
 def not_found(error=None):
