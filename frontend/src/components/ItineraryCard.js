@@ -39,13 +39,13 @@ const ItineraryCard = ({ itinerary }) => {
             <Typography variant="body1" color="text.secondary">
               ${itinerary.budget}
             </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <ul>
-                {itinerary.destinations && <Typography variant="h6">Destinations:</Typography>}
-                {itinerary.destinations &&
-                  itinerary.destinations.map((destination) => <li>{destination}</li>)}
-              </ul>
-            </Typography>
+            <ul>
+              {itinerary.destinations && <Typography variant="h6" color="text.secondary">Destinations:</Typography>}
+              <Typography variant="body1" color="text.secondary">
+                  {itinerary.destinations &&
+                    itinerary.destinations.map((destination) => <li key={destination}>{destination}</li>)}
+              </Typography>
+            </ul>
           </CardContent>
         </CardActionArea>
       </Card>
