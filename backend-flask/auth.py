@@ -13,10 +13,17 @@ jwt = JWTManager(app)
 
 @app.route('/create-dummy-users', methods=["POST"])
 def create_dummy_users():
+    first_name = request.json.get("first_name")
+    last_name = request.json.get("last_name")
+    username = request.json.get("username")
+    user_password = request.json.get("password")
+    if not first_name or not last_name or not username or not password:
+        return jsonify({"msg": "Missing fields"}), 400
+
     conn = mysql.connect()
     cursor = conn.cursor(pymysql.cursors.DictCursor)
-    password = bcrypt.hashpw("password".encode(), bcrypt.gensalt())
-    cursor.execute("INSERT INTO user (first_name, last_name, username, password) VALUES (%s, %s, %s, %s)", ("dummy", "dummy", "test", password))
+    password = bcrypt.hashpw(user_password.encode(), bcrypt.gensalt())
+    cursor.execute("INSERT INTO user (first_name, last_name, username, password) VALUES (%s, %s, %s, %s)", (first_name, last_name, username, password))
     conn.commit()
     return jsonify("success")
 

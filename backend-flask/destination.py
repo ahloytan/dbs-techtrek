@@ -51,12 +51,6 @@ def add_destination():
     cost = request.json['cost']
     itinerary_id = request.json['itineraryId']
 
-    # print(type(country_id))
-    # print(type(name))
-    # print(type(notes))
-    # print(type(cost))
-    # print(type(itinerary_id))
-
     try:
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -81,6 +75,49 @@ def add_destination():
                        WHERE destination.id = %s;", (destination_id))
         row = cursor.fetchone()
         conn.commit()
+        if row != None:
+            resp = jsonify(row)
+    except Exception as e:
+        print(e, "error")
+        resp.status_code = 404
+    finally:
+        if conn:
+            conn.close()
+        if cursor:
+            cursor.close() 
+        
+    resp.status_code = 200
+    return resp
+
+@app.route("/destinations/<int:destination_id>", methods = ['PUT'])
+def update_destination(destination_id):
+    conn = None
+    cursor = None
+    row = None
+    resp = jsonify([])
+
+    name = request.args.get('name')
+    cost = request.args.get('cost')
+    notes = request.args.get('notes')
+
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+        # update
+        cursor.execute("UPDATE destination \
+                       SET name = %s, cost = %s, notes = %s \
+                       WHERE id = %s;",
+                       (name, cost, notes, destination_id))
+        conn.commit()
+
+        # retrieve the row
+        cursor.execute("SELECT destination.name, country.name as countryName, destination.cost, destination.notes, destination.id \
+                       FROM country INNER JOIN destination \
+                       ON country.id = destination.country_id \
+                       WHERE destination.id = %s;", (destination_id))
+        row = cursor.fetchone()
+
         if row != None:
             resp = jsonify(row)
     except Exception as e:
