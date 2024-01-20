@@ -17,7 +17,8 @@ const itinerariesList = [{'id': 1, 'country_name': 1, 'user_id': 1, 'budget': 50
 const Page = () => {
 
     useEffect(() => {
-        const itineraries = getItineraries()
+        // turn off axios call for now
+        // const itineraries = getItineraries()
     }, [])
 
     return (

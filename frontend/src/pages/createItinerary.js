@@ -17,7 +17,7 @@ import {
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { createItinerary } from "../api/index";
+import { createItinerary, getAllCountries } from "../api/index";
 
 export default function CreateItinerary() {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export default function CreateItinerary() {
   const formik = useFormik({
     initialValues: {
       country: "",
-      budget: "",
+      budget: 0,
       title: "",
       submit: null,
     },
@@ -49,7 +49,7 @@ export default function CreateItinerary() {
         formik.resetForm({
           values: {
             country: "",
-            budget: "",
+            budget: 0,
             title: "",
           },
         });
@@ -70,6 +70,10 @@ export default function CreateItinerary() {
   }, []);
   const getCountries = () => {
     // Todo - retrieve countries from backend using axios
+    // 
+    // const allCountries = await getAllCountries();
+    // setCountries(allCountries);
+    // 
 
     // For now, use dummy data
     setCountries([
@@ -84,7 +88,7 @@ export default function CreateItinerary() {
       {
         id: 3,
         name: "Thailand",
-      },
+      }
     ]);
   };
 

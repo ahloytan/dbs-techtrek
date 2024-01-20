@@ -51,6 +51,16 @@ const getAllCustomers = async () => {
   }
 }
 
+const getAllCountries = async () => {
+    try {
+        const data = await api.get('/countries')
+    }
+    catch(error) {
+        return error;
+    }
+    return data
+}
+
 const getItineraries = async () => {
   const data = await api.get('/itineraries')
   return data
