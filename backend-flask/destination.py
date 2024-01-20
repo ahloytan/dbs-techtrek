@@ -12,6 +12,11 @@ from flask_jwt_extended import JWTManager
 
 @app.route("/destinations", methods = ['GET'])
 def get_all_destinations():
+    conn = None
+    cursor = None
+    row = None
+    resp = jsonify([])
+
     try:
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -19,17 +24,17 @@ def get_all_destinations():
                        FROM destination INNER JOIN country \
                        ON country.id = destination.country_id')
         row = cursor.fetchall()
-        
+        if row != None:
+            resp = jsonify(row)
     except Exception as e:
         print(e)
+        resp.status_code = 404
     finally:
-        cursor.close() 
-        conn.close()
-
-    if row != None:
-        resp = jsonify(row)
-    else:
-        resp = jsonify("destinations not found")
+        if conn:
+            conn.close()
+        if cursor:
+            cursor.close() 
+        
     resp.status_code = 200
     return resp
     
