@@ -56,6 +56,22 @@ const getItineraries = async () => {
   return data
 }
 
+const createItinerary = async(country, budget, title) => {
+    try{
+        await api.post('/itineraries/create', {
+            country, budget, title
+        })
+        return {
+            "message": "GOOD ADD",
+            "severity": "success"
+        }
+    }
+    catch(error){
+        console.log(error)
+        return error;
+    }
+}
+
 const createDestination = async (cost, name, notes) => {
   try {
     // await api.post('/destinations/create', {

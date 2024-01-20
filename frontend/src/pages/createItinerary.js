@@ -14,11 +14,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { createDestination } from "@/api/index.js";
-import { format } from "date-fns";
+import { createItinerary } from "../api/index";
 
 export default function CreateItinerary() {
   const dispatch = useDispatch();
@@ -39,21 +38,21 @@ export default function CreateItinerary() {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        console.log(values, "XDD1");
-        // let { country, budget, title } = values;
-        // console.log(country, budget, title, 'XDD')
-        // const result = await createDestination(country, budget, title);
-        // dispatch(
-        //   setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
-        // );
-        // closeModal();
-        // formik.resetForm({
-        //   values: {
-        //     country: "",
-        //     budget: "",
-        //     title: "",
-        //   },
-        // });
+        // console.log(values, "XDD1");
+        let { country, budget, title } = values;
+        console.log(country, budget, title, 'XDD123')
+        const result = await createItinerary(country, budget, title);
+        dispatch(
+          setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
+        );
+        closeModal();
+        formik.resetForm({
+          values: {
+            country: "",
+            budget: "",
+            title: "",
+          },
+        });
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
