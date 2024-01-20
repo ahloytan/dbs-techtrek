@@ -40,9 +40,10 @@ def insert_itineraries():
         _title = _json['title']
    
 		# validate the received values
-        if _country_id and _user_id and _budget and _title and request.method == 'POST':
-            sql = 'INSERT INTO itinerary (id, country_id, user_id,budget,title) VALUES (%s,%s,%s,%s)'
-            data = (_country_id, _user_id,_budget,_title,)
+        if _country_id and _budget and _title and request.method == 'POST':
+            sql = 'INSERT INTO itinerary (user_id, country_id,budget,title) VALUES (%s,%s,%s,%s) '
+            
+            data = (_user_id,_country_id,_budget,_title,)
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
             cursor.execute(sql, data)
@@ -56,8 +57,81 @@ def insert_itineraries():
         cursor.close()
         conn.close()
 
-#@app.route('/itineraries/:id',methods = ['GET'])
-#def get_itineraries():
+@app.route('/itineraries/<int:id>', methods=['PUT'])
+def update_user_details():
+	try:
+		_json = request.get_json()
+		_title = _json['title']
+		_budget = _json['budget']
+        
+        
+		if _title and _budget and request.method == 'PUT':
+			conn = mysql.connect()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
+			cursor.execute("SELECT title, budget FROM itinerary WHERE id=%s", (id,))
+			row = cursor.fetchone()
+			if row != None:
+				cursor.execute("UPDATE itineraries SET title=%s , budget=%s WHERE UserID=%s",( _title, _budget, ))
+				conn.commit()
+				resp = jsonify({
+					"code": 200,
+					"data": "Update successful."
+				})
+			else:
+				resp = jsonify("Unable to update details.")
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+		return resp
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/itineraries/<int:id>',methods=["DELETE"])
+def deleteItineraries(id):
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("DELETE FROM itinerary WHERE id=%s", (id,))
+		conn.commit()
+		resp = jsonify('Itineraries deleted successfully!')
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+
+# @app.route('/itineraries/:id/destination',methods = ['POST'])
+# def insert_itineraries():
+#     try:
+#         _json = request.json
+#         _itineraryid = _json['itinerary_id']
+#         _destinationid = _json['destination_id']
+        
+   
+# 		# validate the received values
+#         if _itineraryid and _destinationid and request.method == 'POST':
+#             sql = 'INSERT INTO itinerary (itineraryid,destinationid) VALUES (%s,%s)'
+#             data = (_itineraryid,_destinationid)
+#             conn = mysql.connect()
+#             cursor = conn.cursor(pymysql.cursors.DictCursor)
+#             cursor.execute(sql, data)
+#             conn.commit()
+#             resp = jsonify('Itinerary added successfully!')
+#             resp.status_code = 200
+#             return resp
+#         else:
+#             return not_found()
+#     finally:
+#         cursor.close()
+#         conn.close()
+
 
 @app.errorhandler(404)
 def not_found(error=None):
