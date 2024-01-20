@@ -12,7 +12,7 @@ const LayoutRoot = styled('div')(({ theme }) => ({
   flex: '1 1 auto',
   maxWidth: '100%',
   [theme.breakpoints.up('lg')]: {
-    paddingLeft: SIDE_NAV_WIDTH
+    paddingLeft: SIDE_NAV_WIDTH+20
   }
 }));
 
@@ -23,7 +23,7 @@ const LayoutContainer = styled('div')({
   width: '100%'
 });
 
-export const Layout = withAuthGuard((props) => {
+export const Layout = (props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
@@ -59,4 +59,4 @@ export const Layout = withAuthGuard((props) => {
       </LayoutRoot>
     </>
   );
-});
+};

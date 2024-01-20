@@ -41,7 +41,6 @@ const addCustomer = async (address, avatar, createdAt, email, name, phoneNumber)
   }
 }
 
-
 const getAllCustomers = async () => {
   try {
     const { data: { customers } } = await api.get('/customers');
@@ -52,4 +51,9 @@ const getAllCustomers = async () => {
   }
 }
 
-export {login, addCustomer, getAllCustomers};
+const getItineraries = async () => {
+  const data = await api.get('/itineraries')
+  return data
+}
+
+export {login, addCustomer, getAllCustomers, getItineraries};
