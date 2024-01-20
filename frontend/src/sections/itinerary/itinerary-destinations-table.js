@@ -16,6 +16,8 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import FormDialogEdit from './edit-itinerary.js';
+
 
 export const ItineraryDestinationsTable = (props) => {
   const {
@@ -43,7 +45,7 @@ export const ItineraryDestinationsTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
                     onChange={(event) => {
@@ -53,7 +55,7 @@ export const ItineraryDestinationsTable = (props) => {
                         onDeselectAll?.();
                       }
                     }}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   ID
@@ -84,7 +86,7 @@ export const ItineraryDestinationsTable = (props) => {
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
+                      {/* <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
@@ -93,7 +95,7 @@ export const ItineraryDestinationsTable = (props) => {
                             onDeselectOne?.(destination.id);
                           }
                         }}
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell>
                       {destination.id}
@@ -110,9 +112,9 @@ export const ItineraryDestinationsTable = (props) => {
                     <TableCell>
                       {destination.notes}
                     </TableCell>
-                    {/* <TableCell>
-                      {destination.address.city}, {destination.address.state}, {destination.address.country}
-                    </TableCell> */}
+                    <TableCell>
+                      <FormDialogEdit key={destination.id} destinationDetails={{'id': destination.id, 'cost': destination.cost, 'notes': destination.notes}}/>
+                    </TableCell>
                   </TableRow>
                 );
               })}

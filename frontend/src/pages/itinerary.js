@@ -11,7 +11,6 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import { getAllDestinations } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import FormDialog from '../sections/itinerary/create-itinerary.js';
-import FormDialogEdit from '../sections/itinerary/edit-itinerary.js';
 import Snackbar from '@/components/snackbar.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbarStatus } from '@/store/index';
@@ -95,7 +94,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Customers | DBS TechTrek
+          Destinations | DBS TechTrek
         </title>
       </Head>
       <Box
@@ -129,8 +128,7 @@ const Page = () => {
 
                 </Grid>
                 <Grid item>
-                  <FormDialog />
-                  <FormDialogEdit />
+                  {/* <FormDialog /> */}
                 </Grid>
               </Grid>
               <ItineraryDestinationsTable

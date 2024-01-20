@@ -106,9 +106,9 @@ const getAllDestinations = async () => {
   }
 }
 
-const editDestination = async (cost, name, notes) => {
+const editDestination = async (id, cost, name, notes) => {
   try {
-    console.log(cost, name, notes, 'HAAH');
+    console.log(id, cost, name, notes, 'HAAH');
     // await api.put('/destinations/edit', {
     //   cost, name, notes
     // });
@@ -129,7 +129,7 @@ const deleteDestination = async (id) => {
     //   id
     // });
     return {
-      'message': 'GOOD DELETE',
+      'message': 'OK',
       'severity': 'success'
     }    
   } catch (error) {
@@ -138,4 +138,4 @@ const deleteDestination = async (id) => {
   }
 }
 
-export {login, addCustomer, getAllCustomers, getItineraries, createDestination, getAllDestinations, editDestination};
+export {login, addCustomer, getAllCustomers, getItineraries, createDestination, getAllDestinations, editDestination, deleteDestination};
