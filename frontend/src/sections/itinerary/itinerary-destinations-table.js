@@ -17,7 +17,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-export const CustomersTable = (props) => {
+export const ItineraryDestinationsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -59,16 +59,10 @@ export const CustomersTable = (props) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Email
+                  Cost
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Signed Up
+                  Notes
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -101,9 +95,6 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
-                        </Avatar>
                         <Typography variant="subtitle2">
                           {customer.name}
                         </Typography>
@@ -114,12 +105,6 @@ export const CustomersTable = (props) => {
                     </TableCell>
                     <TableCell>
                       {customer.address.city}, {customer.address.state}, {customer.address.country}
-                    </TableCell>
-                    <TableCell>
-                      {customer.phone_number}
-                    </TableCell>
-                    <TableCell>
-                      {createdAt}
                     </TableCell>
                   </TableRow>
                 );
@@ -141,7 +126,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+ItineraryDestinationsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

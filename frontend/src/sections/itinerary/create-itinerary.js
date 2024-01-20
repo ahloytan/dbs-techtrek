@@ -74,7 +74,7 @@ export default function FormDialog() {
         variant="contained" 
         onClick={openModal}
       >
-        Add
+        Add Destination
       </Button>
       <Dialog
         open={isModalOpen}
