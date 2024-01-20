@@ -20,7 +20,7 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { createDestination } from "@/api/index.js";
 import { format } from "date-fns";
 
-export default function FormDialog() {
+export default function CreateItinerary() {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const [countries, setCountries] = useState([]);
@@ -141,17 +141,7 @@ export default function FormDialog() {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.name}
-              />
-              {/* <TextField
-                error={!!(formik.touched.notes && formik.errors.notes)}
-                fullWidth
-                helperText={formik.touched.notes && formik.errors.notes}
-                label="Notes"
-                name="notes"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.notes}
-              /> */}
+              />    
             </Stack>
             {formik.errors.submit && (
               <Typography color="error" sx={{ mt: 10 }} variant="body2">
