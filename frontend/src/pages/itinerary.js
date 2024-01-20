@@ -42,7 +42,6 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const destinations = await getAllDestinations();
-      console.log(destinations, "XDD");
       setDestinations(destinations);
       setfilteredDestinations(destinations);
     };

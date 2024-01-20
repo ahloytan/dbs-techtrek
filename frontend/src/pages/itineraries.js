@@ -6,7 +6,9 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ItineraryCard from "../components/ItineraryCard";
 // import { Container } from '@mui/material'
 // import Masonry from 'react-masonry-css';
-import { Typography } from "@mui/material";
+import { Typography } from '@mui/material';
+import CreateItinerary from './createItinerary.js'
+
 
 const itinerariesList = [
   {
@@ -39,6 +41,7 @@ const Page = () => {
       >
         <div style={{ display: "flex", width: "100%", marginBottom: "40px" }}>
           <Typography variant="h4">My Itineraries</Typography>
+          <CreateItinerary />
         </div>
         <Grid container spacing={2}>
           <Grid sx={{ display: "flex" }}>

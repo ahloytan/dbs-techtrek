@@ -14,11 +14,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { createDestination } from "@/api/index.js";
-import { format } from "date-fns";
+import { createItinerary } from "../api/index";
 
 export default function CreateItinerary() {
   const dispatch = useDispatch();
@@ -32,26 +31,28 @@ export default function CreateItinerary() {
       submit: null,
     },
     validationSchema: Yup.object({
-      cost: Yup.number().required("Cost is required"),
-      name: Yup.string().max(255).required("Name is required"),
+      //   cost: Yup.number().required("Cost is required"),
+      //   name: Yup.string().max(255).required("Name is required"),
+      budget: Yup.number().required("Cost is required"),
+      title: Yup.string().max(255).required("Name is required"),
     }),
     onSubmit: async (values, helpers) => {
       try {
-        console.log(values, 'XDD1')
-        // let { country, budget, title } = values;
-        // console.log(country, budget, title, 'XDD')
-        // const result = await createDestination(country, budget, title);
-        // dispatch(
-        //   setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
-        // );
-        // closeModal();
-        // formik.resetForm({
-        //   values: {
-        //     country: "",
-        //     budget: "",
-        //     title: "",
-        //   },
-        // });
+        // console.log(values, "XDD1");
+        let { country, budget, title } = values;
+        console.log(country, budget, title, 'XDD123')
+        const result = await createItinerary(country, budget, title);
+        dispatch(
+          setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
+        );
+        closeModal();
+        formik.resetForm({
+          values: {
+            country: "",
+            budget: "",
+            title: "",
+          },
+        });
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -113,11 +114,15 @@ export default function CreateItinerary() {
                 id="country"
                 value={formik.values.country}
                 label="Country"
-                name='country'
+                name="country"
                 onChange={formik.handleChange}
               >
                 {countries.length !== 0 ? (
-                  countries.map((country) => <MenuItem value={country.id} key={country.id}>{country.name}</MenuItem>)
+                  countries.map((country) => (
+                    <MenuItem value={country.id} key={country.id}>
+                      {country.name}
+                    </MenuItem>
+                  ))
                 ) : (
                   <MenuItem value={0}>No countries found</MenuItem>
                 )}
@@ -137,11 +142,11 @@ export default function CreateItinerary() {
                 fullWidth
                 helperText={formik.touched.title && formik.errors.title}
                 label="Title"
-                name="name"
+                name="title"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={formik.values.name}
-              />    
+                value={formik.values.title}
+              />
             </Stack>
             {formik.errors.submit && (
               <Typography color="error" sx={{ mt: 10 }} variant="body2">
