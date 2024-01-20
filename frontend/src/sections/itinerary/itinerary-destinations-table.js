@@ -113,7 +113,7 @@ export const ItineraryDestinationsTable = (props) => {
                       {destination.notes}
                     </TableCell>
                     <TableCell>
-                      <FormDialogEdit key={destination.id} destinationDetails={{'id': destination.id, 'cost': destination.cost, 'notes': destination.notes}}/>
+                      <FormDialogEdit key={destination.id} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
                     </TableCell>
                   </TableRow>
                 );

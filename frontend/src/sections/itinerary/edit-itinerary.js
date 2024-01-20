@@ -8,14 +8,14 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { editDestination } from '@/api/index.js';
 import { format } from 'date-fns';
 
-export default function FormDialogEdit() {
+export default function FormDialogEdit({destinationDetails}) {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const formik = useFormik({
     initialValues: {
-      cost: '',
-      name: '',
-      notes: '',
+      cost: destinationDetails.cost,
+      name: destinationDetails.name,
+      notes: destinationDetails.notes,
       submit: null
     },
     validationSchema: Yup.object({
@@ -30,10 +30,7 @@ export default function FormDialogEdit() {
     onSubmit: async (values, helpers) => {
       try {
         let { cost, name, notes } = values;
-        // const cost = 1;
-        // const name = 'aaa';
-        // const notes = "bbbb";
-        const result = await editDestination(cost, name, notes);
+        const result = await editDestination(destinationDetails.id, cost, name, notes);
         dispatch(setSnackbarStatus({ 'status': true, 'message': result.message, 'severity': result?.severity })); 
         closeModal();
         formik.resetForm({
@@ -68,7 +65,7 @@ export default function FormDialogEdit() {
         variant="contained" 
         onClick={openModal}
       >
-        Edit Destination
+        Edit
       </Button>
       <Dialog
         open={isModalOpen}
