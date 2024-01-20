@@ -10,12 +10,12 @@ from flask import flash, request
 def get_itinerary():
     try:
         conn = mysql.connect()
-
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         user_id = request.args['user_id']
+       
         cursor.execute(f"SELECT itinerary.id, country.name  AS countryName, itinerary.budget, itinerary.title, destination.name \
                        FROM itinerary INNER JOIN country INNER JOIN destination \
-                       ON itinerary.id = itinerary.country_id WHERE itinerary.user_id = {user_id}")
+                       ON country.id = itinerary.country_id WHERE itinerary.user_id = {user_id}")
         
         row = cursor.fetchall()
         if row != None:
