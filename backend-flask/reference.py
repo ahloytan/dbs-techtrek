@@ -9,6 +9,7 @@ from flask import flash, request
 import auth
 import destination
 import countries
+import dashboard
 
 
 @app.route("/getitinerary", methods = ['GET'])

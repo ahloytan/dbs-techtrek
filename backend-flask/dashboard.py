@@ -41,25 +41,6 @@ def get_itinerary_by_id(id):
         conn.close()
 
 
-@app.route("/getitinerary", methods = ['GET'])
-def get_itinerary():
-    try:
-        conn = mysql.connect()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT * FROM itinerary')
-        row = cursor.fetchall()
-        if row != None:
-            resp = jsonify(row)
-        else:
-            resp = jsonify("itinerary not found")
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close() 
-        conn.close()
-
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
