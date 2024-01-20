@@ -37,13 +37,14 @@ INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `username`) VAL
 -- Dumping structure for table techtrek24.country
 CREATE TABLE IF NOT EXISTS `country` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) UNIQUE NOT NULL,
   KEY `PK` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table techtrek24.country: ~1 rows (approximately)
 INSERT INTO `country` (`id`, `name`) VALUES
-	(1, 'Singapore');
+	(1, 'Singapore'),
+  (2, 'Japan');
 
 -- Dumping structure for table techtrek24.destination
 CREATE TABLE IF NOT EXISTS `destination` (
