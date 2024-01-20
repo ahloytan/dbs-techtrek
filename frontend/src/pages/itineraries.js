@@ -9,6 +9,7 @@ import ItineraryCard from '../components/ItineraryCard'
 // import { Container } from '@mui/material'
 // import Masonry from 'react-masonry-css';
 import { Typography } from '@mui/material';
+import CreateItinerary from './createItinerary.js'
 
 const itinerariesList = [{'id': 1, 'country_name': 1, 'user_id': 1, 'budget': 500, 'title': 'Sightseeing in Singapore'},
                     {'id': 2, 'country_name': 1, 'user_id': 1, 'budget': 800, 'title': 'Singapore Adventure'}]
@@ -35,7 +36,9 @@ const Page = () => {
             >
                 <div style={{display: 'flex', width: '100%', marginBottom: '40px'}}>
                     <Typography variant="h4">My Itineraries</Typography>
+                    <CreateItinerary />
                 </div>
+                
                 <Grid container spacing={2}>
                     <Grid sx={{display: 'flex'}}>
                             {itinerariesList && itinerariesList.map((itinerary) => (
