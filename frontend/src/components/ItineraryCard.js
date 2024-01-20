@@ -5,6 +5,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import { DeleteOutlined } from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
 
 const image = 
   {
@@ -22,7 +24,13 @@ const ItineraryCard = ({ itinerary }) => {
     <div>
       <Card sx={{ maxWidth: 345, borderRadius: 1, margin: "10px" }} elevation={3}>
         <CardActionArea onClick={handleClick}>
-          <CardHeader title={itinerary.title} />
+        <CardHeader
+          action={
+              <IconButton onClick={() => handleDelete()}>
+                <DeleteOutlined />
+              </IconButton>
+          }
+            title={itinerary.title} />
           <CardMedia component="img" height="194" image={image.url} alt="image" />
           <CardContent>
             <Typography variant="h6" color="text.secondary">
