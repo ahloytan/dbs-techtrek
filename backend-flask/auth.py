@@ -7,7 +7,7 @@ import bcrypt
 import pymysql
 
 app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 60 * 60 * 24 * 7 # 7 days
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 60 * 60 * 24 # 1 day for demo, usually ~1h
 jwt = JWTManager(app)
 
 
