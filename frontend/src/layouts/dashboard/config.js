@@ -18,15 +18,6 @@ export const items = [
     )
   },
   {
-    title: 'Template',
-    path: '/template',
-    icon: (
-      <SvgIcon fontSize="small">
-        <DocumentIcon />
-      </SvgIcon>
-    )
-  },
-  {
     title: 'Itinerary',
     path: '/itinerary',
     icon: (
@@ -36,39 +27,48 @@ export const items = [
     )
   },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Destinations',
+    path: '/template',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <DocumentIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Account',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Settings',
-    path: '/settings',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Logout',
-    path: 'https://www.youtube.com/watch?v=fcZXfoB2f70&ab_channel=RickrollNoads',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ArrowLeftOnRectangleIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Companies',
+  //   path: '/companies',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ShoppingBagIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Account',
+  //   path: '/account',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Settings',
+  //   path: '/settings',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CogIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Logout',
+  //   path: 'https://www.youtube.com/watch?v=fcZXfoB2f70&ab_channel=RickrollNoads',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ArrowLeftOnRectangleIcon />
+  //     </SvgIcon>
+  //   )
+  // },
 ];
