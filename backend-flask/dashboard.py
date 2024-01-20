@@ -15,10 +15,13 @@ def get_itinerary_by_id(id):
         if not rows:
             return jsonify("itinerary not found")
         first_row = rows[0]
+        print(first_row)
         itinerary = {
             "id": first_row["id"],
             "title": first_row["title"],
             "budget": first_row["budget"],
+            "countryId": first_row["country_id"],
+            "countryName": first_row["country.name"]
         }
         destinations = []
         for row in rows:
