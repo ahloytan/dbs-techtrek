@@ -17,15 +17,15 @@ export const items = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Itinerary',
-    path: '/itinerary',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Itinerary',
+  //   path: '/itinerary',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UsersIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Destinations',
     path: '/template',

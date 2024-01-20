@@ -107,7 +107,7 @@ const createDestination = async (cost, name, notes) => {
 
 const getAllDestinations = async () => {
   try {
-    // await api.post('/destinations');
+    // await api.get('/destinations');
     const data = [
       {
         "name": "Paris",
@@ -142,7 +142,7 @@ const getAllDestinations = async () => {
 const editDestination = async (id, cost, name, notes) => {
   try {
     console.log(id, cost, name, notes, 'HAAH');
-    // await api.put('/destinations/edit', {
+    // await api.put('/destinations', {
     //   cost, name, notes
     // });
     return {
@@ -158,7 +158,7 @@ const editDestination = async (id, cost, name, notes) => {
 const deleteDestination = async (id) => {
   try {
     console.log(id, 'DELETO');
-    // await api.delete('/destinations/edit', {
+    // await api.delete('/destinations', {
     //   id
     // });
     return {

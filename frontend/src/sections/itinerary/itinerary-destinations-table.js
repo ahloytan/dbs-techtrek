@@ -17,6 +17,8 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 import FormDialogEdit from './edit-itinerary.js';
+import FormDialogDelete from './delete-itinerary.js';
+import { Button, SvgIcon } from "@mui/material";
 
 
 export const ItineraryDestinationsTable = (props) => {
@@ -60,9 +62,9 @@ export const ItineraryDestinationsTable = (props) => {
                 <TableCell>
                   ID
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   Name
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   Country Name
                 </TableCell>
@@ -103,9 +105,9 @@ export const ItineraryDestinationsTable = (props) => {
                     <TableCell>
                       {destination.name}
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       {destination.countryName}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       {destination.cost}
                     </TableCell>
@@ -113,7 +115,8 @@ export const ItineraryDestinationsTable = (props) => {
                       {destination.notes}
                     </TableCell>
                     <TableCell>
-                      <FormDialogEdit key={destination.id} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
+                      <FormDialogEdit key={destination.id + 'edit'} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
+                      <FormDialogDelete key={destination.id + 'del'} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
                     </TableCell>
                   </TableRow>
                 );
