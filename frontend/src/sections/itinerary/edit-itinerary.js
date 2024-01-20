@@ -5,10 +5,10 @@ import { setSnackbarStatus } from '@/store/index';
 import * as Yup from 'yup';
 import { Button, SvgIcon, Dialog, Stack, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { createDestination } from '@/api/index.js';
+import { editDestination } from '@/api/index.js';
 import { format } from 'date-fns';
 
-export default function FormDialog() {
+export default function FormDialogEdit() {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const formik = useFormik({
@@ -33,7 +33,7 @@ export default function FormDialog() {
         // const cost = 1;
         // const name = 'aaa';
         // const notes = "bbbb";
-        const result = await createDestination(cost, name, notes);
+        const result = await editDestination(cost, name, notes);
         dispatch(setSnackbarStatus({ 'status': true, 'message': result.message, 'severity': result?.severity })); 
         closeModal();
         formik.resetForm({
@@ -68,7 +68,7 @@ export default function FormDialog() {
         variant="contained" 
         onClick={openModal}
       >
-        Add Destination
+        Edit Destination
       </Button>
       <Dialog
         open={isModalOpen}
@@ -78,7 +78,7 @@ export default function FormDialog() {
           noValidate
           onSubmit={formik.handleSubmit}
         >
-          <DialogTitle>New Destination</DialogTitle>
+          <DialogTitle>Edit Destination</DialogTitle>
           <DialogContent>
             <Stack spacing={3}>
                   <TextField
@@ -87,11 +87,12 @@ export default function FormDialog() {
                     helperText={formik.touched.cost && formik.errors.cost}
                     label="Cost"
                     name="cost"
+                    type="number"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.cost}
                   />
-                   <TextField
+                  <TextField
                     error={!!(formik.touched.name && formik.errors.name)}
                     fullWidth
                     helperText={formik.touched.name && formik.errors.name}
@@ -125,7 +126,7 @@ export default function FormDialog() {
           </DialogContent>
           <DialogActions>
             <Button onClick={closeModal}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Save</Button>
           </DialogActions>
         </form>
       </Dialog>

@@ -56,7 +56,13 @@ export const ItineraryDestinationsTable = (props) => {
                   />
                 </TableCell>
                 <TableCell>
+                  ID
+                </TableCell>
+                <TableCell>
                   Name
+                </TableCell>
+                <TableCell>
+                  Country Name
                 </TableCell>
                 <TableCell>
                   Cost
@@ -67,14 +73,14 @@ export const ItineraryDestinationsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(parseISO(customer.created_at), 'dd/MM/yyyy');
+              {items.map((destination) => {
+                const isSelected = selected.includes(destination.id);
+                // const createdAt = format(parseISO(destination.created_at), 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={destination.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -82,30 +88,31 @@ export const ItineraryDestinationsTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(destination.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(destination.id);
                           }
                         }}
                       />
                     </TableCell>
                     <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <Typography variant="subtitle2">
-                          {customer.name}
-                        </Typography>
-                      </Stack>
+                      {destination.id}
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {destination.name}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {destination.countryName}
                     </TableCell>
+                    <TableCell>
+                      {destination.cost}
+                    </TableCell>
+                    <TableCell>
+                      {destination.notes}
+                    </TableCell>
+                    {/* <TableCell>
+                      {destination.address.city}, {destination.address.state}, {destination.address.country}
+                    </TableCell> */}
                   </TableRow>
                 );
               })}
