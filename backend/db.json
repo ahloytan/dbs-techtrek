@@ -1,0 +1,82 @@
+{
+    "itineraries": [
+        {
+          "id": 1,
+          "country_name": "Singapore",
+          "budget": 500,
+          "title": "Adventure in Singapore",
+          "destinations": [
+            {
+              "id": 1,
+              "cost": 200,
+              "name": "Sentosa Island",
+              "notes": "Beach and Attractions"
+            },
+            {
+              "id": 2,
+              "cost": 150,
+              "name": "Gardens by the Bay",
+              "notes": "Botanical Gardens"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "country_name": "France",
+          "budget": 2000,
+          "title": "Exploring the French Riviera",
+          "destinations": [
+            {
+              "id": 3,
+              "cost": 800,
+              "name": "Nice",
+              "notes": "Beautiful Mediterranean Coast"
+            },
+            {
+              "id": 4,
+              "cost": 1200,
+              "name": "Cannes",
+              "notes": "Famous Film Festival"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "country_name": "Japan",
+          "budget": 1500,
+          "title": "Discovering Kyoto and Tokyo",
+          "destinations": [
+            {
+              "id": 5,
+              "cost": 700,
+              "name": "Kyoto",
+              "notes": "Historical Temples"
+            },
+            {
+              "id": 6,
+              "cost": 800,
+              "name": "Tokyo",
+              "notes": "Modern City Life"
+            }
+          ]
+        }
+      ],
+    "countries": 
+        [
+            {
+              "name": "Singapore",
+              "id": "1"
+            },
+            {
+              "name": "France",
+              "id": "2"
+            },
+            {
+              "name": "Japan",
+              "id": "3"
+            }
+          ]
+    
+
+      
+}

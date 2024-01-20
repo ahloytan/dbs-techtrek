@@ -5,48 +5,39 @@ import { setSnackbarStatus } from '@/store/index';
 import * as Yup from 'yup';
 import { Button, SvgIcon, Dialog, Stack, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { addCustomer } from '@/api/index.js';
+import { editDestination } from '@/api/index.js';
 import { format } from 'date-fns';
 
-export default function FormDialog() {
+export default function FormDialogEdit({destinationDetails}) {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      phoneNumber: '',
+      cost: destinationDetails.cost,
+      name: destinationDetails.name,
+      notes: destinationDetails.notes,
       submit: null
     },
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
+      cost: Yup
+        .number()
+        .required('Cost is required'),
       name: Yup
         .string()
         .max(255)
         .required('Name is required'),
-      phoneNumber: Yup
-        .string()
-        .max(50)
-        .required('Phone number is required'),
     }),
     onSubmit: async (values, helpers) => {
       try {
-        let { email, name, phoneNumber } = values;
-        const createdAt = format(new Date(), 'yyyy-MM-dd HH-mm-ss');
-        const avatar = '/assets/avatars/dpgc.webp';
-        const address = "{}";
-        const result = await addCustomer(address, avatar, createdAt, email, name, phoneNumber);
+        let { cost, name, notes } = values;
+        const result = await editDestination(destinationDetails.id, cost, name, notes);
         dispatch(setSnackbarStatus({ 'status': true, 'message': result.message, 'severity': result?.severity })); 
         closeModal();
         formik.resetForm({
           values: {
-            email: '',
+            cost: '',
             name: '',
-            phoneNumber: '',
+            notes: '',
           },
         });
       } catch (err) {
@@ -74,7 +65,7 @@ export default function FormDialog() {
         variant="contained" 
         onClick={openModal}
       >
-        Add
+        Edit
       </Button>
       <Dialog
         open={isModalOpen}
@@ -84,9 +75,20 @@ export default function FormDialog() {
           noValidate
           onSubmit={formik.handleSubmit}
         >
-          <DialogTitle>New Customer</DialogTitle>
+          <DialogTitle>Edit Destination</DialogTitle>
           <DialogContent>
             <Stack spacing={3}>
+                  <TextField
+                    error={!!(formik.touched.cost && formik.errors.cost)}
+                    fullWidth
+                    helperText={formik.touched.cost && formik.errors.cost}
+                    label="Cost"
+                    name="cost"
+                    type="number"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.cost}
+                  />
                   <TextField
                     error={!!(formik.touched.name && formik.errors.name)}
                     fullWidth
@@ -95,28 +97,18 @@ export default function FormDialog() {
                     name="name"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
+                    type="name"
                     value={formik.values.name}
                   />
                   <TextField
-                    error={!!(formik.touched.email && formik.errors.email)}
+                    error={!!(formik.touched.notes && formik.errors.notes)}
                     fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
-                    label="Email Address"
-                    name="email"
+                    helperText={formik.touched.notes && formik.errors.notes}
+                    label="Notes"
+                    name="notes"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    type="email"
-                    value={formik.values.email}
-                  />
-                  <TextField
-                    error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
-                    fullWidth
-                    helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                    label="Phone Number"
-                    name="phoneNumber"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.phoneNumber}
+                    value={formik.values.notes}
                   />
               </Stack>
               {formik.errors.submit && (
@@ -131,7 +123,7 @@ export default function FormDialog() {
           </DialogContent>
           <DialogActions>
             <Button onClick={closeModal}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Save</Button>
           </DialogActions>
         </form>
       </Dialog>

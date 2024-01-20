@@ -16,8 +16,12 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import FormDialogEdit from './edit-itinerary.js';
+import FormDialogDelete from './delete-itinerary.js';
+import { Button, SvgIcon } from "@mui/material";
 
-export const CustomersTable = (props) => {
+
+export const ItineraryDestinationsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -43,7 +47,7 @@ export const CustomersTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
                     onChange={(event) => {
@@ -53,73 +57,66 @@ export const CustomersTable = (props) => {
                         onDeselectAll?.();
                       }
                     }}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
+                  ID
+                </TableCell>
+                {/* <TableCell>
                   Name
+                </TableCell> */}
+                <TableCell>
+                  Country Name
                 </TableCell>
                 <TableCell>
-                  Email
+                  Cost
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Signed Up
+                  Notes
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(parseISO(customer.created_at), 'dd/MM/yyyy');
+              {items.map((destination) => {
+                const isSelected = selected.includes(destination.id);
+                // const createdAt = format(parseISO(destination.created_at), 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={destination.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
+                      {/* <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(destination.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(destination.id);
                           }
                         }}
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
-                        </Avatar>
-                        <Typography variant="subtitle2">
-                          {customer.name}
-                        </Typography>
-                      </Stack>
+                      {destination.id}
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {destination.name}
+                    </TableCell>
+                    {/* <TableCell>
+                      {destination.countryName}
+                    </TableCell> */}
+                    <TableCell>
+                      {destination.cost}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {destination.notes}
                     </TableCell>
                     <TableCell>
-                      {customer.phone_number}
-                    </TableCell>
-                    <TableCell>
-                      {createdAt}
+                      <FormDialogEdit key={destination.id + 'edit'} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
+                      <FormDialogDelete key={destination.id + 'del'} destinationDetails={{'id': destination.id, 'name': destination.name, 'cost': destination.cost, 'notes': destination.notes}}/>
                     </TableCell>
                   </TableRow>
                 );
@@ -141,7 +138,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+ItineraryDestinationsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,
