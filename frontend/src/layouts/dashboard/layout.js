@@ -12,7 +12,7 @@ const LayoutRoot = styled('div')(({ theme }) => ({
   flex: '1 1 auto',
   maxWidth: '100%',
   [theme.breakpoints.up('lg')]: {
-    paddingLeft: SIDE_NAV_WIDTH
+    paddingLeft: SIDE_NAV_WIDTH+20
   }
 }));
 
