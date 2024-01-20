@@ -1,6 +1,6 @@
 import axios from 'axios';
 const { NODE_ENV, PROD_URL } = process.env;
-const BASE_URL = NODE_ENV === 'production' ? PROD_URL : 'http://localhost:5000/api';
+const BASE_URL = NODE_ENV === 'production' ? PROD_URL : 'http://localhost:5000/';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -52,7 +52,14 @@ const getAllCustomers = async () => {
 }
 
 const getItineraries = async () => {
-  const data = await api.get('/itineraries')
+  const response = await api.get('/itineraries')
+  const data = await response.data
+  return data
+}
+
+const getItinerary = async () => {
+  const response = await api.get('/itineraries/1')
+  const data = await response.data
   return data
 }
 
@@ -154,4 +161,4 @@ const deleteDestination = async (id) => {
   }
 }
 
-export {login, addCustomer, getAllCustomers, getItineraries, createDestination, getAllDestinations, editDestination, deleteDestination};
+export {login, addCustomer, getAllCustomers, getItineraries, getItinerary, createDestination, getAllDestinations, editDestination, deleteDestination};
