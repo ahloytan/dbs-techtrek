@@ -12,17 +12,17 @@ from flask_jwt_extended import JWTManager
 
 
 
-@app.route("/getdata", methods = ['GET'])
-def getdata():
+@app.route("/getitinerary", methods = ['GET'])
+def get_itinerary():
     try:
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT * FROM user')
+        cursor.execute('SELECT * FROM itinerary')
         row = cursor.fetchall()
         if row != None:
             resp = jsonify(row)
         else:
-            resp = jsonify("User not found")
+            resp = jsonify("itinerary not found")
         resp.status_code = 200
         return resp
     except Exception as e:
