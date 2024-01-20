@@ -37,14 +37,14 @@ const Page = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // update the itinerary, budget, country, and destination in the database
-    console.log("yes")
-    const newItinerary = { 
-        "title": itinerary,
-        "budget": budget,
-        "country": country,
-        "destination": destination
+    console.log("yes");
+    const newItinerary = {
+      title: itinerary,
+      budget: budget,
+      country: country,
+      destination: destination,
     };
-    console.log(newItinerary)
+    console.log(newItinerary);
   };
 
   return (
@@ -60,8 +60,7 @@ const Page = () => {
         }}
       >
         <Container maxWidth="xl">
-        
-        <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit}>
             <label htmlFor="itinerary">Itinerary:</label>
             <input
               type="text"
