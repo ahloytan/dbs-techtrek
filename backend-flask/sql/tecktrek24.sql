@@ -19,6 +19,21 @@
 CREATE DATABASE IF NOT EXISTS `techtrek24` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `techtrek24`;
 
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  KEY `PK` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table techtrek24.user: ~3 rows (approximately)
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `username`) VALUES
+	(1, 'John', 'Doe', 'johndoe123', 'johndoe'),
+	(2, 'Emily', 'Smith', 'emilysmith456', 'emilysmith'),
+	(3, 'David', 'Brown', 'davidbrown789', 'davidbrown');
+
 -- Dumping structure for table techtrek24.country
 CREATE TABLE IF NOT EXISTS `country` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -74,16 +89,16 @@ INSERT INTO `itinerary` (`id`, `country_id`, `user_id`, `budget`, `title`) VALUE
 CREATE TABLE IF NOT EXISTS `itinerary_destination` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `destination_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `itineray_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `itinerary_id` int(10) unsigned NOT NULL DEFAULT 0,
   KEY `PK` (`id`),
   KEY `IDDestinationFK` (`destination_id`),
-  KEY `IDItineraryFK` (`itineray_id`),
+  KEY `IDItineraryFK` (`itinerary_id`),
   CONSTRAINT `IDDestinationFK` FOREIGN KEY (`destination_id`) REFERENCES `destination` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `IDItineraryFK` FOREIGN KEY (`itineray_id`) REFERENCES `itinerary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `IDItineraryFK` FOREIGN KEY (`itinerary_id`) REFERENCES `itinerary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table techtrek24.itinerary_destination: ~6 rows (approximately)
-INSERT INTO `itinerary_destination` (`id`, `destination_id`, `itineray_id`) VALUES
+INSERT INTO `itinerary_destination` (`id`, `destination_id`, `itinerary_id`) VALUES
 	(1, 1, 1),
 	(2, 2, 1),
 	(3, 3, 1),
@@ -92,20 +107,7 @@ INSERT INTO `itinerary_destination` (`id`, `destination_id`, `itineray_id`) VALU
 	(6, 2, 3);
 
 -- Dumping structure for table techtrek24.user
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `username` varchar(20) NOT NULL,
-  KEY `PK` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table techtrek24.user: ~3 rows (approximately)
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `password`, `username`) VALUES
-	(1, 'John', 'Doe', 'johndoe123', 'johndoe'),
-	(2, 'Emily', 'Smith', 'emilysmith456', 'emilysmith'),
-	(3, 'David', 'Brown', 'davidbrown789', 'davidbrown');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
