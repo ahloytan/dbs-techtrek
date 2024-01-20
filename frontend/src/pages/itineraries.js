@@ -48,11 +48,11 @@ const Page = () => {
         }}
       >
         <div style={{ display: "flex", width: "100%", marginBottom: "40px" }}>
-          <Typography variant="h4">My Itineraries</Typography>
+          <Typography variant="h4" sx={{paddingRight: "10px"}}>My Itineraries</Typography>
           <CreateItinerary />
         </div>
         <Grid container spacing={2}>
-          <Grid sx={{ display: "flex" }}>
+          <Grid sx={{ display: "flex", "flexWrap": "wrap"}}>
             {itineraries &&
               itineraries.map((itinerary) => (
                 <Link href={`/itinerary/${itinerary.id}`}>

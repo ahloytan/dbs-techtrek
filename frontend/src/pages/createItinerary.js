@@ -23,6 +23,7 @@ export default function CreateItinerary() {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const [countries, setCountries] = useState([]);
+  //   const [countryId, setCountryId] = useState(0);
   const formik = useFormik({
     initialValues: {
       country: "",
@@ -40,8 +41,12 @@ export default function CreateItinerary() {
       try {
         // console.log(values, "XDD1");
         let { country, budget, title } = values;
-        console.log(country, budget, title, 'XDD123')
-        const result = await createItinerary(country, budget, title);
+        // const id = countries.find((c) => c.name === country)?.id;
+        const id = 0;
+        // console.log(countries.find((c) => c.name === country)?.id)
+        // console.log(id, budget, title, "Submitting");
+        // console.log(id, budget, title, "Submitting");
+        const result = await createItinerary(id, budget, title);
         dispatch(
           setSnackbarStatus({ status: true, message: result.message, severity: result?.severity })
         );
@@ -68,28 +73,11 @@ export default function CreateItinerary() {
   useEffect(() => {
     getCountries();
   }, []);
-  const getCountries = () => {
+  const getCountries = async () => {
     // Todo - retrieve countries from backend using axios
-    // 
-    // const allCountries = await getAllCountries();
-    // setCountries(allCountries);
-    // 
-
-    // For now, use dummy data
-    setCountries([
-      {
-        id: 1,
-        name: "Singapore",
-      },
-      {
-        id: 2,
-        name: "Malaysia",
-      },
-      {
-        id: 3,
-        name: "Thailand",
-      }
-    ]);
+    //
+    const allCountries = await getAllCountries();
+    setCountries(allCountries);
   };
 
   return (

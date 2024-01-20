@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import NextLink from 'next/link';
 import { Box, Unstable_Grid2 as Grid } from '@mui/material';
+import { withAuthGuard } from '@/hocs/with-auth-guard';
 
-export const Layout = (props) => {
+export const Layout = withAuthGuard((props) => {
   const { children } = props;
 
   return (
@@ -66,7 +67,7 @@ export const Layout = (props) => {
       </Grid>
     </Box>
   );
-};
+});
 
 Layout.prototypes = {
   children: PropTypes.node

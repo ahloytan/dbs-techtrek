@@ -9,7 +9,7 @@ import Snackbar from "@/components/snackbar.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackbarStatus } from "@/store/index";
 
-const SingleItinerary = ({itineraryId}) => {
+const SingleItinerary = ({ itineraryId }) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const { status, message, severity } = useSelector((state) => state.app.snackBar);
@@ -24,7 +24,7 @@ const SingleItinerary = ({itineraryId}) => {
     };
     fetchData();
   }, []);
-
+  console.log(itinerary);
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
   }, []);
@@ -83,4 +83,4 @@ const SingleItinerary = ({itineraryId}) => {
   );
 };
 
-export default SingleItinerary
+export default SingleItinerary;
