@@ -12,7 +12,7 @@ Flask-Ext==0.1
 Flask-JWT-Extended==4.6.0
 Flask-MySQL==1.5.2
 Flask-RESTful==0.3.10
-Flask-SQLAlchemy==3.1.1
+# Flask-SQLAlchemy==3.1.1
 greenlet==3.0.3
 itsdangerous==2.1.2
 Jinja2==3.1.3
