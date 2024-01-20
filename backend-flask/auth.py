@@ -17,7 +17,7 @@ def create_dummy_users():
     last_name = request.json.get("last_name")
     username = request.json.get("username")
     user_password = request.json.get("password")
-    if not first_name or not last_name or not username or not password:
+    if not first_name or not last_name or not username or not user_password:
         return jsonify({"msg": "Missing fields"}), 400
 
     conn = mysql.connect()
