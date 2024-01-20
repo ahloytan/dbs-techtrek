@@ -10,7 +10,7 @@ import { ItineraryDestinationsTable } from '@/sections/itinerary/itinerary-desti
 import { applyPagination } from 'src/utils/apply-pagination';
 import { getAllCustomers } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import FormDialog from '../sections/itinerary/create-itinerary.js';
+import FormDialog from '@/sections/itinerary/create-itinerary';
 import Snackbar from '@/components/snackbar.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbarStatus } from '@/store/index';
