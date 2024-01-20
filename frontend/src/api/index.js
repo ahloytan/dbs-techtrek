@@ -138,4 +138,19 @@ const deleteDestination = async (id) => {
   }
 }
 
-export {login, addCustomer, getAllCustomers, getItineraries, createDestination, getAllDestinations, editDestination, deleteDestination};
+const deleteItinerary = async (id) => {
+  try {
+    console.log(id, 'DELETE')
+    await api.delete('/itineraries/'), {
+      id
+    }
+    return {
+      'id': id
+    }
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+export {login, addCustomer, getAllCustomers, getItineraries, createDestination, getAllDestinations, editDestination, deleteDestination, deleteItinerary};

@@ -96,7 +96,8 @@ const Page = () => {
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
                 <Typography variant="h4">Itinerary Title</Typography>
-                <Typography>Budget: budget</Typography>
+                <Typography variant="h6">Country: country</Typography>
+                <Typography variant="h6">Budget: budget</Typography>
               </Stack>
             </Stack>
             {/* <CustomersSearch onChildStateChange={handleChildStateChange}/> */}
