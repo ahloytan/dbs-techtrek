@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import Head from "next/head";
 import { getItineraries } from "../api/index";
 import { Box, Grid } from "@mui/material";
@@ -23,11 +24,16 @@ const itinerariesList = [
 ];
 
 const Page = () => {
+  const [itineraries, setItineraries] = useState([]);
 
-    useEffect(() => {
-        // turn off axios call for now
-        // const itineraries = getItineraries()
-    }, [])
+  const fetchItineraries = async() => {
+    const itineraries = await getItineraries();
+    setItineraries(itineraries);
+  }
+
+  useEffect(() => {
+    fetchItineraries();
+  }, []);
 
   return (
     <>
@@ -47,9 +53,11 @@ const Page = () => {
         </div>
         <Grid container spacing={2}>
           <Grid sx={{ display: "flex" }}>
-            {itinerariesList &&
-              itinerariesList.map((itinerary) => (
-                <ItineraryCard key={itinerary.id} itinerary={itinerary} />
+            {itineraries &&
+              itineraries.map((itinerary) => (
+                <Link href={`/itinerary/${itinerary.id}`}>
+                    <ItineraryCard key={itinerary.id} itinerary={itinerary} />
+                </Link>
               ))}
           </Grid>
         </Grid>

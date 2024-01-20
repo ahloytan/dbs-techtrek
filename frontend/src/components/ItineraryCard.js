@@ -6,19 +6,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-const images = [
+const image = 
   {
     country_name: 1, // change to singapore
     url: "https://a.cdn-hotels.com/gdcs/production8/d1098/064a4e00-23ee-4137-8ec3-a0d27bca0782.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-  },
-];
+  };
 
 const ItineraryCard = ({ itinerary }) => {
   const handleClick = () => {
     console.log("clicked on itinerarycard");
   };
 
-  const image = images.filter((image) => image.country_name === itinerary.country_name)[0];
 
   return (
     <div>
@@ -43,7 +41,7 @@ const ItineraryCard = ({ itinerary }) => {
               {itinerary.destinations && <Typography variant="h6" color="text.secondary">Destinations:</Typography>}
               <Typography variant="body1" color="text.secondary">
                   {itinerary.destinations &&
-                    itinerary.destinations.map((destination) => <li key={destination}>{destination}</li>)}
+                    itinerary.destinations.map((destination) => <li key={destination.id}>{destination.name}</li>)}
               </Typography>
             </ul>
           </CardContent>

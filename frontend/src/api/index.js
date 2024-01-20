@@ -67,8 +67,8 @@ const getItineraries = async () => {
   return data
 }
 
-const getItinerary = async () => {
-  const response = await api.get('/itineraries/1')
+const getItinerary = async (id) => {
+  const response = await api.get(`/itineraries/${id}`)
   const data = await response.data
   return data
 }

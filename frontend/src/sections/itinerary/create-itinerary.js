@@ -35,6 +35,7 @@ export default function FormDialog() {
     validationSchema: Yup.object({
       cost: Yup.number().required("Cost is required"),
       name: Yup.string().max(255).required("Name is required"),
+      notes: Yup.string().max(255).required("Notes is required")
     }),
     onSubmit: async (values, helpers) => {
       try {
