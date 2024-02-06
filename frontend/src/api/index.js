@@ -8,14 +8,26 @@ const api = axios.create({
   },
 });
 
+api.interceptors.request.use(function(config) {
+    const token = sessionStorage.getItem('jwtToken');
+
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 
 const login = async (username, password) => {
   try { 
     
-    await api.post('/login', {
+    const { data: { jwtToken } } = await api.post('/login', {
       username, 
       password
     })
+
+    window.sessionStorage.setItem('jwtToken', jwtToken);
     window.sessionStorage.setItem('authenticated', 'true');
 
   } catch (error) {

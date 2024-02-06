@@ -3,8 +3,11 @@
 const express = require('express');
 const router = express.Router();
 let Users = require('../models/users');
+let Firebase = require('../models/firebase');
 const logger = require('../modules/logger');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { SECRET } = process.env;
 
 //Can explore google login https://developers.google.com/identity/sign-in/web/sign-in
 
@@ -21,10 +24,14 @@ router.post('/', async function (req, res, next) {
         if (!user || !(await bcrypt.compare(password, user.password))){
             res.status(401).send('Invalid username or password! Please try again');
         } else {
-            // user.session = await this.updateSession(user.id);
-            res.status(200).send('Login successful!');
-        }
 
+            const jwtToken = jwt.sign({
+                data: 'foobar'
+            }, SECRET, { expiresIn: 60 * 5 });
+
+            res.status(200).json({'message': 'Login successful!', 'jwtToken': jwtToken});
+        }
+        
     } catch (error) {
         logger.warn(error);
         next(error);
