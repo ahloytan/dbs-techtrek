@@ -147,7 +147,7 @@ export const SideNav = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
-            Can't find the log out button?
+            Can&apos;t find the log out button?
           </Typography>
           <Typography
             color="neutral.500"

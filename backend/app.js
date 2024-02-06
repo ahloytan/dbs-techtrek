@@ -4,12 +4,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const logger = require('./modules/logger');
 require('dotenv').config();
-
+const { FE_ENDPOINT } = process.env;
 
 app.use(express.json()) 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', FE_ENDPOINT],
     credentials: true
   })
 );
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 let apiRouter = require('./api/index');
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // const bot = require('../modules/telegramBot');
 // bot.launch();

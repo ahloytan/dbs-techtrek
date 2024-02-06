@@ -14,8 +14,7 @@ export const AuthGuard = (props) => {
   // This flow allows you to manually redirect the user after sign-out, otherwise this will be
   // triggered and will automatically redirect to sign-in page.
 
-  useEffect(
-    () => {
+  useEffect(() => {
       if (!router.isReady) return;
       
 
@@ -36,9 +35,8 @@ export const AuthGuard = (props) => {
       } else {
         setChecked(true);
       }
-    },
-    [router.isReady]
-  );
+
+    }, [router.isReady]);
 
   if (!checked) {
     return null;

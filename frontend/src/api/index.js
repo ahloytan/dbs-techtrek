@@ -1,6 +1,5 @@
 import axios from 'axios';
-const { NODE_ENV, PROD_URL } = process.env;
-const BASE_URL = NODE_ENV === 'production' ? PROD_URL : 'http://localhost:5000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_URL : 'http://localhost:5000/';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -12,6 +11,7 @@ const api = axios.create({
 
 const login = async (username, password) => {
   try { 
+    
     await api.post('/login', {
       username, 
       password
