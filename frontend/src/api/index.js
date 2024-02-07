@@ -1,23 +1,5 @@
-import axios from 'axios';
-const BASE_URL = process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_URL : 'http://localhost:5000/';
-
-const api = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-api.interceptors.request.use(function(config) {
-    const token = sessionStorage.getItem('jwtToken');
-
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-  },
-  function(error) {
-    return Promise.reject(error);
-  }
-);
+import { setCookie } from '@/utils/cookies';
+import api from '../utils/axios.js';
 
 const login = async (username, password) => {
   try { 
@@ -27,9 +9,9 @@ const login = async (username, password) => {
       password
     })
 
-    window.sessionStorage.setItem('jwtToken', jwtToken);
     window.sessionStorage.setItem('authenticated', 'true');
-
+    setCookie('jwtToken', jwtToken);
+    
   } catch (error) {
     throw new Error('Invalid email or password! Please try again');
   }

@@ -16,6 +16,7 @@ router.post('/', async function (req, res, next) {
         const { username, password } = req.body;
         let user = await Users.getByUsername(username);
 
+        // const saltRounds = 10;
         // Acts as temporary register page. Can test password hash
         // bcrypt.hash(password, saltRounds, function(err, hash) {
         //     console.log(passowrd)
@@ -27,7 +28,7 @@ router.post('/', async function (req, res, next) {
 
             const jwtToken = jwt.sign({
                 data: 'foobar'
-            }, SECRET, { expiresIn: 60 * 5 });
+            }, SECRET, { expiresIn: 5 * 1 });
 
             res.status(200).json({'message': 'Login successful!', 'jwtToken': jwtToken});
         }

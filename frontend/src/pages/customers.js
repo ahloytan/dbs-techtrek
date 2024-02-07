@@ -49,8 +49,10 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const customers = await getAllCustomers();
-      setCustomers(customers)
-      setFilteredCustomers(customers)
+      if (customers) {
+        setCustomers(customers)
+        setFilteredCustomers(customers)
+      }
     };
   
     fetchData();

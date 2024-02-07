@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { login } from '../api';
+import { getCookie } from '@/utils/cookies';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -74,7 +75,8 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
+      
+      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true' && getCookie('jwtToken');
     } catch (err) {
       console.error(err);
     }
