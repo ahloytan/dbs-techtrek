@@ -11,4 +11,8 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 
-export { setCookie, getCookie }
+function destroyCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
+}
+
+export { setCookie, getCookie, destroyCookie }

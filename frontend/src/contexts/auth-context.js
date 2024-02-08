@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { login } from '../api';
-import { getCookie } from '@/utils/cookies';
+import { getCookie, destroyCookie } from '@/utils/cookies';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -76,7 +76,7 @@ export const AuthProvider = (props) => {
 
     try {
       
-      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true' && getCookie('jwtToken');
+      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true' && getCookie('jwt');
     } catch (err) {
       console.error(err);
     }
@@ -130,6 +130,7 @@ export const AuthProvider = (props) => {
   };
 
   const signOut = () => {
+    destroyCookie('jwt');
     dispatch({
       type: HANDLERS.SIGN_OUT
     });

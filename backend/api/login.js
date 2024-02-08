@@ -25,12 +25,12 @@ router.post('/', async function (req, res, next) {
         if (!user || !(await bcrypt.compare(password, user.password))){
             res.status(401).send('Invalid username or password! Please try again');
         } else {
-
-            const jwtToken = jwt.sign({
+            const seconds = 5 * 1;
+            const token = jwt.sign({
                 data: 'foobar'
-            }, SECRET, { expiresIn: 5 * 1 });
+            }, SECRET, { expiresIn: seconds });
 
-            res.status(200).json({'message': 'Login successful!', 'jwtToken': jwtToken});
+            res.status(200).json({'message': 'Login successful!', 'jwt': token});
         }
         
     } catch (error) {

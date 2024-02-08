@@ -4,13 +4,13 @@ import api from '../utils/axios.js';
 const login = async (username, password) => {
   try { 
     
-    const { data: { jwtToken } } = await api.post('/login', {
+    const { data: { jwt } } = await api.post('/login', {
       username, 
       password
     })
 
     window.sessionStorage.setItem('authenticated', 'true');
-    setCookie('jwtToken', jwtToken);
+    setCookie('jwt', jwt);
     
   } catch (error) {
     throw new Error('Invalid email or password! Please try again');

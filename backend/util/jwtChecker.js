@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = process.env;
 
-function jwtTokenChecker(req, res, next) {
+function jwtChecker(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ message: 'Invalid authorization header format' });
@@ -18,4 +18,4 @@ function jwtTokenChecker(req, res, next) {
     });
 }
 
-module.exports = jwtTokenChecker;
+module.exports = jwtChecker;

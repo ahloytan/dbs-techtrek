@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams  } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -20,6 +20,8 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 
 const Page = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const hasJWTExpired = searchParams.get('expiredJWT')
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
@@ -156,6 +158,15 @@ const Page = () => {
                     variant="body2"
                   >
                     {formik.errors.submit}
+                  </Typography>
+                )}
+                {hasJWTExpired && (
+                  <Typography
+                    color="error"
+                    sx={{ mt: 3 }}
+                    variant="body2"
+                  >
+                    Session has expired, please log in again
                   </Typography>
                 )}
                 <Button

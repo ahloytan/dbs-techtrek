@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Router from 'next/router';
-import { getCookie } from '@/utils/cookies';
+import { getCookie, destroyCookie } from '@/utils/cookies';
 const BASE_URL = process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_URL : 'http://localhost:5000';
 
 const api = axios.create({
@@ -11,7 +11,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function(config) {
-    const token = getCookie('jwtToken');
+    const token = getCookie('jwt');
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
@@ -25,7 +25,11 @@ api.interceptors.response.use(
       return response;
     },
     error => {
-      if (error.response && error.response.status === 401) Router.replace('/auth/login');
+      Router.push({
+        pathname: '/auth/login', 
+        query: { expiredJWT: true }
+      });
+      destroyCookie('jwt');
       return Promise.reject(error);
     }
 );
