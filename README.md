@@ -4,7 +4,6 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 
 # Docs
 - API documentation: https://docs.google.com/document/d/1hWhf-5ytvn-O1q9UHb7SWASgIA3gR9MakcC6iGB-Bwk/edit
-- Presentation slides: `insert-link-here`
 - [How to Set Up](#how-to-set-up)
 - [Tech Stack](#tech-stack)
 - [Contact Me](#contact-me)
@@ -28,7 +27,32 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 3. Load the `.sql` script located in `backend/sql_scripts`
 4. Open command prompt, type in `cd backend`
 5. If this is your first time setting up the project, type `npm i`
-6. Launch the project using `npm run start`
+6. You will need an `.env` file that contains the following variables
+```
+CHATGPT_API=""
+BARD_COOKIE="" 
+TELEGRAM_BOT_TOKEN=""
+FE_ENDPOINT=""
+SECRET=""
+DB_HOST="" 
+DB_USERNAME="" 
+DB_PASSWORD="" 
+DB_DATABASE="" 
+DB_PORT=
+```
+8. Launch the project using `npm run start`
+
+## Deployment
+1. If you have not set up the deployment projects, head over to Vercel and create 2 repository on your own (1 for the frontend, another for the backend)
+2. On the Vercel dashboard for your frontend project, you will have to set the following 2 environment variables. Alternatively, you can create a `.env` and place it in your frontend root folder
+3. ![Untitled](https://github.com/ahloytan/dbs-techtrek/assets/28771440/f57d601e-0bc4-45aa-9f20-704881f8b2d9)
+4. Both frontend and backend is deployed on Vercel
+5. To deploy the frontend, navigate to the `frontend` root folder, type in `npm run build`, followed by `vercel .`
+6. To deploy the backend, navigate to the `backend` root folder, followed by `vercel .`
+7. By default, authentication is required when you are in `Staging`. Hence, if you want to test the API calls, go ahead and switch off the Vercel Authentication (remember to switch it back on after you are done) or you can simply deploy it to `Production` 
+8. ![Staging](https://github.com/ahloytan/dbs-techtrek/assets/28771440/16232e9c-d9df-41c8-9bf4-a66af407e883)
+9. Once you are satisfied with the previews, you can deploy to production by typing `vercel --prod`
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -48,7 +72,8 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 ![My Skills](https://skillicons.dev/icons?i=nodejs,express,mysql&perline=3)
 
 ## Deployment
-
+[Vercel](https://vercel.com/), [Firebase](https://firebase.google.com/) <br>
+![My Skills](https://skillicons.dev/icons?i=vercel,firebase&perline=3)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Libraries
@@ -63,6 +88,8 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 8. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
 9. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
 10. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
+11. [jwt](https://www.npmjs.com/package/jsonwebtoken) - JSON Web Token
+12. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
