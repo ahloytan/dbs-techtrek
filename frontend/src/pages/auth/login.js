@@ -1,13 +1,12 @@
 import { useCallback, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter, useSearchParams  } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
   Alert,
   Box,
-  Button,
   Link,
   Stack,
   Tab,
@@ -17,11 +16,16 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { LoadingButton } from '@mui/lab';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoadingStatus } from '@/store/index';
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const hasJWTExpired = searchParams.get('expiredJWT')
+  const hasJWTExpired = searchParams.get('expiredJWT');
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.app.isLoading);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
@@ -43,8 +47,11 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
+        dispatch(setLoadingStatus(true));
         await auth.signIn(values.email, values.password);
         router.push('/');
+        dispatch(setLoadingStatus(false));
+
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -169,15 +176,16 @@ const Page = () => {
                     Session has expired, please log in again
                   </Typography>
                 )}
-                <Button
+                <LoadingButton
                   fullWidth
                   size="large"
                   sx={{ mt: 3 }}
                   type="submit"
+                  loading={isLoading}
                   variant="contained"
                 >
-                  Continue
-                </Button>
+                  Login
+                </LoadingButton>
                 <Alert
                   color="primary"
                   severity="info"

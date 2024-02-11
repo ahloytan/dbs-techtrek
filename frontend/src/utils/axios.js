@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Router from 'next/router';
 import { getCookie, destroyCookie } from '@/utils/cookies';
-const BASE_URL = process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_URL : 'http://localhost:5000';
+
+const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
 const api = axios.create({
   baseURL: BASE_URL,

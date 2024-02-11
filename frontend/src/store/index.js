@@ -7,8 +7,9 @@ const appSlice = createSlice({
     snackBar: {
       status: false,
       message: '',
-      severity: 'error'
-    }
+      severity: 'error',
+    },
+    isLoading: false
   },
   reducers: {
     setSnackbarStatus: (state, {payload: {status, message, severity}}) => {
@@ -16,11 +17,13 @@ const appSlice = createSlice({
       state.snackBar.message = message;
       state.snackBar.severity = severity
     },
-
+    setLoadingStatus: (state, {payload}) => {
+      state.isLoading = payload;
+    }
   },
 });
 
-export const { setSnackbarStatus } = appSlice.actions;
+export const { setSnackbarStatus, setLoadingStatus } = appSlice.actions;
 
 const reducer = {
   app: appSlice.reducer,
