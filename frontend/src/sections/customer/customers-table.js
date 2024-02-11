@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import { useRouter } from 'next/router'
 
 export const CustomersTable = (props) => {
   const {
@@ -34,6 +35,11 @@ export const CustomersTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
+
+  const router = useRouter()
+  const clickRow = (id) => {
+    router.push(`/itineraries/${id}`)
+  }
 
   return (
     <Card>
@@ -82,6 +88,8 @@ export const CustomersTable = (props) => {
                     hover
                     key={customer.id}
                     selected={isSelected}
+                    onClick={() => clickRow(customer.id)}
+                    sx={{cursor: 'pointer'}}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox

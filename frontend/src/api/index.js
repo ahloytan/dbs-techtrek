@@ -46,4 +46,14 @@ const getAllCustomers = async () => {
   }
 }
 
-export {login, addCustomer, getAllCustomers};
+const getUserItineraries = async (userID) => {
+  try {
+    const { data: { itineraries } } = await api.get(`/itineraries/${userID}`);
+    return itineraries
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export {login, addCustomer, getAllCustomers, getUserItineraries};

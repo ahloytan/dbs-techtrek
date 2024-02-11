@@ -14,7 +14,7 @@ const { SECRET } = process.env;
 router.post('/', async function (req, res, next) {
     try {
         const { username, password } = req.body;
-        let user = await Users.getByUsername(username);
+        let user = await Firebase.getByUsername(username);
 
         // const saltRounds = 10;
         // Acts as temporary register page. Can test password hash
@@ -25,7 +25,7 @@ router.post('/', async function (req, res, next) {
         if (!user || !(await bcrypt.compare(password, user.password))){
             res.status(401).send('Invalid username or password! Please try again');
         } else {
-            const seconds = 5 * 1;
+            const seconds = 60 * 60;
             const token = jwt.sign({
                 data: 'foobar'
             }, SECRET, { expiresIn: seconds });

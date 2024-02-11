@@ -184,7 +184,8 @@ const Page = () => {
                   sx={{ mt: 3 }}
                 >
                   <div>
-                    You can use <b>admin@admin.com</b> and password <b>admin</b>
+                    {/* You can use <b>admin@admin.com</b> and password <b>admin</b> */}
+                    Still under development, please contact <b><a href="https://ahloytan.netlify.app" target="_blank" className="underline">admin</a></b> if you require a walkthrough
                   </div>
                 </Alert>
               </form>

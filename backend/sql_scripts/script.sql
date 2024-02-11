@@ -27,7 +27,7 @@ CREATE TABLE `customers` (
     `name` VARCHAR(256) NOT NULL,
     `phone_number` VARCHAR(256) NOT NULL,
     
-    PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`)
 );
 
 -- import customers
@@ -43,4 +43,75 @@ VALUES ('{"city": "Cleveland", "country": "USA", "state": "Ohio", "street": "284
 ('{"city": "Murray", "country": "USA", "state": "Utah", "street": "3934 Wildrose Lane"}','/assets/avatars/avatar-iulia-albu.png','2024-01-14 16:30:00','iulia.albu@devias.io','Iulia Albu','313-812-8947'),
 ('{"city": "Salt Lake City", "country": "USA", "state": "Utah", "street": "368 Lamberts Branch Road"}','/assets/avatars/avatar-nasimiyu-danai.png','2024-01-14 19:30:00','nasimiyu.danai@devias.io','Nasimiyu Danai','801-301-7894');
 
-select * from customers
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE IF NOT EXISTS `country` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) UNIQUE NOT NULL,
+  PRIMARY KEY `PK` (`id`)
+);
+
+INSERT INTO `country` (`id`, `name`) VALUES
+	(1, 'Singapore'),
+	(2, 'Japan');
+
+DROP TABLE IF EXISTS `destination`;
+CREATE TABLE IF NOT EXISTS `destination` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `country_id` int NOT NULL,
+  `cost` float NOT NULL DEFAULT 0,
+  `name` varchar(50) NOT NULL,
+  `notes` mediumtext DEFAULT NULL,
+  PRIMARY KEY `PK` (`id`),
+  -- KEY `DestinationCountryFK` (`country_id`),
+  CONSTRAINT `DestinationCountryFK` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO `destination` (`id`, `country_id`, `cost`, `name`, `notes`) VALUES
+	(1, 1, 50, 'Marina Bay Sands', 'Iconic hotel with an infinity pool and stunning views of the city skyline. Open 24/7.'),
+	(2, 1, 30, 'Gardens by the Bay', 'Futuristic park featuring Supertree Grove and Flower Dome conservatories. Open daily from 9 AM to 9 PM.'),
+	(3, 1, 40, 'Sentosa Island', 'Fun-filled island resort with beaches, theme parks, and various attractions. Open daily from 10 AM to 7 PM.'),
+	(4, 1, 60, 'Universal Studios Singapore', 'Amusement park with movie-themed rides and entertainment. Open daily from 10 AM to 7 PM.'),
+	(5, 1, 35, 'Singapore Zoo', 'Award-winning zoo showcasing diverse wildlife species. Open daily from 8:30 AM to 6 PM.');
+
+DROP TABLE IF EXISTS `itinerary`;
+CREATE TABLE IF NOT EXISTS `itinerary` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `country_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `budget` float unsigned NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL DEFAULT '0',
+  KEY `PK` (`id`),
+  -- KEY `ItineraryCountryFK` (`country_id`),
+  -- KEY `ItineraryUserFK` (`user_id`),
+  CONSTRAINT `ItineraryCountryFK` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `ItineraryUserFK` FOREIGN KEY (`user_id`) REFERENCES `customers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO `itinerary` (`id`, `country_id`, `user_id`, `budget`, `title`) VALUES
+	(1, 1, 1, 500, 'Sentosa Serenity: Island Escapes & Tropical Delights'),
+	(2, 1, 1, 800, 'Gardens by the Bay: Nature\'s Wonderland in the City'),
+	(3, 1, 2, 600, 'Kampong Glam Adventure: History, Street Art & Malay Cuisine'),
+	(4, 2, 1, 3500, 'Tokyo Trek: Exploring the Vibrant Metropolis'),
+	(5, 2, 1, 2800, 'Hokkaido Highlights: Nature\'s Playground'),
+	(6, 1, 1, 1600, 'Kampong Glam Adventure: History, Street Art & Malay Cuisine');
+
+CREATE TABLE IF NOT EXISTS `itinerary_destination` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `destination_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `itinerary_id` int(10) unsigned NOT NULL DEFAULT 0,
+  KEY `PK` (`id`),
+  -- KEY `IDDestinationFK` (`destination_id`),
+  -- KEY `IDItineraryFK` (`itinerary_id`),
+  CONSTRAINT `IDDestinationFK` FOREIGN KEY (`destination_id`) REFERENCES `destination` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `IDItineraryFK` FOREIGN KEY (`itinerary_id`) REFERENCES `itinerary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+INSERT INTO `itinerary_destination` (`id`, `destination_id`, `itinerary_id`) VALUES
+	(1, 1, 1),
+	(2, 2, 1),
+	(3, 3, 1),
+	(4, 4, 2),
+	(5, 5, 2),
+	(6, 2, 3);
+
+select * from itinerary

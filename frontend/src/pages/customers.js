@@ -47,7 +47,7 @@ const Page = () => {
   const customersSelection = useSelection(customersIds);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCustomers = async () => {
       const customers = await getAllCustomers();
       if (customers) {
         setCustomers(customers)
@@ -55,7 +55,7 @@ const Page = () => {
       }
     };
   
-    fetchData();
+    fetchCustomers();
   }, []);
 
   const handlePageChange = useCallback(
