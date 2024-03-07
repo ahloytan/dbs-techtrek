@@ -6,7 +6,7 @@ module.exports = {
     getUserItineraries(userID) {
       return db.promise()
         .query(
-          `SELECT i.id, i.country_id, i.budget, i.title, cs.name, c.name as country_name
+          `SELECT i.id, i.country_id, i.budget, i.title, i.title_image, cs.name, c.name as country_name
           FROM itinerary i
           LEFT JOIN customers cs
           ON i.user_id = cs.id

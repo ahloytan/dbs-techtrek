@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router'
-import { Avatar, Box, Container, Card, CardHeader, CardContent, Typography, IconButton, Grid } from '@mui/material';
+import { Avatar, Box, Container, Card, CardHeader, CardContent, Typography, IconButton, Grid, CardMedia } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { useEffect, useState } from 'react';
 import { getUserItineraries } from '@/api/index.js';
@@ -45,6 +45,12 @@ const Page = () => {
                       <Card 
                         sx={{ maxWidth: 400, margin: '25px 10px', bgcolor: grey[100] }} 
                       >
+                        <CardMedia
+                          component="img"
+                          image={"/assets/attractions/" + itinerary.title_image + ".jpg"}
+                          alt={itinerary.title_image}
+                          sx={{height: 200}}
+                        />
                         <CardHeader
                           avatar={
                             <Avatar aria-label="recipe" 
