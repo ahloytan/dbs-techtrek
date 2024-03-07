@@ -76,11 +76,11 @@ INSERT INTO `destination` (`id`, `country_id`, `cost`, `name`, `notes`) VALUES
 DROP TABLE IF EXISTS `itinerary`;
 CREATE TABLE IF NOT EXISTS `itinerary` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `country_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `budget` float unsigned NOT NULL DEFAULT 0,
+  `country_id` int(10) NOT NULL DEFAULT 0,
+  `user_id` int(10) NOT NULL DEFAULT 0,
+  `budget` float NOT NULL DEFAULT 0,
   `title` varchar(100) NOT NULL DEFAULT '0',
-  KEY `PK` (`id`),
+  PRIMARY KEY `PK` (`id`),
   -- KEY `ItineraryCountryFK` (`country_id`),
   -- KEY `ItineraryUserFK` (`user_id`),
   CONSTRAINT `ItineraryCountryFK` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -97,9 +97,9 @@ INSERT INTO `itinerary` (`id`, `country_id`, `user_id`, `budget`, `title`) VALUE
 
 CREATE TABLE IF NOT EXISTS `itinerary_destination` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `destination_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `itinerary_id` int(10) unsigned NOT NULL DEFAULT 0,
-  KEY `PK` (`id`),
+  `destination_id` int(10) NOT NULL DEFAULT 0,
+  `itinerary_id` int(10) NOT NULL DEFAULT 0,
+  PRIMARY KEY `PK` (`id`),
   -- KEY `IDDestinationFK` (`destination_id`),
   -- KEY `IDItineraryFK` (`itinerary_id`),
   CONSTRAINT `IDDestinationFK` FOREIGN KEY (`destination_id`) REFERENCES `destination` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -114,4 +114,4 @@ INSERT INTO `itinerary_destination` (`id`, `destination_id`, `itinerary_id`) VAL
 	(5, 5, 2),
 	(6, 2, 3);
 
-select * from itinerary
+select * from customers

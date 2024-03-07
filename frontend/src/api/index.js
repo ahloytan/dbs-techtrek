@@ -17,12 +17,11 @@ const login = async (username, password) => {
   }
 }
 
-const addCustomer = async (address, avatar, createdAt, email, name, phoneNumber) => {
+const addCustomer = async (address, avatar, email, name, phoneNumber) => {
   try {
     const { data } = await api.post('/customers', {
       address, 
-      avatar, 
-      createdAt, 
+      avatar,
       email, 
       name, 
       phoneNumber

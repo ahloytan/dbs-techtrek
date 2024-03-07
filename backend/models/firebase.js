@@ -1,5 +1,6 @@
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+const firebase = require('firebase-admin');
 const serviceAccount = require('../modules/firestore-credentials.json');
 
 initializeApp({
@@ -24,15 +25,18 @@ async function getByUsername(username) {
 }
 
 //Customer
-async function addCustomer() {
+async function addCustomer(address, avatar, email, name, phoneNumber) {
+
     const data = {
-        email: 'test@test.com',
-        name: 'Los Angeles',
-        country: 'USA'
+        address: address,
+        avatar: avatar,
+        created_at: firebase.firestore.Timestamp.now(),
+        email: email,
+        name: name,
+        phone_number: phoneNumber,
     };
-        
-    // Add a new document in collection "cities" with ID 'LA'
-    const res = await customersCollection.doc('LA').set(data);
+
+    const res = await customersCollection.add(data);
     return res;
 }
 async function getAllCustomers() {

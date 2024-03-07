@@ -9,8 +9,8 @@ const logger = require('../modules/logger');
 
 router.post('/', async function (req, res, next) {
     try {
-        const { address, avatar, createdAt, email, name, phoneNumber } = req.body;
-        await Firebase.addCustomer(address, avatar, createdAt, email, name, phoneNumber);
+        const { address, avatar, email, name, phoneNumber } = req.body;
+        await Firebase.addCustomer(address, avatar, email, name, phoneNumber);
 
         res.json({ 'message': `Record for ${email} has successfully been created!`, 'severity': 'success' });
 

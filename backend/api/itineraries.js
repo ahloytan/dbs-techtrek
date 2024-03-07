@@ -10,7 +10,6 @@ const logger = require('../modules/logger');
 router.get('/:userID', async function (req, res, next) {
     try {
         let { userID } = req.params;
-        userID = parseInt(userID);
         let itineraries = await Firebase.getUserItineraries(userID);
 
         res.json({ itineraries });

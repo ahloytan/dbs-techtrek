@@ -3,19 +3,20 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { setSnackbarStatus } from '@/store/index';
 import * as Yup from 'yup';
-import { Button, SvgIcon, Dialog, Stack, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import { Button, SvgIcon, Select, MenuItem, Dialog, Stack, DialogActions, DialogContent, DialogTitle, TextField, Typography, InputLabel, FormControl } from '@mui/material';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { addCustomer } from '@/api/index.js';
-import { format } from 'date-fns';
 
 export default function FormDialog() {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      phoneNumber: '',
+      email: 'test@test.com',
+      name: 'test',
+      avatar: 'dpgc',
+      address: '{}',
+      phoneNumber: '98765432',
       submit: null
     },
     validationSchema: Yup.object({
@@ -28,6 +29,10 @@ export default function FormDialog() {
         .string()
         .max(255)
         .required('Name is required'),
+      address: Yup
+        .string()
+        .max(255)
+        .required('Home address is required'),
       phoneNumber: Yup
         .string()
         .max(50)
@@ -35,17 +40,16 @@ export default function FormDialog() {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        let { email, name, phoneNumber } = values;
-        const createdAt = format(new Date(), 'yyyy-MM-dd HH-mm-ss');
-        const avatar = '/assets/avatars/dpgc.webp';
-        const address = "{}";
-        const result = await addCustomer(address, avatar, createdAt, email, name, phoneNumber);
+        let { email, name, avatar, address, phoneNumber } = values;
+        const result = await addCustomer(address, avatar, email, name, phoneNumber);
         dispatch(setSnackbarStatus({ 'status': true, 'message': result.message, 'severity': result?.severity })); 
         closeModal();
         formik.resetForm({
           values: {
             email: '',
             name: '',
+            avatar: '',
+            address: '',
             phoneNumber: '',
           },
         });
@@ -107,6 +111,34 @@ export default function FormDialog() {
                     onChange={formik.handleChange}
                     type="email"
                     value={formik.values.email}
+                  />
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-autowidth-label">Avatar</InputLabel>
+                    <Select
+                      fullWidth
+                      value={formik.values.avatar}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      label="Avatar"
+                      name="avatar"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="dpgc">DPGC</MenuItem>
+                      <MenuItem value="koala">Koala</MenuItem>
+                      <MenuItem value="herd">Herd</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    error={!!(formik.touched.address && formik.errors.address)}
+                    fullWidth
+                    helperText={formik.touched.address && formik.errors.address}
+                    label="Address"
+                    name="address"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.address}
                   />
                   <TextField
                     error={!!(formik.touched.phoneNumber && formik.errors.phoneNumber)}
