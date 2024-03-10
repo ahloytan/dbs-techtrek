@@ -2,15 +2,15 @@
 
 const express = require('express');
 const router = express.Router();
-let Customers = require('../models/customers');
-let Firebase = require('../models/firebase');
+const { NODE_ENV } = process.env;
+let Customers = NODE_ENV == 'development' ? require('../models/customers') : require('../models/firebase');
 const logger = require('../modules/logger');
 
 
 router.post('/', async function (req, res, next) {
     try {
         const { address, avatar, email, name, phoneNumber } = req.body;
-        await Firebase.addCustomer(address, avatar, email, name, phoneNumber);
+        await Customers.addCustomer(address, avatar, email, name, phoneNumber);
 
         res.json({ 'message': `Record for ${email} has successfully been created!` });
 
@@ -22,7 +22,7 @@ router.post('/', async function (req, res, next) {
 
 router.get('/', async function (req, res, next) {
     try {
-        let customers = await Firebase.getAllCustomers();
+        let customers = await Customers.getAllCustomers();
 
         res.json({ customers });
     } catch (error) {
@@ -33,7 +33,7 @@ router.get('/', async function (req, res, next) {
 
 router.put('/', async function (req, res, next) {
     try {
-        let customers = await Firebase.updateCustomer();
+        let customers = await Customers.updateCustomer();
 
         res.json({ customers });
     } catch (error) {
@@ -44,7 +44,7 @@ router.put('/', async function (req, res, next) {
 
 router.delete('/', async function (req, res, next) {
     try {
-        let customer = await Firebase.deleteCustomer();
+        let customer = await Customers.deleteCustomer();
 
         res.json({ customer });
     } catch (error) {

@@ -109,7 +109,7 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
+                        <Avatar src={'/assets/avatars/' + customer.avatar}>
                           {getInitials(customer.name)}
                         </Avatar>
                         <Typography variant="subtitle2">

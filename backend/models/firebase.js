@@ -27,9 +27,12 @@ async function getByUsername(username) {
 //Customer
 async function addCustomer(address, avatar, email, name, phoneNumber) {
 
+    const doesCustomerExist = await getCustomer(email);
+    if (doesCustomerExist) throw new Error("Email already exist!"); 
+
     const data = {
         address: address,
-        avatar: avatar,
+        avatar: `${avatar}.webp`,
         created_at: firebase.firestore.Timestamp.now(),
         email: email,
         name: name,
@@ -38,6 +41,11 @@ async function addCustomer(address, avatar, email, name, phoneNumber) {
 
     const res = await customersCollection.add(data);
     return res;
+}
+async function getCustomer(email) {
+    const snapshot = await customersCollection.where('email', '==', email.toLowerCase()).get();
+    const data = snapshot.docs[0]?.data();
+    return data;
 }
 async function getAllCustomers() {
     const res = []
