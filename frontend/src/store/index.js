@@ -5,15 +5,15 @@ const appSlice = createSlice({
   name: 'app',
   initialState: {
     snackBar: {
-      status: false,
+      isOpen: false,
       message: '',
       severity: 'error',
     },
     isLoading: false
   },
   reducers: {
-    setSnackbarStatus: (state, {payload: {status, message, severity}}) => {
-      state.snackBar.status = status;
+    setSnackbarStatus: (state, {payload: {isOpen, message, severity}}) => {
+      state.snackBar.isOpen = isOpen;
       state.snackBar.message = message;
       state.snackBar.severity = severity
     },

@@ -12,7 +12,7 @@ router.post('/', async function (req, res, next) {
         const { address, avatar, email, name, phoneNumber } = req.body;
         await Firebase.addCustomer(address, avatar, email, name, phoneNumber);
 
-        res.json({ 'message': `Record for ${email} has successfully been created!`, 'severity': 'success' });
+        res.json({ 'message': `Record for ${email} has successfully been created!` });
 
     } catch (error) {
         logger.warn(error);

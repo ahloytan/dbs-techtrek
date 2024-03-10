@@ -12,8 +12,6 @@ import { getAllCustomers } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import FormDialog from '../sections/customer/create-customer.js';
 import Snackbar from '@/components/snackbar.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSnackbarStatus } from '@/store/index';
 
 const useCustomers = (customersList, page, rowsPerPage) => {
 
@@ -35,10 +33,8 @@ const useCustomerIds = (customers) => {
 };
 
 const Page = () => {
-  const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
-  const { status, message, severity } = useSelector((state) => state.app.snackBar);
 
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
   const [filteredCustomersList, setFilteredCustomers] = useState([]);
@@ -163,7 +159,7 @@ const Page = () => {
               selected={customersSelection.selected}
             />
           </Stack>
-          <Snackbar isOpen={status} handleClose={() => dispatch(setSnackbarStatus(false))} message={message} severity={severity ?? 'error'}/>
+          <Snackbar />
         </Container>
       </Box>
     </>

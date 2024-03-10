@@ -42,7 +42,7 @@ export default function FormDialog() {
       try {
         let { email, name, avatar, address, phoneNumber } = values;
         const result = await addCustomer(address, avatar, email, name, phoneNumber);
-        dispatch(setSnackbarStatus({ 'status': true, 'message': result.message, 'severity': result?.severity })); 
+        dispatch(setSnackbarStatus({ 'isOpen': true, 'message': result.message, 'severity': result.severity })); 
         closeModal();
         formik.resetForm({
           values: {
@@ -122,12 +122,12 @@ export default function FormDialog() {
                       label="Avatar"
                       name="avatar"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="dpgc">DPGC</MenuItem>
-                      <MenuItem value="koala">Koala</MenuItem>
-                      <MenuItem value="herd">Herd</MenuItem>
+                      <MenuItem value="dpgc">Dead Pixels Ghost Club</MenuItem>
+                      <MenuItem value="khk">Koala Hash Klub</MenuItem>
+                      <MenuItem value="herd">The Herd</MenuItem>
+                      <MenuItem value="skult">Skultz</MenuItem>
+                      <MenuItem value="hmky">Hedera Monkey</MenuItem>
+                      <MenuItem value="adsc">After Dark Social Club</MenuItem>
                     </Select>
                   </FormControl>
                   <TextField

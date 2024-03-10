@@ -27,12 +27,12 @@ api.interceptors.response.use(
     },
     error => {
       if (error.response && error.response.status === 401) {
+        destroyCookie('jwt');
         Router.push({
           pathname: '/auth/login', 
           query: { expiredJWT: true }
         });
       }
-      destroyCookie('jwt');
       return Promise.reject(error);
     }
 );

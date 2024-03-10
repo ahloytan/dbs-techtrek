@@ -30,7 +30,13 @@ app.listen(PORT, () => {
 
 app.use(function(err, req, res, next) {
   logger.error(err);
-  res.sendStatus(err.status || 500);
+  res.status(err.status || 500);
+  res.json({
+    error: {
+      message: err.message,
+      severity: 'error'
+    },
+  });
 });
 
 
