@@ -9,7 +9,7 @@ module.exports = {
     if (doesCustomerExist.length > 0) throw new Error("Email already exist!"); 
     
     const createdAt = dateFNS.format(new Date(), 'yyyy-MM-dd HH-mm-ss');
-    avatar = `/assets/avatars/${avatar}.webp`;
+    avatar = `${avatar}.webp`;
     return db.promise()
       .query(
         'INSERT INTO customers (address, avatar, created_at, email, name, phone_number) VALUES (?, ?, ?, ?, ?, ?)',

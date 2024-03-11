@@ -7,7 +7,7 @@ import { Button, SvgIcon, Select, MenuItem, Dialog, Stack, DialogActions, Dialog
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { addCustomer } from '@/api/index.js';
 
-export default function FormDialog() {
+export default function FormDialog({fetchCustomers}) {
   const dispatch = useDispatch();
   const [isModalOpen, setModalStatus] = useState(false);
   const formik = useFormik({
@@ -53,6 +53,7 @@ export default function FormDialog() {
             phoneNumber: '',
           },
         });
+        fetchCustomers();
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

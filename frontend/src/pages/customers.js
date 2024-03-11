@@ -33,7 +33,6 @@ const useCustomerIds = (customers) => {
 };
 
 const Page = () => {
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
@@ -42,15 +41,15 @@ const Page = () => {
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
+  const fetchCustomers = async () => {
+    const customers = await getAllCustomers();
+    if (customers) {
+      setCustomers(customers)
+      setFilteredCustomers(customers)
+    }
+  };
+
   useEffect(() => {
-    const fetchCustomers = async () => {
-      const customers = await getAllCustomers();
-      if (customers) {
-        setCustomers(customers)
-        setFilteredCustomers(customers)
-      }
-    };
-  
     fetchCustomers();
   }, []);
 
@@ -70,14 +69,7 @@ const Page = () => {
 
   const handleChildStateChange = (newState) => {
     let res = [];
-    if (newState === '') {
-      res = customersList;
-    } else {
-      res = customers.filter((el) => {
-        return el.name.toLowerCase().includes(newState);
-      })
-    }
-
+    newState === '' ? res = customersList : res = customers.filter((el) => el.name.toLowerCase().includes(newState))
     setFilteredCustomers(res);
   }
 
@@ -141,7 +133,7 @@ const Page = () => {
                 </Stack>
               </Stack>
               <div>
-                <FormDialog />
+                <FormDialog fetchCustomers={fetchCustomers}/>
               </div>
             </Stack>
             <CustomersSearch onChildStateChange={handleChildStateChange}/>
