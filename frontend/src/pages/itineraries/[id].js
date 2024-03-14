@@ -36,7 +36,7 @@ const Page = () => {
           >
             <Container maxWidth="xl">
               <Typography variant="h4">Itineraries</Typography>
-              <Typography variant="h6" sx={{margin: '10px 0'}}>Customer: {itineraries[0]?.name}</Typography>
+              <Typography variant="h6" sx={{margin: '10px 0'}}>Customer: {itineraries[0]?.customers.name}</Typography>
               <Typography variant="subtitle">ID: {id}</Typography>
               <Grid container>
                 {itineraries && itineraries.map((itinerary) => {
@@ -54,7 +54,7 @@ const Page = () => {
                         <CardHeader
                           avatar={
                             <Avatar aria-label="recipe" 
-                              src={'/assets/countries/' + itinerary.country_name +'.svg'} 
+                              src={'/assets/countries/' + itinerary.country.name +'.svg'} 
                               sx={{ width: 56, height: 38 }} 
                               variant='square'
                             >
@@ -66,7 +66,7 @@ const Page = () => {
                             </IconButton>
                           }
                           title={itinerary.title}
-                          subheader={"Country: " + itinerary.country_name}
+                          subheader={"Country: " + itinerary.country.name}
                         />
                         <CardContent>
                         <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>

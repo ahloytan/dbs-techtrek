@@ -2,8 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { NODE_ENV } = process.env;
-let Customers = NODE_ENV == 'development' ? require('../models/customers') : require('../models/firebase');
+let Customers = require('../models/customers');
 const logger = require('../modules/logger');
 
 
@@ -23,6 +22,18 @@ router.post('/', async function (req, res, next) {
 router.get('/', async function (req, res, next) {
     try {
         let customers = await Customers.getAllCustomers();
+
+        res.json({ customers });
+    } catch (error) {
+        logger.warn(error);
+        next(error);
+    }
+});
+
+router.get('/one', async function (req, res, next) {
+    try {
+        let email = 1
+        let customers = await Customers.getCustomer(email);
 
         res.json({ customers });
     } catch (error) {

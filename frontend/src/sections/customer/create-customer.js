@@ -42,7 +42,7 @@ export default function FormDialog({fetchCustomers}) {
       try {
         let { email, name, avatar, address, phoneNumber } = values;
         const result = await addCustomer(address, avatar, email, name, phoneNumber);
-        dispatch(setSnackbarStatus({ 'isOpen': true, 'message': result.message, 'severity': result.severity })); 
+        dispatch(setSnackbarStatus({ 'isOpen': true, 'message': result.message, 'severity': 'success' })); 
         closeModal();
         formik.resetForm({
           values: {
@@ -155,7 +155,7 @@ export default function FormDialog({fetchCustomers}) {
               {formik.errors.submit && (
                 <Typography
                   color="error"
-                  sx={{ mt: 10 }}
+                  sx={{ mt: 1 }}
                   variant="body2"
                 >
                   {formik.errors.submit}

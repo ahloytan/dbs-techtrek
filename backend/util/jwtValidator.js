@@ -1,21 +1,22 @@
 'use strict';
-const jwt = require('jsonwebtoken');
-const { SECRET } = process.env;
 
-function jwtValidator(req, res, next) {
+const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function jwtValidator(req, res, next) {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ message: 'Invalid authorization header format' });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(440).json({ message: 'Invalid authorization header format' });
     const [, token] = authHeader.split(' ');
 
-    if (!token) return res.status(401).json({ message: 'No token provided' });
+    if (!token) return res.status(440).json({ message: 'No token provided' });
 
-    jwt.verify(token, SECRET, (err, decoded) => {
-        if (err) return res.status(401).json({ message: 'Invalid token' });
+    const { data: { user } } = await supabase.auth.getUser(token)
 
-        req.user = decoded;
-        next();
-    });
+    if (!user) return res.status(440).json({ message: 'Invalid token' });
+
+    next();
 }
 
 module.exports = jwtValidator;

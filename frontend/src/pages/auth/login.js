@@ -23,15 +23,15 @@ import { setLoadingStatus } from '@/store/index';
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const hasJWTExpired = searchParams.get('expiredJWT');
+  const hasJWTExpired = searchParams.get('isJWTExpired');
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.app.isLoading);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'admin@admin.com',
-      password: 'admin',
+      email: 'admin1@admin.com',
+      password: 'Password1!',
       submit: null
     },
     validationSchema: Yup.object({
@@ -50,12 +50,14 @@ const Page = () => {
         dispatch(setLoadingStatus(true));
         await auth.signIn(values.email, values.password);
         router.push('/');
-        dispatch(setLoadingStatus(false));
 
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
+
+      } finally {
+        dispatch(setLoadingStatus(false));
       }
     }
   });

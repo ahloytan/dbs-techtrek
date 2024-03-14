@@ -26,13 +26,11 @@ const addCustomer = async (address, avatar, email, name, phoneNumber) => {
       name, 
       phoneNumber
     });
-    
-    data['severity'] = 'success';
 
     return data
   } catch (error) {
     console.log(error);
-    return error.response.data.error;
+    throw new Error(error.response?.data.message);
   }
 }
 

@@ -13,8 +13,17 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 ## Pre-requisites
 1. Ensure you have [Node.js](https://nodejs.org/en/download) installed
 2. Node.js (v18.18.0) | npm (v10.2.0)
-3. Ensure you have [WAMP](https://www.wampserver.com/en/) or [MAMP](https://www.mamp.info/en/downloads/)
+3. Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+4. Install Supabase CLI
 
+### Installing Supbase CLI
+1. Note: I'm using NPX
+2. Open command prompt, type in `cd backend`. Initialise Supabase by typing in `npx supabase init`
+3. Now, to start the Supabase stack, run: `npx supabase start`
+4. The local development environment includes Supabase Studio, a graphical interface for working with your database, running by default on `localhost:54323`.
+5. When you are finished working on your Supabase project, you can stop the stack with: `npx supabase stop`
+6. Read the guide for more comprehensive explanation [Local Dev/CLI Installation](https://supabase.com/docs/guides/cli/getting-started?platform=npx)
+7. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI.
 
 ## Frontend
 1. Open command prompt, type in `cd frontend`
@@ -22,25 +31,20 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 3. Launch the project using `npm run dev`
 
 ## Backend
-1. Ensure that you have a `.env` file with all the credentials in the root folder
-2. Launch WAMP/MAMP
-3. Load the `.sql` script located in `backend/sql_scripts`
-4. Open command prompt, type in `cd backend`
-5. If this is your first time setting up the project, type `npm i`
-6. You will need an `.env` file that contains the following variables
+1. Launch Docker Desktop and start up all images (if it's not already running)
+2. Ensure that you have a `.env` file with all the credentials in the root folder
 ```
 CHATGPT_API=""
 BARD_COOKIE="" 
 TELEGRAM_BOT_TOKEN=""
 FE_ENDPOINT=""
-SECRET=""
-DB_HOST="" 
-DB_USERNAME="" 
-DB_PASSWORD="" 
-DB_DATABASE="" 
-DB_PORT=
+SUPABASE_URL=""
+SUPABASE_ANON_KEY=""
 ```
-8. Launch the project using `npm run start`
+3. Load the `.sql` script located in `backend/sql_scripts`
+4. Open command prompt, type in `cd backend`
+5. If this is your first time setting up the project, type `npm i`
+6. Launch the project using `npm run start`
 
 ## Deployment
 1. If you have not set up the deployment projects, head over to Vercel and create 2 repository on your own (1 for the frontend, another for the backend)
@@ -72,7 +76,7 @@ DB_PORT=
 ![My Skills](https://skillicons.dev/icons?i=nodejs,express,mysql&perline=3)
 
 ## Deployment
-[Vercel](https://vercel.com/), [Firebase](https://firebase.google.com/) <br>
+[Vercel](https://vercel.com/), [Supabase](https://supabase.com/) [Firebase](https://firebase.google.com/) (backup) <br>
 ![My Skills](https://skillicons.dev/icons?i=vercel,firebase&perline=3)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -82,14 +86,12 @@ DB_PORT=
 3. [date-fns](https://www.npmjs.com/package/date-fns) - Date formatting
 4. [export-to-csv](https://www.npmjs.com/package/export-to-csv) - Export
 
-5. [bcrypt](https://www.npmjs.com/package/bcrypt) - Password hasher
-6. [mysql2](https://www.npmjs.com/package/mysql2) - MySQL driver
-7. [telegraf](https://www.npmjs.com/package/telegraf) - Telegram bot
-8. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
-9. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
-10. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
-11. [jwt](https://www.npmjs.com/package/jsonwebtoken) - JSON Web Token
-12. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK
+5. [supabase](https://www.npmjs.com/package/@supabase/supabase-js) - Isomorphic JavaScript Client for Supabase
+6. [telegraf](https://www.npmjs.com/package/telegraf) - Telegram bot
+7. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
+8. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
+9. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
+10. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK (Alternative for NoSQL database)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

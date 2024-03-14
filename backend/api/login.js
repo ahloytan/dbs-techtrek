@@ -2,41 +2,55 @@
 
 const express = require('express');
 const router = express.Router();
-let Users = require('../models/users');
-let Firebase = require('../models/firebase');
+let Users = require('../models/customers');
 const logger = require('../modules/logger');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { SECRET } = process.env;
-
-//Can explore google login https://developers.google.com/identity/sign-in/web/sign-in
+const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 router.post('/', async function (req, res, next) {
     try {
         const { username, password } = req.body;
-        let user = await Firebase.getByUsername(username);
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: username,
+            password
+        });
 
-        // const saltRounds = 10;
-        // Acts as temporary register page. Can test password hash
-        // bcrypt.hash(password, saltRounds, function(err, hash) {
-        //     console.log(passowrd)
-        // });
-
-        if (!user || !(await bcrypt.compare(password, user.password))){
-            res.status(401).send('Invalid username or password! Please try again');
-        } else {
-            const seconds = 60 * 60;
-            const token = jwt.sign({
-                data: 'foobar'
-            }, SECRET, { expiresIn: seconds });
-
-            res.status(200).json({'message': 'Login successful!', 'jwt': token});
+        if (error) {
+            res.status(401).send(error);
+            return;
         }
-        
+
+        const { session: { access_token: jwt }} = data;
+        res.status(200).json({'message': 'Login successful!', 'jwt': jwt});
+
     } catch (error) {
         logger.warn(error);
         next(error);
     }
-  });
+});
+
+router.post('/register', async function (req, res, next) {
+    try {
+        const { username, password } = req.body;
+        const { data, error } = await supabase.auth.signUp({
+            email: username,
+            password,
+        })
+
+        if (error) {
+            res.status(401).send(error);
+            return;
+        }
+
+        const {user: { email, created_at }} = data;
+
+        res.status(200).json({'message': `${email} has been signed up successfully`, 'created_at': created_at });
+
+    } catch (error) {
+        logger.warn(error);
+        next(error);
+    }
+})
 
 module.exports = router;

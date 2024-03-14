@@ -32,10 +32,7 @@ app.use(function(err, req, res, next) {
   logger.error(err);
   res.status(err.status || 500);
   res.json({
-    error: {
-      message: err.message,
-      severity: 'error'
-    },
+      message: err.message
   });
 });
 
