@@ -11,13 +11,15 @@ module.exports = {
     const doesCustomerExist = await this.getCustomer(email);
     if (doesCustomerExist.length > 0) throw new Error("Email already exist!"); 
 
-    const createdAt = dateFNS.format(new Date(), 'yyyy-MM-dd HH-mm-ss');    
+    const createdAt = dateFNS.format(new Date(), 'yyyy-MM-dd HH:mm:ss');    
     avatar = `${avatar}.webp`;
-    const { error } = await supabase
+    const { data, error } = await supabase
     .from(customersTable)
-    .insert({ address, avatar, createdAt, email, name, phoneNumber })
+    .insert({ address, avatar, 'created_at': createdAt, email, name, 'phone_number': phoneNumber })
+    .select()
 
-    if (error) return error;
+    if (error) throw new Error(error.message);
+    
 
     return data;
   },  
@@ -27,7 +29,7 @@ module.exports = {
     .select()
     .eq('email', email)
 
-    if (error) return error;
+    if (error) throw new Error(error.message);
 
     return data;
   },
@@ -37,7 +39,7 @@ module.exports = {
     .from(customersTable)
     .select()
 
-    if (error) return error;
+    if (error) throw new Error(error.message);
 
     return data;
   },
