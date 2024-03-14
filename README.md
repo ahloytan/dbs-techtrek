@@ -17,17 +17,18 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 4. Install Supabase CLI
 
 ### Installing Supbase CLI
-1. Note: I'm using NPX
-2. Open command prompt, type in `cd backend`. Initialise Supabase by typing in `npx supabase init`
-3. Now, to start the Supabase stack, run: `npx supabase start`. This will take about 5 minutes as multiple containers are being installed.
+1. Start up Docker Desktop
+2. Open command prompt, type in `cd backend`
+3. Now, to start the Supabase stack, run `npx supabase start`. This will take about 5 minutes as multiple containers are being installed. Note: I'm using NPX
 4. The local development environment includes Supabase Studio, a graphical interface for working with your database, running by default on `localhost:54323`.
-5. When you are finished working on your Supabase project, you can stop the stack with: `npx supabase stop`
-6. Read the [guide](https://supabase.com/docs/guides/cli/getting-started?platform=npx) for more comprehensive explanation 
-7. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI.
-8. Refer to [link](https://supabase.com/docs/reference/cli/supabase-migration-list) for the list of migration commands
+5. Navigate to the `Authentication` tab in the Supabase GUI and register your first user
+6. When you are finished working on your Supabase project, you can stop the stack with: `npx supabase stop`
+7. Read the [guide](https://supabase.com/docs/guides/cli/getting-started?platform=npx) for more comprehensive explanation 
+8. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI.
+9. Refer to [link](https://supabase.com/docs/reference/cli/supabase-migration-list) for the list of migration commands
 
 ## Frontend
-1. Open command prompt, type in `cd frontend`
+1. Open command prompt, enter `cd frontend`
 2. If this is your first time setting up, type `npm i`
 3. Launch the project using `npm run dev`
 
@@ -78,7 +79,7 @@ SUPABASE_ANON_KEY=""
 
 ## Deployment
 [Vercel](https://vercel.com/), [Supabase](https://supabase.com/) [Firebase](https://firebase.google.com/) (backup) <br>
-![My Skills](https://skillicons.dev/icons?i=vercel,firebase&perline=3)
+![My Skills](https://skillicons.dev/icons?i=vercel,supabase,firebase&perline=3)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Libraries
@@ -92,7 +93,7 @@ SUPABASE_ANON_KEY=""
 7. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
 8. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
 9. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
-10. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK (Alternative for NoSQL database)
+10. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK (Alternative NoSQL database)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
