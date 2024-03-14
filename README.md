@@ -19,11 +19,12 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 ### Installing Supbase CLI
 1. Note: I'm using NPX
 2. Open command prompt, type in `cd backend`. Initialise Supabase by typing in `npx supabase init`
-3. Now, to start the Supabase stack, run: `npx supabase start`
+3. Now, to start the Supabase stack, run: `npx supabase start`. This will take about 5 minutes as multiple containers are being installed.
 4. The local development environment includes Supabase Studio, a graphical interface for working with your database, running by default on `localhost:54323`.
 5. When you are finished working on your Supabase project, you can stop the stack with: `npx supabase stop`
-6. Read the guide for more comprehensive explanation [Local Dev/CLI Installation](https://supabase.com/docs/guides/cli/getting-started?platform=npx)
+6. Read the [guide](https://supabase.com/docs/guides/cli/getting-started?platform=npx) for more comprehensive explanation 
 7. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI.
+8. Refer to [link](https://supabase.com/docs/reference/cli/supabase-migration-list) for the list of migration commands
 
 ## Frontend
 1. Open command prompt, type in `cd frontend`
