@@ -4,7 +4,7 @@ import api from '../utils/axios.js';
 const login = async (username, password) => {
   try { 
     
-    const { data: { jwt } } = await api.post('/login', {
+    const { data: { jwt } } = await api.post('/account/login', {
       username, 
       password
     })
@@ -14,6 +14,16 @@ const login = async (username, password) => {
     
   } catch (error) {
     throw new Error('Invalid email or password! Please try again');
+  }
+}
+
+const logout = async () => {
+  try { 
+    await api.post('/account/logout');
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data.message);
   }
 }
 
@@ -55,4 +65,4 @@ const getUserItineraries = async (userID) => {
   }
 }
 
-export {login, addCustomer, getAllCustomers, getUserItineraries};
+export {login, logout, addCustomer, getAllCustomers, getUserItineraries};

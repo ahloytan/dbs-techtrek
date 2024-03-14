@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { login } from '../api';
 import { getCookie, destroyCookie } from '@/utils/cookies';
+import { logout } from '@/api/index.js';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -129,11 +130,12 @@ export const AuthProvider = (props) => {
     throw new Error('Sign up is not implemented');
   };
 
-  const signOut = () => {
+  const signOut = async () => {
     destroyCookie('jwt');
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
+    await logout();
   };
 
   return (

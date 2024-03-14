@@ -8,7 +8,7 @@ const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-router.post('/', async function (req, res, next) {
+router.post('/login', async function (req, res, next) {
     try {
         const { username, password } = req.body;
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -23,6 +23,23 @@ router.post('/', async function (req, res, next) {
 
         const { session: { access_token: jwt }} = data;
         res.status(200).json({'message': 'Login successful!', 'jwt': jwt});
+
+    } catch (error) {
+        logger.warn(error);
+        next(error);
+    }
+});
+
+router.post('/logout', async function (req, res, next) {
+    try {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            res.status(401).send(error);
+            return;
+        }
+
+        res.status(200).json({'message': 'Logout successful!'});
 
     } catch (error) {
         logger.warn(error);
