@@ -2,7 +2,6 @@
 
 const express = require('express');
 const router = express.Router();
-let Users = require('../models/customers');
 const logger = require('../modules/logger');
 const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
 const { createClient } = require('@supabase/supabase-js');
