@@ -19,6 +19,18 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: flow_state; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
 -- Data for Name: users; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
@@ -32,6 +44,73 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 
 INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "provider", "last_sign_in_at", "created_at", "updated_at", "id") VALUES
 	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', 'email', '2024-03-13 06:59:25.07795+00', '2024-03-13 06:59:25.078043+00', '2024-03-13 06:59:25.078043+00', '27e35c4c-4801-4136-9bdf-147d1f5d4c64');
+
+
+--
+-- Data for Name: instances; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_factors; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_challenges; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sso_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: saml_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: saml_relay_states; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sso_domains; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: key; Type: TABLE DATA; Schema: pgsodium; Owner: supabase_admin
+--
+
+
 
 --
 -- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -100,6 +179,8 @@ INSERT INTO "public"."itinerary_destination" ("id", "destination_id", "itinerary
 -- Data for Name: user_account; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."user_account" ("id", "role_id") VALUES
+	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 1);
 
 
 --
@@ -167,13 +248,6 @@ SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 6, true);
 --
 
 SELECT pg_catalog.setval('"public"."itinerary_id_seq"', 5, true);
-
-
---
--- Name: user_account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('"public"."user_account_id_seq"', 1, true);
 
 
 --

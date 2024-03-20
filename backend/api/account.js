@@ -50,17 +50,23 @@ router.post('/logout', async function (req, res, next) {
 router.post('/register', async function (req, res, next) {
     try {
         const { username, password } = req.body;
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error: signUpError } = await supabase.auth.signUp({
             email: username,
             password,
         })
-
-        if (error) {
-            res.status(401).send(error);
+        if (signUpError) {
+            res.status(401).send(signUpError);
             return;
         }
 
-        const {user: { email, created_at }} = data;
+        const { user: { email, created_at, id }} = data;
+        const { error: userAccountError } = await supabase
+        .from('user_account')
+        .insert({ id })
+        if (userAccountError) {
+            res.status(401).send(userAccountError);
+            return;
+        }
 
         res.status(200).json({'message': `${email} has been signed up successfully`, 'created_at': created_at });
 
