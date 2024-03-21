@@ -48,9 +48,9 @@ router.post('/logout', async function (req, res, next) {
 
 router.post('/register', async function (req, res, next) {
     try {
-        const { username, password } = req.body;
+        const { email, password, fullName } = req.body;
         const { data, error: signUpError } = await supabase.auth.signUp({
-            email: username,
+            email,
             password,
         })
         if (signUpError) {
@@ -58,9 +58,9 @@ router.post('/register', async function (req, res, next) {
             return;
         }
 
-        const { user: { email, created_at, id }} = data;
+        const { user: { created_at, id }} = data;
         
-        const { error: rpcError } = await supabase.rpc('register_user_account', {uid: id});
+        const { error: rpcError } = await supabase.rpc('register_user_account', {uid: id, full_name: fullName});
         if (rpcError) {
             res.status(502).send(rpcError);
             return;

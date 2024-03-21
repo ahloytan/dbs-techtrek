@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { login } from '../api';
 import { getCookie, destroyCookie } from '@/utils/cookies';
-import { logout } from '@/api/index.js';
+import { logout, register } from '@/api/index.js';
+import { jwtDecode } from "jwt-decode"; 
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -110,14 +111,14 @@ export const AuthProvider = (props) => {
   );
 
   const signIn = async (email, password) => {
-    await login(email, password);
-
-
+    const jwt = await login(email, password);
+    const { session_id } = jwtDecode(jwt);
+    
     const user = {
-      id: '5e86809283e28b96d2d38537',
+      id: session_id,
       avatar: '/assets/avatars/dpgc.webp',
-      name: 'Aloysius Tan',
-      email: 'aloysiustan.2020@scis.smu.edu.sg'
+      name: email?.split('@')[0],
+      email
     };
 
     dispatch({
@@ -126,8 +127,9 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (email, password, fullName) => {
+    await register(email, password, fullName);
+    // throw new Error('Sign up is not implemented');
   };
 
   const signOut = async () => {

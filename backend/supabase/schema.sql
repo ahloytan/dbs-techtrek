@@ -261,6 +261,14 @@ ALTER TABLE "public"."itinerary" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENT
     CACHE 1
 );
 
+CREATE TABLE IF NOT EXISTS "public"."user_account" (
+    "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "full_name" character varying NOT NULL,
+    "role_id" smallint
+);
+
+ALTER TABLE "public"."user_account" OWNER TO "postgres";
+
 ALTER TABLE ONLY "public"."country"
     ADD CONSTRAINT "country_name_key" UNIQUE ("name");
 
@@ -279,6 +287,9 @@ ALTER TABLE ONLY "public"."itinerary_destination"
 ALTER TABLE ONLY "public"."itinerary"
     ADD CONSTRAINT "itinerary_pkey" PRIMARY KEY ("id");
 
+ALTER TABLE ONLY "public"."user_account"
+    ADD CONSTRAINT "user_account_pkey" PRIMARY KEY ("id");
+
 ALTER TABLE ONLY "public"."destination"
     ADD CONSTRAINT "destinationcountryfk" FOREIGN KEY ("country_id") REFERENCES "public"."country"("id");
 
@@ -293,6 +304,9 @@ ALTER TABLE ONLY "public"."itinerary"
 
 ALTER TABLE ONLY "public"."itinerary"
     ADD CONSTRAINT "itineraryuserfk" FOREIGN KEY ("user_id") REFERENCES "public"."customers"("id");
+
+ALTER TABLE ONLY "public"."user_account"
+    ADD CONSTRAINT "public_user_account_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
@@ -370,6 +384,10 @@ GRANT ALL ON SEQUENCE "public"."itinerary_destination_id_seq" TO "service_role";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "service_role";
+
+GRANT ALL ON TABLE "public"."user_account" TO "anon";
+GRANT ALL ON TABLE "public"."user_account" TO "authenticated";
+GRANT ALL ON TABLE "public"."user_account" TO "service_role";
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "anon";

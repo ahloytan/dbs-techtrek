@@ -11,7 +11,8 @@ const login = async (username, password) => {
 
     window.sessionStorage.setItem('authenticated', 'true');
     setCookie('jwt', jwt);
-    
+    return jwt;
+
   } catch (error) {
     throw new Error('Invalid email or password! Please try again');
   }
@@ -20,6 +21,20 @@ const login = async (username, password) => {
 const logout = async () => {
   try { 
     await api.post('/account/logout');
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data.message);
+  }
+}
+
+const register = async (email, password, fullName) => {
+  try { 
+    await api.post('/account/register', {
+      email, 
+      password,
+      fullName
+    });
     
   } catch (error) {
     console.log(error);
@@ -65,4 +80,4 @@ const getUserItineraries = async (userID) => {
   }
 }
 
-export {login, logout, addCustomer, getAllCustomers, getUserItineraries};
+export {login, logout, register, addCustomer, getAllCustomers, getUserItineraries};

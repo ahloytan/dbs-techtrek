@@ -60,16 +60,11 @@ const Page = () => {
                             >
                             </Avatar>
                           }
-                          action={
-                            <IconButton aria-label="settings">
-                              <MoreVertIcon />
-                            </IconButton>
-                          }
                           title={itinerary.title}
                           subheader={"Country: " + itinerary.country.name}
                         />
                         <CardContent>
-                        <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom variant="body2">
                           Budget: ${itinerary.budget}
                         </Typography>
                         </CardContent>

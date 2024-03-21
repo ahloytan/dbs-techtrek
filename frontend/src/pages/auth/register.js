@@ -12,9 +12,9 @@ const Page = () => {
   const auth = useAuth();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      password: '',
+      email: 'user3@user.com',
+      name: 'user3',
+      password: 'Password1!',
       submit: null
     },
     validationSchema: Yup.object({
@@ -34,7 +34,7 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
+        await auth.signUp(values.email, values.password, values.name);
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });

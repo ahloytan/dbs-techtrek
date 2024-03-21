@@ -110,13 +110,16 @@ CREATE OR REPLACE FUNCTION delete_claim(uid uuid, claim text) RETURNS "text"
     END;
 $$;
 
-CREATE OR REPLACE FUNCTION register_user_account(uid uuid) RETURNS "text"
+CREATE OR REPLACE FUNCTION register_user_account(uid uuid, full_name text) RETURNS "text"
     LANGUAGE "plpgsql" SECURITY DEFINER SET search_path = public
     AS $$
     BEGIN      
+      insert into public.user_account (id, full_name, role_id)
+        values (uid, full_name, 2);
+
       update auth.users set raw_app_meta_data = 
         raw_app_meta_data || 
-          json_build_object('role_id', 2)::jsonb where id = uid;
+          json_build_object('full_name', full_name, 'role_id', 2)::jsonb where id = uid;
       return 'OK';
     END;
 $$;
