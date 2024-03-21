@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -19,18 +19,19 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { LoadingButton } from '@mui/lab';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoadingStatus } from '@/store/index';
+import { redirectErrors } from '@/utils/redirect-errors';
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const hasJWTExpired = searchParams.get('isJWTExpired');
+  const redirectReason = searchParams.get('redirectReason');
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.app.isLoading);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'admin1@admin.com',
+      email: 'user2@user.com',
       password: 'Password1!',
       submit: null
     },
@@ -169,13 +170,13 @@ const Page = () => {
                     {formik.errors.submit}
                   </Typography>
                 )}
-                {hasJWTExpired && (
+                {redirectReason && (
                   <Typography
                     color="error"
                     sx={{ mt: 3 }}
                     variant="body2"
                   >
-                    Session has expired, please log in again
+                    { redirectErrors[redirectReason] }
                   </Typography>
                 )}
                 <LoadingButton

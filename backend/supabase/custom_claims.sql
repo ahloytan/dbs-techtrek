@@ -1,5 +1,14 @@
 -- https://github.com/supabase-community/supabase-custom-claims?tab=readme-ov-file
 
+DROP FUNCTION get_my_claims;
+DROP FUNCTION get_my_claim;
+DROP FUNCTION get_claims;
+DROP FUNCTION set_claim;
+DROP FUNCTION delete_claim;
+DROP FUNCTION is_claims_admin;
+DROP FUNCTION register_user_account;
+NOTIFY pgrst, 'reload schema';
+
 CREATE OR REPLACE FUNCTION is_claims_admin() RETURNS "bool"
   LANGUAGE "plpgsql" 
   AS $$
@@ -100,4 +109,16 @@ CREATE OR REPLACE FUNCTION delete_claim(uid uuid, claim text) RETURNS "text"
       END IF;
     END;
 $$;
+
+CREATE OR REPLACE FUNCTION register_user_account(uid uuid) RETURNS "text"
+    LANGUAGE "plpgsql" SECURITY DEFINER SET search_path = public
+    AS $$
+    BEGIN      
+      update auth.users set raw_app_meta_data = 
+        raw_app_meta_data || 
+          json_build_object('role_id', 2)::jsonb where id = uid;
+      return 'OK';
+    END;
+$$;
+
 NOTIFY pgrst, 'reload schema';

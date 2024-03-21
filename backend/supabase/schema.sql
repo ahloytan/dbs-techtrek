@@ -30,6 +30,140 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE OR REPLACE FUNCTION "public"."delete_claim"("uid" "uuid", "claim" "text") RETURNS "text"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    BEGIN
+      IF NOT is_claims_admin() THEN
+          RETURN 'error: access denied';
+      ELSE        
+        update auth.users set raw_app_meta_data = 
+          raw_app_meta_data - claim where id = uid;
+        return 'OK';
+      END IF;
+    END;
+$$;
+
+ALTER FUNCTION "public"."delete_claim"("uid" "uuid", "claim" "text") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."get_claim"("uid" "uuid", "claim" "text") RETURNS "jsonb"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    DECLARE retval jsonb;
+    BEGIN
+      IF NOT is_claims_admin() THEN
+          RETURN '{"error":"access denied"}'::jsonb;
+      ELSE
+        select coalesce(raw_app_meta_data->claim, null) from auth.users into retval where id = uid::uuid;
+        return retval;
+      END IF;
+    END;
+$$;
+
+ALTER FUNCTION "public"."get_claim"("uid" "uuid", "claim" "text") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."get_claims"("uid" "uuid") RETURNS "jsonb"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    DECLARE retval jsonb;
+    BEGIN
+      IF NOT is_claims_admin() THEN
+          RETURN '{"error":"access denied"}'::jsonb;
+      ELSE
+        select raw_app_meta_data from auth.users into retval where id = uid::uuid;
+        return retval;
+      END IF;
+    END;
+$$;
+
+ALTER FUNCTION "public"."get_claims"("uid" "uuid") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."get_my_claim"("claim" "text") RETURNS "jsonb"
+    LANGUAGE "sql" STABLE
+    AS $$
+  select 
+  	coalesce(nullif(current_setting('request.jwt.claims', true), '')::jsonb -> 'app_metadata' -> claim, null)
+$$;
+
+ALTER FUNCTION "public"."get_my_claim"("claim" "text") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."get_my_claims"() RETURNS "jsonb"
+    LANGUAGE "sql" STABLE
+    AS $$
+  select 
+  	coalesce(nullif(current_setting('request.jwt.claims', true), '')::jsonb -> 'app_metadata', '{}'::jsonb)::jsonb
+$$;
+
+ALTER FUNCTION "public"."get_my_claims"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."is_claims_admin"() RETURNS boolean
+    LANGUAGE "plpgsql"
+    AS $$
+  BEGIN
+    IF session_user = 'authenticator' THEN
+      --------------------------------------------
+      -- To disallow any authenticated app users
+      -- from editing claims, delete the following
+      -- block of code and replace it with:
+      -- RETURN FALSE;
+      --------------------------------------------
+      IF extract(epoch from now()) > coalesce((current_setting('request.jwt.claims', true)::jsonb)->>'exp', '0')::numeric THEN
+        return false; -- jwt expired
+      END IF;
+      If current_setting('request.jwt.claims', true)::jsonb->>'role' = 'service_role' THEN
+        RETURN true; -- service role users have admin rights
+      END IF;
+      IF coalesce((current_setting('request.jwt.claims', true)::jsonb)->'app_metadata'->'claims_admin', 'false')::bool THEN
+        return true; -- user has claims_admin set to true
+      ELSE
+        return false; -- user does NOT have claims_admin set to true
+      END IF;
+      --------------------------------------------
+      -- End of block 
+      --------------------------------------------
+    ELSE -- not a user session, probably being called from a trigger or something
+      return true;
+    END IF;
+  END;
+$$;
+
+ALTER FUNCTION "public"."is_claims_admin"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."register_user_account"("uid" "uuid") RETURNS "text"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    BEGIN      
+      update auth.users set raw_app_meta_data = 
+        raw_app_meta_data || 
+          json_build_object('role_id', 2)::jsonb where id = uid;
+      return 'OK';
+    END;
+$$;
+
+ALTER FUNCTION "public"."register_user_account"("uid" "uuid") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") RETURNS "text"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    BEGIN
+      IF NOT is_claims_admin() THEN
+          RETURN 'error: access denied';
+      ELSE        
+        update auth.users set raw_app_meta_data = 
+          raw_app_meta_data || 
+            json_build_object(claim, value)::jsonb where id = uid;
+        return 'OK';
+      END IF;
+    END;
+$$;
+
+ALTER FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") OWNER TO "postgres";
+
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
@@ -127,13 +261,6 @@ ALTER TABLE "public"."itinerary" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENT
     CACHE 1
 );
 
-CREATE TABLE IF NOT EXISTS "public"."user_account" (
-    "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "role_id" integer DEFAULT 2 NOT NULL
-);
-
-ALTER TABLE "public"."user_account" OWNER TO "postgres";
-
 ALTER TABLE ONLY "public"."country"
     ADD CONSTRAINT "country_name_key" UNIQUE ("name");
 
@@ -152,9 +279,6 @@ ALTER TABLE ONLY "public"."itinerary_destination"
 ALTER TABLE ONLY "public"."itinerary"
     ADD CONSTRAINT "itinerary_pkey" PRIMARY KEY ("id");
 
-ALTER TABLE ONLY "public"."user_account"
-    ADD CONSTRAINT "user_account_pkey" PRIMARY KEY ("id");
-
 ALTER TABLE ONLY "public"."destination"
     ADD CONSTRAINT "destinationcountryfk" FOREIGN KEY ("country_id") REFERENCES "public"."country"("id");
 
@@ -170,13 +294,42 @@ ALTER TABLE ONLY "public"."itinerary"
 ALTER TABLE ONLY "public"."itinerary"
     ADD CONSTRAINT "itineraryuserfk" FOREIGN KEY ("user_id") REFERENCES "public"."customers"("id");
 
-ALTER TABLE ONLY "public"."user_account"
-    ADD CONSTRAINT "public_user_account_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id");
-
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."delete_claim"("uid" "uuid", "claim" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."delete_claim"("uid" "uuid", "claim" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."delete_claim"("uid" "uuid", "claim" "text") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_claim"("uid" "uuid", "claim" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_claim"("uid" "uuid", "claim" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_claim"("uid" "uuid", "claim" "text") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_claims"("uid" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_claims"("uid" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_claims"("uid" "uuid") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_my_claim"("claim" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_my_claim"("claim" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_my_claim"("claim" "text") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_my_claims"() TO "anon";
+GRANT ALL ON FUNCTION "public"."get_my_claims"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_my_claims"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "anon";
+GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") TO "anon";
+GRANT ALL ON FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") TO "service_role";
 
 GRANT ALL ON TABLE "public"."country" TO "anon";
 GRANT ALL ON TABLE "public"."country" TO "authenticated";
@@ -217,10 +370,6 @@ GRANT ALL ON SEQUENCE "public"."itinerary_destination_id_seq" TO "service_role";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."itinerary_id_seq" TO "service_role";
-
-GRANT ALL ON TABLE "public"."user_account" TO "anon";
-GRANT ALL ON TABLE "public"."user_account" TO "authenticated";
-GRANT ALL ON TABLE "public"."user_account" TO "service_role";
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "anon";

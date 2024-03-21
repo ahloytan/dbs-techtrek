@@ -54,16 +54,15 @@ router.post('/register', async function (req, res, next) {
             password,
         })
         if (signUpError) {
-            res.status(401).send(signUpError);
+            res.status(501).send(signUpError);
             return;
         }
 
         const { user: { email, created_at, id }} = data;
-        const { error: userAccountError } = await supabase
-        .from('user_account')
-        .insert({ id })
-        if (userAccountError) {
-            res.status(401).send(userAccountError);
+        
+        const { error: rpcError } = await supabase.rpc('register_user_account', {uid: id});
+        if (rpcError) {
+            res.status(502).send(rpcError);
             return;
         }
 
