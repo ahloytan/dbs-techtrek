@@ -1,4 +1,4 @@
-import { setCookie } from '@/utils/cookies';
+import { setCookie, destroyCookie } from '@/utils/cookies';
 import api from '../utils/axios.js';
 
 const login = async (username, password) => {
@@ -20,7 +20,8 @@ const login = async (username, password) => {
 const logout = async () => {
   try { 
     await api.post('/account/logout');
-    
+    destroyCookie('jwt');
+
   } catch (error) {
     console.log(error);
     throw new Error(error.response?.data.message);

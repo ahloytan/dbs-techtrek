@@ -133,7 +133,6 @@ export const AuthProvider = (props) => {
   };
 
   const signOut = async () => {
-    destroyCookie('jwt');
     dispatch({
       type: HANDLERS.SIGN_OUT
     });

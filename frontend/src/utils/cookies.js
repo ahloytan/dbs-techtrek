@@ -2,7 +2,7 @@ function setCookie(name, value) {
     const expires = new Date();
     expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
     const expiresString = expires.toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expiresString}; path=/`;
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expiresString}; path=/; domain=${location.hostname}`;
 }
 
 function getCookie(name) {
@@ -15,7 +15,7 @@ function getCookie(name) {
 
 function destroyCookie(name) {   
     sessionStorage.clear();
-    document.cookie = name+'=; Max-Age=-99999999;';  
+    document.cookie = `${name}=; Max-Age=0; path=/; domain=${location.hostname}`;  
 }
 
 export { setCookie, getCookie, destroyCookie }
