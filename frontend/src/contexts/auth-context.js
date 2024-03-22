@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { login } from '../api';
 import { getCookie, destroyCookie } from '@/utils/cookies';
 import { logout, register } from '@/api/index.js';
-import { jwtDecode } from "jwt-decode"; 
+import { getFullName, getSessionId } from '@/utils/helper';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -67,7 +67,6 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
-
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) return;
@@ -77,17 +76,19 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      
       isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true' && getCookie('jwt');
     } catch (err) {
       console.error(err);
     }
 
     if (isAuthenticated) {
+      const fullName = getFullName();
+      const sessionId = getSessionId();
+
       const user = {
-        id: '5e86809283e28b96d2d38537',
+        id: sessionId,
         avatar: '/assets/avatars/dpgc.webp',
-        name: 'Aloysius Tan',
+        name: fullName,
         email: 'aloysiustan.2020@scis.smu.edu.sg'
       };
 
@@ -111,13 +112,13 @@ export const AuthProvider = (props) => {
   );
 
   const signIn = async (email, password) => {
-    const jwt = await login(email, password);
-    const { session_id } = jwtDecode(jwt);
-    
+    await login(email, password);
+    const fullName = getFullName();
+    const sessionId = getSessionId();
     const user = {
-      id: session_id,
+      id: sessionId,
       avatar: '/assets/avatars/dpgc.webp',
-      name: email?.split('@')[0],
+      name: fullName,
       email
     };
 
@@ -129,7 +130,6 @@ export const AuthProvider = (props) => {
 
   const signUp = async (email, password, fullName) => {
     await register(email, password, fullName);
-    // throw new Error('Sign up is not implemented');
   };
 
   const signOut = async () => {

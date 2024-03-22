@@ -11,7 +11,6 @@ const login = async (username, password) => {
 
     window.sessionStorage.setItem('authenticated', 'true');
     setCookie('jwt', jwt);
-    return jwt;
 
   } catch (error) {
     throw new Error('Invalid email or password! Please try again');

@@ -18,8 +18,7 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useAuth } from 'src/hooks/use-auth';
-
-
+import { getFullName } from '@/utils/helper';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -27,7 +26,7 @@ export const SideNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const router = useRouter();
   const auth = useAuth();
-  
+
   const handleSignOut = useCallback(
     () => {
       auth.signOut();
@@ -84,7 +83,7 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                Percent
+                { getFullName() }
               </Typography>
               <Typography
                 color="neutral.400"

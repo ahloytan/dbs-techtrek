@@ -35,7 +35,7 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         await auth.signUp(values.email, values.password, values.name);
-        router.push('/');
+        router.push('/auth/login?type=success&redirectReason=registered');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

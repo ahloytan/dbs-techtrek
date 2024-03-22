@@ -19,19 +19,20 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { LoadingButton } from '@mui/lab';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoadingStatus } from '@/store/index';
-import { redirectErrors } from '@/utils/redirect-errors';
+import { redirectMessages } from '@/utils/redirect-messages';
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectReason = searchParams.get('redirectReason');
+  const type = searchParams.get('type');
+  const reason = searchParams.get('redirectReason');
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.app.isLoading);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'user2@user.com',
+      email: 'admin1@admin.com',
       password: 'Password1!',
       submit: null
     },
@@ -170,13 +171,13 @@ const Page = () => {
                     {formik.errors.submit}
                   </Typography>
                 )}
-                {redirectReason && (
+                {reason && (
                   <Typography
-                    color="error"
+                    color={ type == "error" ? "error" : "success.light" }
                     sx={{ mt: 3 }}
                     variant="body2"
                   >
-                    { redirectErrors[redirectReason] }
+                    { redirectMessages[reason] }
                   </Typography>
                 )}
                 <LoadingButton

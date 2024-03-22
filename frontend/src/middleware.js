@@ -7,12 +7,12 @@ export function middleware(req) {
   const hasJWT = cookies().get("jwt");
   const { app_metadata: { role_id }} = jwtDecode(hasJWT?.value);
 
-  if (!hasJWT || role_id !== 1) return NextResponse.redirect(new URL('/auth/login?redirectReason=unauthorized', req.url));
+  if (!hasJWT || role_id !== 1) return NextResponse.redirect(new URL('/auth/login?type=error&redirectReason=unauthorized', req.url));
 }
  
 export const config = {
   matcher: [
-    '/account',
+    '/template',
     '/((?!_next/static|_next/image|favicon.ico|auth|assets|).*)'
   ]
 }
