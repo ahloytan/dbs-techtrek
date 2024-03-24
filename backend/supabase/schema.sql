@@ -146,6 +146,23 @@ $$;
 
 ALTER FUNCTION "public"."register_user_account"("uid" "uuid") OWNER TO "postgres";
 
+CREATE OR REPLACE FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") RETURNS "text"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+    BEGIN      
+      insert into public.user_account (id, full_name, role_id)
+        values (uid, full_name, 2);
+
+      update auth.users set raw_app_meta_data = 
+        raw_app_meta_data || 
+          json_build_object('full_name', full_name, 'role_id', 2)::jsonb where id = uid;
+      return 'OK';
+    END;
+$$;
+
+ALTER FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") RETURNS "text"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -210,7 +227,8 @@ CREATE TABLE IF NOT EXISTS "public"."destination" (
     "country_id" integer NOT NULL,
     "cost" double precision DEFAULT 0 NOT NULL,
     "name" character varying(50) NOT NULL,
-    "notes" "text"
+    "notes" "text",
+    "image_name" "text"
 );
 
 ALTER TABLE "public"."destination" OWNER TO "postgres";
@@ -340,6 +358,10 @@ GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "anon";
 GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") TO "anon";
 GRANT ALL ON FUNCTION "public"."set_claim"("uid" "uuid", "claim" "text", "value" "jsonb") TO "authenticated";

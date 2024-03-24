@@ -2,7 +2,7 @@ import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
 import { useState } from 'react';
 
-export const CustomersSearch = ({onChildStateChange}) => {
+export const DestinationsSearch = ({onChildStateChange}) => {
   const [searchInput, setSearchInput] = useState("");
   const handleInputChange = (event) => {
     const newValue = event.target.value;
@@ -16,7 +16,7 @@ export const CustomersSearch = ({onChildStateChange}) => {
         value={searchInput}
         onChange={handleInputChange}
         fullWidth
-        placeholder="Search customer"
+        placeholder="Search destination"
         startAdornment={(
           <InputAdornment position="start">
             <SvgIcon

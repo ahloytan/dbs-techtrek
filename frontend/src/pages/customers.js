@@ -44,8 +44,8 @@ const Page = () => {
   const fetchCustomers = async () => {
     const customers = await getAllCustomers();
     if (customers) {
-      setCustomers(customers)
-      setFilteredCustomers(customers)
+      setCustomers(customers);
+      setFilteredCustomers(customers);
     }
   };
 

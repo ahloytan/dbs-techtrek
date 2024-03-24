@@ -4,6 +4,7 @@ import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import DocumentIcon from '@heroicons/react/24/solid/DocumentIcon';
+import MapPinIcon from '@heroicons/react/24/solid/MapPinIcon';
 import ArrowLeftOnRectangleIcon from '@heroicons/react/24/solid/ArrowLeftOnRectangleIcon';
 import { SvgIcon } from '@mui/material';
 
@@ -35,12 +36,21 @@ export const items = [
       </SvgIcon>
     )
   },
+  // {
+  //   title: 'Companies',
+  //   path: '/companies',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ShoppingBagIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Destinations',
+    path: '/destinations',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <MapPinIcon />
       </SvgIcon>
     )
   },

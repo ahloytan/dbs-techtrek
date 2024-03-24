@@ -20,7 +20,7 @@ SET row_security = off;
 
 --
 -- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
---
+--	
 
 
 --
@@ -34,7 +34,7 @@ SET row_security = off;
 --
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
-	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-21 08:07:14.124302+00', '{"role_id": 1, "provider": "email", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-03-21 08:07:14.12755+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-23 10:05:01.568272+00', '{"role_id": 1, "provider": "email", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-03-23 10:05:01.570426+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -55,10 +55,16 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
+	('681fceb2-b891-4bb4-abc1-54023f5e4837', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-03-23 10:05:01.568354+00', '2024-03-23 10:05:01.568354+00', NULL, 'aal1', NULL, NULL, 'node', '54.179.153.251', NULL);
+
 
 --
 -- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
+
+INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
+	('681fceb2-b891-4bb4-abc1-54023f5e4837', '2024-03-23 10:05:01.570953+00', '2024-03-23 10:05:01.570953+00', 'password', '23b14064-f57a-4219-ba89-6d4e63a3b7c8');
 
 
 --
@@ -76,6 +82,9 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 --
 -- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
+
+INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
+	('00000000-0000-0000-0000-000000000000', 22, 'Fb7v0JmLfsTeKyku7eRMOQ', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-23 10:05:01.569301+00', '2024-03-23 10:05:01.569301+00', NULL, '681fceb2-b891-4bb4-abc1-54023f5e4837');
 
 
 --
@@ -114,7 +123,12 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 
 INSERT INTO "public"."country" ("id", "name") OVERRIDING SYSTEM VALUE VALUES
 	(1, 'Singapore'),
-	(2, 'Japan');
+	(2, 'Japan'),
+	(3, 'France'),
+	(4, 'USA'),
+	(5, 'Italy'),
+	(6, 'Australia'),
+	(7, 'Spain');
 
 
 --
@@ -138,12 +152,30 @@ INSERT INTO "public"."customers" ("id", "address", "avatar", "created_at", "emai
 -- Data for Name: destination; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."destination" ("id", "country_id", "cost", "name", "notes") OVERRIDING SYSTEM VALUE VALUES
-	(1, 1, 50, 'Marina Bay Sands', 'Iconic hotel with an infinity pool and stunning views of the city skyline. Open 24/7.'),
-	(2, 1, 30, 'Gardens by the Bay', 'Futuristic park featuring Supertree Grove and Flower Dome conservatories. Open daily from 9 AM to 9 PM.'),
-	(3, 1, 40, 'Sentosa Island', 'Fun-filled island resort with beaches, theme parks, and various attractions. Open daily from 10 AM to 7 PM.'),
-	(4, 1, 60, 'Universal Studios Singapore', 'Amusement park with movie-themed rides and entertainment. Open daily from 10 AM to 7 PM.'),
-	(5, 1, 35, 'Singapore Zoo', 'Award-winning zoo showcasing diverse wildlife species. Open daily from 8:30 AM to 6 PM.');
+INSERT INTO "public"."destination" ("id", "country_id", "cost", "name", "notes", "image_name") OVERRIDING SYSTEM VALUE VALUES
+	(1, 1, 50, 'Marina Bay Sands', 'Iconic hotel with an infinity pool and stunning views of the city skyline. Open 24/7.', 'mbs'),
+	(2, 1, 30, 'Gardens by the Bay', 'Futuristic park featuring Supertree Grove and Flower Dome conservatories. Open daily from 9 AM to 9 PM.', 'gbtb'),
+	(3, 1, 40, 'Sentosa Island', 'Fun-filled island resort with beaches, theme parks, and various attractions. Open daily from 10 AM to 7 PM.', 'sentosa'),
+	(4, 1, 60, 'Universal Studios Singapore', 'Amusement park with movie-themed rides and entertainment. Open daily from 10 AM to 7 PM.', 'uss'),
+	(5, 1, 35, 'Singapore Zoo', 'Award-winning zoo showcasing diverse wildlife species. Open daily from 8:30 AM to 6 PM.', 'singapore-zoo'),
+	(6, 3, 20, 'Eiffel Tower', 'Iconic iron lattice tower in Paris', 'eiffel-tower'),
+	(7, 3, 15, 'Louvre Museum', 'World''s largest art museum', 'louvre-museum'),
+	(8, 3, 10, 'Palace of Versailles', 'Opulent royal château near Paris', 'palace-versailles'),
+	(9, 4, 25, 'Statue of Liberty', 'Symbol of freedom in New York City', 'statue-liberty'),
+	(10, 4, 30, 'Grand Canyon', 'Spectacular natural gorge in Arizona', 'grand-canyon'),
+	(11, 4, 12, 'Disneyland', 'Famous theme park in California', 'disneyland-disneyland'),
+	(12, 2, 18, 'Mount Fuji', 'Japan''s highest peak', 'mount-fuji'),
+	(13, 2, 10, 'Tokyo Disneyland', 'Disney theme park in Tokyo', 'tokyo-disneyland'),
+	(14, 2, 20, 'Hiroshima Peace Memorial', 'Monument to commemorate victims of the atomic bomb', 'hpm'),
+	(15, 5, 17, 'Colosseum', 'Ancient amphitheater in Rome', 'colosseum-colosseum'),
+	(16, 5, 12, 'Venice Canals', 'Romantic waterways in Venice', 'venice-canals'),
+	(17, 5, 15, 'Leaning Tower of Pisa', 'Iconic leaning tower in Pisa, Italy', 'ltp'),
+	(18, 6, 22, 'Sydney Opera House', 'Iconic performing arts venue', 'soh'),
+	(19, 6, 10, 'Great Barrier Reef', 'World''s largest coral reef system', 'gbr'),
+	(20, 6, 18, 'Uluru (Ayers Rock)', 'Massive sandstone monolith in the Outback', 'uar'),
+	(21, 7, 14, 'Sagrada Familia', 'Gaudí''s unfinished masterpiece in Barcelona', 'sagrada-familia'),
+	(22, 7, 16, 'Alhambra', 'Stunning Moorish palace in Granada', 'alhambra-alhambra'),
+	(23, 7, 8, 'Park Güell', 'Artistic park also designed by Gaudí', 'park-guell');
 
 
 --
@@ -201,7 +233,7 @@ INSERT INTO "public"."user_account" ("id", "full_name", "role_id") VALUES
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 21, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 22, true);
 
 
 --
@@ -229,14 +261,14 @@ SELECT pg_catalog.setval('"public"."customers_id_seq"', 10, true);
 -- Name: destination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."destination_id_seq"', 5, true);
+SELECT pg_catalog.setval('"public"."destination_id_seq"', 23, true);
 
 
 --
 -- Name: itinerary_destination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 6, true);
+SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 1, false);
 
 
 --

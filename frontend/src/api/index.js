@@ -1,4 +1,6 @@
 import { setCookie, destroyCookie } from '@/utils/cookies';
+import { addCustomer, getAllCustomers } from './customers';
+import { getAllDestinations } from './destinations';
 import api from '../utils/axios.js';
 
 const login = async (username, password) => {
@@ -42,33 +44,6 @@ const register = async (email, password, fullName) => {
   }
 }
 
-const addCustomer = async (address, avatar, email, name, phoneNumber) => {
-  try {
-    const { data } = await api.post('/customers', {
-      address, 
-      avatar,
-      email, 
-      name, 
-      phoneNumber
-    });
-
-    return data
-  } catch (error) {
-    console.log(error);
-    throw new Error(error.response?.data.message);
-  }
-}
-
-
-const getAllCustomers = async () => {
-  try {
-    const { data: { customers } } = await api.get('/customers');
-    return customers
-
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 const getUserItineraries = async (userID) => {
   try {
@@ -80,4 +55,4 @@ const getUserItineraries = async (userID) => {
   }
 }
 
-export {login, logout, register, addCustomer, getAllCustomers, getUserItineraries};
+export {login, logout, register, addCustomer, getAllCustomers, getUserItineraries, getAllDestinations};
