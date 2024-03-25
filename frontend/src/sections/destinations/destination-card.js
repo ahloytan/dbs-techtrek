@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import ClockIcon from '@heroicons/react/24/solid/ClockIcon';
-import { CardMedia, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
+import { CardMedia, Box, Card, CardContent, Checkbox, Divider, Stack, SvgIcon, Typography } from '@mui/material';
 
 export const DestinationCard = (props) => {
   const { destination } = props;
@@ -14,6 +14,7 @@ export const DestinationCard = (props) => {
         height: '100%'
       }}
     >
+      {/* <Checkbox /> */}
       <CardContent>
         <Box
           sx={{

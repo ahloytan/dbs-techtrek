@@ -2,15 +2,15 @@
 
 const express = require('express');
 const router = express.Router();
-let Destinations = require('../models/destinations');
+let Countries = require('../models/countries');
 const logger = require('../modules/logger');
 
 router.post('/', async function (req, res, next) {
     try {
-        const { country_id, cost, name, notes, image_name } = req.body;
-        await Destinations.addDestination(country_id, cost, name, notes, image_name);
+        const { name } = req.body;
+        await Countries.addCountry(name);
 
-        res.json({ 'message': `Destination: ${name} has been successfully created!` });
+        res.json({ 'message': `Country: ${name} has been successfully created!` });
 
     } catch (error) {
         logger.warn(error);
@@ -20,9 +20,9 @@ router.post('/', async function (req, res, next) {
 
 router.get('/', async function (req, res, next) {
     try {
-        let destinations = await Destinations.getAllDestinations();
+        let countries = await Countries.getAllCountries();
 
-        res.json({ destinations });
+        res.json({ countries });
     } catch (error) {
         logger.warn(error);
         next(error);
@@ -32,8 +32,8 @@ router.get('/', async function (req, res, next) {
 router.delete('/', async function (req, res, next) {
     try {
         const ids = req.body;
-        await Destinations.deleteDestination(ids);
-        res.json({ 'message': `Destination with id: ${ids} has been successfully deleted!` });
+        await Countries.deleteDestination(ids);
+        res.json({ 'message': `Countries with id: ${ids} has been successfully deleted!` });
         
     } catch (error) {
         logger.warn(error);

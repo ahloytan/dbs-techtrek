@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+import {ArrowUpOnSquareIcon, ArrowDownOnSquareIcon} from '@heroicons/react/24/solid';
 import {
   Box,
   Button,
@@ -15,19 +13,27 @@ import {
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { DestinationCard } from 'src/sections/destinations/destination-card';
 import { DestinationsSearch } from 'src/sections/destinations/destinations-search';
-import { getAllDestinations } from '@/api/index.js';
+import { getAllDestinations, getAllCountries } from '@/api/index.js';
 import { useEffect, useState } from 'react';
+import DeleteDestinationFormDialog from '../sections/destinations/delete-destinations.js';
+import CreateDestinationFormDialog from '../sections/destinations/create-destination.js';
+import Snackbar from '@/components/snackbar.js';
+import { isAdmin } from '@/utils/helper';
 
 const Page = () => {
   const [filteredDestinationsList, setFilteredDestinationsList] = useState([]);
   const [destinationsList, setDestinations] = useState([]);
+  const [countriesList, setCountries] = useState([]);
 
   const fetchDestinations = async () => {
     const destinations = await getAllDestinations();
+    const countries = await getAllCountries();
     if (destinations) {
       setDestinations(destinations);
       setFilteredDestinationsList(destinations)
     }
+
+    if (countries) setCountries(countries);
   };
 
   const handleChildStateChange = (newState) => {
@@ -93,18 +99,13 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-            <div>
-              <Button
-                startIcon={(
-                  <SvgIcon fontSize="small">
-                    <PlusIcon />
-                  </SvgIcon>
-                )}
-                variant="contained"
-              >
-                Add
-              </Button>
-            </div>
+            { 
+              isAdmin() && 
+              <div>
+                <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/>
+                <CreateDestinationFormDialog countries={countriesList} fetchDestinations={fetchDestinations} />
+              </div>
+            }
           </Stack>
           <DestinationsSearch onChildStateChange={handleChildStateChange}/>
           <Grid
@@ -134,6 +135,7 @@ const Page = () => {
             />
           </Box> */}
         </Stack>
+        <Snackbar />
       </Container>
     </Box>
   </>

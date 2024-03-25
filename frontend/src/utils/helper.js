@@ -19,5 +19,14 @@ function getSessionId(){
     return null;
 }
 
+function isAdmin() {
+    const jwt = getCookie('jwt');
+    if (jwt) {
+        const { app_metadata: { role_id } } = jwtDecode(jwt);
+        return role_id === 1;
+    }
 
-export { getFullName, getSessionId }
+    return false;
+  }
+
+export { getFullName, getSessionId, isAdmin }

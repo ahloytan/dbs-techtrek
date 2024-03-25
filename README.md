@@ -101,4 +101,8 @@ SUPABASE_ANON_KEY=""
 1. To explore more of my works, head over to [Portfolio Website](https://ahloytan.netlify.app)
 2. Feel free to contact me if there are issues or if there are opportunities that I can help you with!
 
+# Useful links
+1. https://stackoverflow.com/questions/4448340/postgresql-duplicate-key-violates-unique-constraint
+2. https://supabase.com/docs/reference/cli/supabase-db-dump
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

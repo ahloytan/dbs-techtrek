@@ -12,6 +12,7 @@ import { getAllCustomers } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import FormDialog from '../sections/customer/create-customer.js';
 import Snackbar from '@/components/snackbar.js';
+import { isAdmin } from '@/utils/helper';
 
 const useCustomers = (customersList, page, rowsPerPage) => {
 
@@ -132,9 +133,12 @@ const Page = () => {
                   </Button>
                 </Stack>
               </Stack>
-              <div>
-                <FormDialog fetchCustomers={fetchCustomers}/>
-              </div>
+              { 
+                isAdmin() &&               
+                <div>
+                  <FormDialog fetchCustomers={fetchCustomers}/>
+                </div>
+              }
             </Stack>
             <CustomersSearch onChildStateChange={handleChildStateChange}/>
             <CustomersTable
