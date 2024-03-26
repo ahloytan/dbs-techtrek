@@ -26,7 +26,8 @@ export const SideNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const router = useRouter();
   const auth = useAuth();
-  const {isAdmin} = useAuthContext();
+  const { user } = useAuthContext();
+  const { isAdmin } = user || false; 
 
   const handleSignOut = useCallback(
     () => {

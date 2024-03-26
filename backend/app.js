@@ -4,12 +4,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const logger = require('./modules/logger');
 require('dotenv').config();
-const { FE_ENDPOINT } = process.env;
+const { FE_PREVIEW_ENDPOINT, FE_ENDPOINT } = process.env;
 
 app.use(express.json()) 
 app.use(
   cors({
-    origin: ['http://localhost:3000', FE_ENDPOINT],
+    origin: ['http://localhost:3000', FE_PREVIEW_ENDPOINT, FE_ENDPOINT],
     credentials: true
   })
 );

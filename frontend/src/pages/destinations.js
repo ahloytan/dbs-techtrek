@@ -21,7 +21,8 @@ import Snackbar from '@/components/snackbar.js';
 import { useAuthContext } from 'src/contexts/auth-context';
 
 const Page = () => {
-  const {isAdmin} = useAuthContext();
+  const { user } = useAuthContext();
+  const { isAdmin } = user || false; 
   const [filteredDestinationsList, setFilteredDestinationsList] = useState([]);
   const [destinationsList, setDestinations] = useState([]);
   const [countriesList, setCountries] = useState([]);

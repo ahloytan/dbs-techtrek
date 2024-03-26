@@ -34,7 +34,8 @@ const useCustomerIds = (customers) => {
 };
 
 const Page = () => {
-  const {isAdmin} = useAuthContext();
+  const { user } = useAuthContext();
+  const { isAdmin } = user || false; 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
