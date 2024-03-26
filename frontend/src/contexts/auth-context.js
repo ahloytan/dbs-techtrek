@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { login } from '../api';
-import { getCookie, destroyCookie } from '@/utils/cookies';
+import { getCookie } from '@/utils/cookies';
 import { logout, register } from '@/api/index.js';
-import { getFullName, getSessionId } from '@/utils/helper';
+import { getUserDetailsFromJwt } from '@/utils/helper';
+import { isAdmin } from '@/utils/helper';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -14,7 +15,8 @@ const HANDLERS = {
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
-  user: null
+  user: null,
+  isAdmin: false
 };
 
 const handlers = {
@@ -39,7 +41,6 @@ const handlers = {
   },
   [HANDLERS.SIGN_IN]: (state, action) => {
     const user = action.payload;
-
     return {
       ...state,
       isAuthenticated: true,
@@ -82,14 +83,14 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const fullName = getFullName();
-      const sessionId = getSessionId();
+      const [sessionId, fullName, roleId, email] = getUserDetailsFromJwt();
 
       const user = {
         id: sessionId,
         avatar: '/assets/avatars/dpgc.webp',
         name: fullName,
-        email: 'aloysiustan.2020@scis.smu.edu.sg'
+        email,
+        isAdmin: isAdmin(roleId)
       };
 
       dispatch({
@@ -113,13 +114,13 @@ export const AuthProvider = (props) => {
 
   const signIn = async (email, password) => {
     await login(email, password);
-    const fullName = getFullName();
-    const sessionId = getSessionId();
+    const [sessionId, fullName, roleId] = getUserDetailsFromJwt();
     const user = {
       id: sessionId,
       avatar: '/assets/avatars/dpgc.webp',
       name: fullName,
-      email
+      email,
+      isAdmin: isAdmin(roleId)
     };
 
     dispatch({

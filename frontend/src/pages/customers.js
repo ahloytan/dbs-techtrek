@@ -12,7 +12,7 @@ import { getAllCustomers } from '@/api/index.js';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import FormDialog from '../sections/customer/create-customer.js';
 import Snackbar from '@/components/snackbar.js';
-import { isAdmin } from '@/utils/helper';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const useCustomers = (customersList, page, rowsPerPage) => {
 
@@ -34,6 +34,7 @@ const useCustomerIds = (customers) => {
 };
 
 const Page = () => {
+  const {isAdmin} = useAuthContext();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [customersList, setCustomers] = useState([]);
@@ -134,7 +135,7 @@ const Page = () => {
                 </Stack>
               </Stack>
               { 
-                isAdmin() &&               
+                isAdmin &&               
                 <div>
                   <FormDialog fetchCustomers={fetchCustomers}/>
                 </div>

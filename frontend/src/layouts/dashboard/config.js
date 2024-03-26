@@ -19,15 +19,6 @@ export const items = [
     )
   },
   {
-    title: 'Template',
-    path: '/template',
-    icon: (
-      <SvgIcon fontSize="small">
-        <DocumentIcon />
-      </SvgIcon>
-    )
-  },
-  {
     title: 'Customers',
     path: '/customers',
     icon: (
@@ -36,15 +27,6 @@ export const items = [
       </SvgIcon>
     )
   },
-  // {
-  //   title: 'Companies',
-  //   path: '/companies',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <ShoppingBagIcon />
-  //     </SvgIcon>
-  //   )
-  // },
   {
     title: 'Destinations',
     path: '/destinations',
@@ -78,6 +60,27 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <ArrowLeftOnRectangleIcon />
+      </SvgIcon>
+    )
+  },
+];
+
+export const adminItems = [
+  {
+    title: 'Template',
+    path: '/template',
+    icon: (
+      <SvgIcon fontSize="small">
+        <DocumentIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Companies',
+    path: '/companies',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
       </SvgIcon>
     )
   },

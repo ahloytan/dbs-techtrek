@@ -69,9 +69,9 @@ export default function DeleteDestinationFormDialog({destinations, fetchDestinat
           onSubmit={formik.handleSubmit}
         >
           <DialogTitle>Destinations</DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ m: 1, width: 350 }}>
             <Stack spacing={3}>
-              <FormControl sx={{ m: 1, width: 300 }}>
+              <FormControl>
                 <Select
                   multiple
                   name="selectedDestinations"

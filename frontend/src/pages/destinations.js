@@ -18,9 +18,10 @@ import { useEffect, useState } from 'react';
 import DeleteDestinationFormDialog from '../sections/destinations/delete-destinations.js';
 import CreateDestinationFormDialog from '../sections/destinations/create-destination.js';
 import Snackbar from '@/components/snackbar.js';
-import { isAdmin } from '@/utils/helper';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const Page = () => {
+  const {isAdmin} = useAuthContext();
   const [filteredDestinationsList, setFilteredDestinationsList] = useState([]);
   const [destinationsList, setDestinations] = useState([]);
   const [countriesList, setCountries] = useState([]);
@@ -100,7 +101,7 @@ const Page = () => {
               </Stack>
             </Stack>
             { 
-              isAdmin() && 
+              isAdmin && 
               <div>
                 <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/>
                 <CreateDestinationFormDialog countries={countriesList} fetchDestinations={fetchDestinations} />

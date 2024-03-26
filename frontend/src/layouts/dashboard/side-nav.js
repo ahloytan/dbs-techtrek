@@ -15,10 +15,10 @@ import {
   useMediaQuery
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-import { items } from './config';
+import { items, adminItems } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useAuth } from 'src/hooks/use-auth';
-import { getFullName } from '@/utils/helper';
+import { useAuthContext } from '@/contexts/auth-context';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -26,6 +26,7 @@ export const SideNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const router = useRouter();
   const auth = useAuth();
+  const {isAdmin} = useAuthContext();
 
   const handleSignOut = useCallback(
     () => {
@@ -83,7 +84,7 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                { getFullName() }
+                { auth.user?.name }
               </Typography>
               <Typography
                 color="neutral.400"
@@ -135,6 +136,46 @@ export const SideNav = (props) => {
             })}
           </Stack>
         </Box>
+        { 
+        isAdmin && 
+        <>
+          <Divider sx={{ borderColor: 'neutral.700' }} />
+          <Box
+            component="nav"
+            sx={{
+              flexGrow: 1,
+              px: 2,
+              py: 3
+            }}
+          >
+            <Stack
+              component="ul"
+              spacing={0.5}
+              sx={{
+                listStyle: 'none',
+                p: 0,
+                m: 0
+              }}
+            >
+              {adminItems.map((item) => {
+                const active = item.path ? (pathname === item.path) : false;
+
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                );
+              })}
+            </Stack>
+          </Box>
+        </>
+        }
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
           sx={{
