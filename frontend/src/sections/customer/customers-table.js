@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
+import { TableRowsLoader } from 'src/components/table-loader';
 import { getInitials } from 'src/utils/get-initials';
 import { useRouter } from 'next/router'
 
@@ -79,7 +80,10 @@ export const CustomersTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
+            {items.length === 0 ? (
+              <TableRowsLoader rowsNum={5} />
+              ) : (
+              items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
                 const createdAt = format(parseISO(customer.created_at), 'dd/MM/yyyy');
 
@@ -130,8 +134,9 @@ export const CustomersTable = (props) => {
                       {createdAt}
                     </TableCell>
                   </TableRow>
-                );
-              })}
+                )
+              })
+            )}
             </TableBody>
           </Table>
         </Box>

@@ -7,6 +7,7 @@ const jwtValidator = require('../util/jwtValidator');
 
 const countries = require('./countries');
 const customers = require('./customers');
+const dashboard = require('./dashboard');
 const destinations = require('./destinations');
 const genAI = require('./genAI');
 const account = require('./account');
@@ -15,6 +16,7 @@ const ocr = require('./ocr');
 
 router.use('/countries', countries);
 router.use('/customers', jwtValidator, customers);
+router.use('/dashboard', dashboard);
 router.use('/destinations', destinations);
 router.use('/genAI', genAI);
 router.use('/itineraries', itineraries);

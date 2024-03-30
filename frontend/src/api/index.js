@@ -1,6 +1,7 @@
 import { setCookie, destroyCookie } from '@/utils/cookies';
 import { addCountry, getAllCountries } from './countries';
 import { addCustomer, getAllCustomers } from './customers';
+import { getDashboardDetails } from './dashboard';
 import { addDestination, getAllDestinations, deleteDestinations } from './destinations';
 import api from '../utils/axios.js';
 
@@ -56,4 +57,4 @@ const getUserItineraries = async (userID) => {
   }
 }
 
-export {login, logout, register, addCustomer, getAllCustomers, getUserItineraries, addCountry, getAllCountries, addDestination, getAllDestinations, deleteDestinations};
+export {login, logout, register, getUserItineraries, addCountry, getAllCountries, addCustomer, getAllCustomers, getDashboardDetails, addDestination, getAllDestinations, deleteDestinations};

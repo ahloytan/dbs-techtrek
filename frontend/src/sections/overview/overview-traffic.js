@@ -10,7 +10,8 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  useTheme
+  useTheme,
+  CardMedia
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
 
@@ -63,17 +64,17 @@ const useChartOptions = (labels) => {
 };
 
 const iconMap = {
-  Desktop: (
+  0: (
     <SvgIcon>
       <ComputerDesktopIcon />
     </SvgIcon>
   ),
-  Tablet: (
+  1: (
     <SvgIcon>
       <DeviceTabletIcon />
     </SvgIcon>
   ),
-  Phone: (
+  2: (
     <SvgIcon>
       <PhoneIcon />
     </SvgIcon>
@@ -81,17 +82,20 @@ const iconMap = {
 };
 
 export const OverviewTraffic = (props) => {
-  const { chartSeries, labels, sx } = props;
+  const { sx, trafficByCountry } = props;
+  const donutSeries = trafficByCountry?.map((x) => x.total) ?? [0, 0, 0];
+  const chartSeries = trafficByCountry?.map((x) => x.percentage) ?? [0, 0, 0];
+  const labels = trafficByCountry?.map((x) => x.name)?? ['A', 'B', 'C'];
   const chartOptions = useChartOptions(labels);
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
+      <CardHeader title="Traffic by Country (Top 3)" />
       <CardContent>
         <Chart
           height={300}
           options={chartOptions}
-          series={chartSeries}
+          series={donutSeries}
           type="donut"
           width="100%"
         />
@@ -102,7 +106,7 @@ export const OverviewTraffic = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
-          {chartSeries.map((item, index) => {
+          {chartSeries && chartSeries.map((item, index) => {
             const label = labels[index];
 
             return (
@@ -114,7 +118,13 @@ export const OverviewTraffic = (props) => {
                   alignItems: 'center'
                 }}
               >
-                {iconMap[label]}
+                <CardMedia
+                  component="img"
+                  image={`/assets/countries/${label === 'Others' ? 'placeholder' : label}.svg`}
+                  alt="sas"
+                  sx={{width: 60}}
+                />
+                {/* {iconMap[index]} */}
                 <Typography
                   sx={{ my: 1 }}
                   variant="h6"
@@ -125,7 +135,7 @@ export const OverviewTraffic = (props) => {
                   color="text.secondary"
                   variant="subtitle2"
                 >
-                  {item}%
+                  {item.toFixed(0)}%
                 </Typography>
               </Box>
             );
@@ -137,7 +147,6 @@ export const OverviewTraffic = (props) => {
 };
 
 OverviewTraffic.propTypes = {
-  chartSeries: PropTypes.array.isRequired,
-  labels: PropTypes.array.isRequired,
+  trafficByCountry: PropTypes.array,
   sx: PropTypes.object
 };

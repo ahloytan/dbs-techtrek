@@ -20,7 +20,7 @@ SET row_security = off;
 
 --
 -- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
---	
+--
 
 
 --
@@ -34,7 +34,8 @@ SET row_security = off;
 --
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
-	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-23 10:05:01.568272+00', '{"role_id": 1, "provider": "email", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-03-23 10:05:01.570426+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', '87caa20c-2357-4839-b8b3-0204105a49de', 'authenticated', 'authenticated', 'user3@user.com', '$2a$10$og3s6n258Xg72ByS4iwPR.JgCjwrD17H9.Sz.Wk7HtMdHyxYZOZ7i', '2024-03-25 15:22:22.285123+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-26 11:03:16.17083+00', '{"role_id": 2, "provider": "email", "full_name": "user3", "providers": ["email"]}', '{"sub": "87caa20c-2357-4839-b8b3-0204105a49de", "email": "user3@user.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-25 15:22:22.276307+00', '2024-03-26 11:03:16.172439+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-30 06:29:01.638862+00', '{"role_id": 1, "provider": "email", "full_name": "Aloysius Tan", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-03-30 06:29:01.642821+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -42,7 +43,8 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 --
 
 INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "provider", "last_sign_in_at", "created_at", "updated_at", "id") VALUES
-	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', 'email', '2024-03-13 06:59:25.07795+00', '2024-03-13 06:59:25.078043+00', '2024-03-13 06:59:25.078043+00', '27e35c4c-4801-4136-9bdf-147d1f5d4c64');
+	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', 'email', '2024-03-13 06:59:25.07795+00', '2024-03-13 06:59:25.078043+00', '2024-03-13 06:59:25.078043+00', '27e35c4c-4801-4136-9bdf-147d1f5d4c64'),
+	('87caa20c-2357-4839-b8b3-0204105a49de', '87caa20c-2357-4839-b8b3-0204105a49de', '{"sub": "87caa20c-2357-4839-b8b3-0204105a49de", "email": "user3@user.com", "email_verified": false, "phone_verified": false}', 'email', '2024-03-25 15:22:22.280737+00', '2024-03-25 15:22:22.280789+00', '2024-03-25 15:22:22.280789+00', '4d6ec659-af8c-4833-9ae5-84714dcb0e8a');
 
 
 --
@@ -56,7 +58,7 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 --
 
 INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
-	('681fceb2-b891-4bb4-abc1-54023f5e4837', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-03-23 10:05:01.568354+00', '2024-03-23 10:05:01.568354+00', NULL, 'aal1', NULL, NULL, 'node', '54.179.153.251', NULL);
+	('a4a2cb37-c19f-4ab0-93af-806fa548206e', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-03-30 06:29:01.638973+00', '2024-03-30 06:29:01.638973+00', NULL, 'aal1', NULL, NULL, 'node', '13.214.217.25', NULL);
 
 
 --
@@ -64,7 +66,7 @@ INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "fac
 --
 
 INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
-	('681fceb2-b891-4bb4-abc1-54023f5e4837', '2024-03-23 10:05:01.570953+00', '2024-03-23 10:05:01.570953+00', 'password', '23b14064-f57a-4219-ba89-6d4e63a3b7c8');
+	('a4a2cb37-c19f-4ab0-93af-806fa548206e', '2024-03-30 06:29:01.643636+00', '2024-03-30 06:29:01.643636+00', 'password', '645c16e1-1823-4aaa-8f51-c4a4affeac57');
 
 
 --
@@ -84,7 +86,7 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 --
 
 INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
-	('00000000-0000-0000-0000-000000000000', 22, 'Fb7v0JmLfsTeKyku7eRMOQ', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-23 10:05:01.569301+00', '2024-03-23 10:05:01.569301+00', NULL, '681fceb2-b891-4bb4-abc1-54023f5e4837');
+	('00000000-0000-0000-0000-000000000000', 43, 'KgVHlWJRZKz6BuxWdBkYVA', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 06:29:01.640803+00', '2024-03-30 06:29:01.640803+00', NULL, 'a4a2cb37-c19f-4ab0-93af-806fa548206e');
 
 
 --
@@ -163,19 +165,19 @@ INSERT INTO "public"."destination" ("id", "country_id", "cost", "name", "notes",
 	(8, 3, 10, 'Palace of Versailles', 'Opulent royal château near Paris', 'palace-versailles'),
 	(9, 4, 25, 'Statue of Liberty', 'Symbol of freedom in New York City', 'statue-liberty'),
 	(10, 4, 30, 'Grand Canyon', 'Spectacular natural gorge in Arizona', 'grand-canyon'),
-	(11, 4, 12, 'Disneyland', 'Famous theme park in California', 'disneyland-disneyland'),
 	(12, 2, 18, 'Mount Fuji', 'Japan''s highest peak', 'mount-fuji'),
 	(13, 2, 10, 'Tokyo Disneyland', 'Disney theme park in Tokyo', 'tokyo-disneyland'),
 	(14, 2, 20, 'Hiroshima Peace Memorial', 'Monument to commemorate victims of the atomic bomb', 'hpm'),
-	(15, 5, 17, 'Colosseum', 'Ancient amphitheater in Rome', 'colosseum-colosseum'),
 	(16, 5, 12, 'Venice Canals', 'Romantic waterways in Venice', 'venice-canals'),
 	(17, 5, 15, 'Leaning Tower of Pisa', 'Iconic leaning tower in Pisa, Italy', 'ltp'),
 	(18, 6, 22, 'Sydney Opera House', 'Iconic performing arts venue', 'soh'),
 	(19, 6, 10, 'Great Barrier Reef', 'World''s largest coral reef system', 'gbr'),
 	(20, 6, 18, 'Uluru (Ayers Rock)', 'Massive sandstone monolith in the Outback', 'uar'),
 	(21, 7, 14, 'Sagrada Familia', 'Gaudí''s unfinished masterpiece in Barcelona', 'sagrada-familia'),
-	(22, 7, 16, 'Alhambra', 'Stunning Moorish palace in Granada', 'alhambra-alhambra'),
-	(23, 7, 8, 'Park Güell', 'Artistic park also designed by Gaudí', 'park-guell');
+	(23, 7, 8, 'Park Güell', 'Artistic park also designed by Gaudí', 'park-guell'),
+	(11, 4, 12, 'Disneyland', 'Famous theme park in California', 'disneyland-california'),
+	(15, 5, 17, 'Colosseum', 'Ancient amphitheater in Rome', 'colosseum'),
+	(22, 7, 16, 'Alhambra', 'Stunning Moorish palace in Granada', 'alhambra');
 
 
 --
@@ -187,7 +189,10 @@ INSERT INTO "public"."itinerary" ("id", "country_id", "user_id", "budget", "titl
 	(2, 1, 1, 800, 'Gardens by the Bay: Nature''s Wonderland in the City', 'gbtb'),
 	(3, 1, 2, 600, 'Kampong Glam Adventure: History, Street Art & Malay Cuisine', 'kampong-glam'),
 	(4, 2, 1, 3500, 'Tokyo Trek: Exploring the Vibrant Metropolis', 'tokyo-trek'),
-	(5, 2, 1, 2800, 'Hokkaido Highlights: Nature''s Playground', 'hokkaido');
+	(5, 2, 1, 2800, 'Hokkaido Highlights: Nature''s Playground', 'hokkaido'),
+	(6, 4, 1, 750, 'Famous theme park in California', 'disneyland-california'),
+	(7, 4, 1, 400, 'Spectacular natural gorge in Arizona', 'grand-canyon'),
+	(8, 7, 1, 1500, 'Gaudí''s unfinished masterpiece in Barcelona', 'sagrada-familia');
 
 
 --
@@ -200,7 +205,10 @@ INSERT INTO "public"."itinerary_destination" ("id", "destination_id", "itinerary
 	(3, 3, 1),
 	(4, 4, 2),
 	(5, 5, 2),
-	(6, 2, 3);
+	(6, 2, 3),
+	(8, 11, 6),
+	(9, 10, 7),
+	(10, 21, 8);
 
 
 --
@@ -208,7 +216,8 @@ INSERT INTO "public"."itinerary_destination" ("id", "destination_id", "itinerary
 --
 
 INSERT INTO "public"."user_account" ("id", "full_name", "role_id") VALUES
-	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'Aloysius Tan', 1);
+	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'Aloysius Tan', 1),
+	('87caa20c-2357-4839-b8b3-0204105a49de', 'user3', 2);
 
 
 --
@@ -233,7 +242,7 @@ INSERT INTO "public"."user_account" ("id", "full_name", "role_id") VALUES
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 22, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 43, true);
 
 
 --
@@ -268,14 +277,14 @@ SELECT pg_catalog.setval('"public"."destination_id_seq"', 23, true);
 -- Name: itinerary_destination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 10, true);
 
 
 --
 -- Name: itinerary_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."itinerary_id_seq"', 5, true);
+SELECT pg_catalog.setval('"public"."itinerary_id_seq"', 8, true);
 
 
 --

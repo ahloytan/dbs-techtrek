@@ -108,11 +108,16 @@ export const OverviewSales = (props) => {
   const { chartSeries, sx } = props;
   const chartOptions = useChartOptions();
 
+  const refreshDashboardDetails = () => {
+    console.log("helo");
+  }
+  
   return (
     <Card sx={sx}>
       <CardHeader
         action={(
           <Button
+            onClick={refreshDashboardDetails}
             color="inherit"
             size="small"
             startIcon={(
