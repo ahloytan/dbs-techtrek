@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
 const logger = require('./modules/logger');
 require('dotenv').config();
 const { FE_PREVIEW_ENDPOINT, FE_ENDPOINT } = process.env;
@@ -23,10 +22,6 @@ app.use('/', apiRouter);
 
 // const bot = require('../modules/telegramBot');
 // bot.launch();
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
 
 app.use(function(err, req, res, next) {
   logger.error(err);

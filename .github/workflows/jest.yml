@@ -1,0 +1,33 @@
+# https://stackoverflow.com/questions/66521958/how-to-access-environment-secrets-from-a-github-workflow
+
+name: Backend Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    environment: dbs-techtrek
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install backend dependencies
+      run: npm install
+      working-directory: backend
+
+    - name: Run backend Jest tests
+      run: npm run test
+      working-directory: backend
