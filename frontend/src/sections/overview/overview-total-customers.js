@@ -5,7 +5,7 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 
 export const OverviewTotalCustomers = (props) => {
-  const { difference, positive = false, sx, value } = props;
+  const { difference, positive = false, sx, value, title } = props;
 
   return (
     <Card sx={sx}>
@@ -21,7 +21,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              {title}
             </Typography>
             <Typography variant="h4">
               {value}

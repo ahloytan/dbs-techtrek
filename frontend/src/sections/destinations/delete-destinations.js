@@ -54,7 +54,7 @@ export default function DeleteDestinationFormDialog({destinations, fetchDestinat
             <TrashIcon />
           </SvgIcon>
         )}
-        sx={{ "marginRight": "15px" }}
+        sx={{ "margin": "0px 15px 5px 0" }}
         variant="contained"
         onClick={openModal}
       >

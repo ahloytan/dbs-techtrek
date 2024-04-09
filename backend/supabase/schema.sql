@@ -12,10 +12,6 @@ SET row_security = off;
 
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
 
-CREATE SCHEMA IF NOT EXISTS "public";
-
-ALTER SCHEMA "public" OWNER TO "pg_database_owner";
-
 COMMENT ON SCHEMA "public" IS 'standard public schema';
 
 CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
@@ -202,25 +198,16 @@ ALTER TABLE "public"."country" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENTIT
 );
 
 CREATE TABLE IF NOT EXISTS "public"."customers" (
-    "id" integer NOT NULL,
     "address" "json" NOT NULL,
     "avatar" character varying(256) NOT NULL,
     "created_at" timestamp(0) without time zone NOT NULL,
     "email" character varying(256) NOT NULL,
     "name" character varying(256) NOT NULL,
-    "phone_number" character varying(256) NOT NULL
+    "phone_number" character varying(256) NOT NULL,
+    "id" "uuid" DEFAULT "auth"."uid"() NOT NULL
 );
 
 ALTER TABLE "public"."customers" OWNER TO "postgres";
-
-ALTER TABLE "public"."customers" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME "public"."customers_id_seq"
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
 
 CREATE TABLE IF NOT EXISTS "public"."destination" (
     "id" integer NOT NULL,
@@ -245,10 +232,10 @@ ALTER TABLE "public"."destination" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDE
 CREATE TABLE IF NOT EXISTS "public"."itinerary" (
     "id" integer NOT NULL,
     "country_id" integer DEFAULT 0 NOT NULL,
-    "user_id" integer DEFAULT 0 NOT NULL,
     "budget" double precision DEFAULT 0 NOT NULL,
     "title" character varying(100) DEFAULT '0'::character varying NOT NULL,
-    "title_image" character varying(100) DEFAULT ''::character varying NOT NULL
+    "title_image" character varying(100) DEFAULT ''::character varying NOT NULL,
+    "user_id" "uuid"
 );
 
 ALTER TABLE "public"."itinerary" OWNER TO "postgres";
@@ -321,10 +308,12 @@ ALTER TABLE ONLY "public"."itinerary"
     ADD CONSTRAINT "itinerarycountryfk" FOREIGN KEY ("country_id") REFERENCES "public"."country"("id");
 
 ALTER TABLE ONLY "public"."itinerary"
-    ADD CONSTRAINT "itineraryuserfk" FOREIGN KEY ("user_id") REFERENCES "public"."customers"("id");
+    ADD CONSTRAINT "public_itinerary_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."customers"("id");
 
 ALTER TABLE ONLY "public"."user_account"
     ADD CONSTRAINT "public_user_account_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
@@ -378,10 +367,6 @@ GRANT ALL ON SEQUENCE "public"."country_id_seq" TO "service_role";
 GRANT ALL ON TABLE "public"."customers" TO "anon";
 GRANT ALL ON TABLE "public"."customers" TO "authenticated";
 GRANT ALL ON TABLE "public"."customers" TO "service_role";
-
-GRANT ALL ON SEQUENCE "public"."customers_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."customers_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."customers_id_seq" TO "service_role";
 
 GRANT ALL ON TABLE "public"."destination" TO "anon";
 GRANT ALL ON TABLE "public"."destination" TO "authenticated";

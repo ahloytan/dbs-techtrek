@@ -23,6 +23,7 @@ SET row_security = off;
 --
 
 
+
 --
 -- Data for Name: flow_state; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
@@ -35,7 +36,7 @@ SET row_security = off;
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
 	('00000000-0000-0000-0000-000000000000', '87caa20c-2357-4839-b8b3-0204105a49de', 'authenticated', 'authenticated', 'user3@user.com', '$2a$10$og3s6n258Xg72ByS4iwPR.JgCjwrD17H9.Sz.Wk7HtMdHyxYZOZ7i', '2024-03-25 15:22:22.285123+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-26 11:03:16.17083+00', '{"role_id": 2, "provider": "email", "full_name": "user3", "providers": ["email"]}', '{"sub": "87caa20c-2357-4839-b8b3-0204105a49de", "email": "user3@user.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-25 15:22:22.276307+00', '2024-03-26 11:03:16.172439+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-03-30 06:29:01.638862+00', '{"role_id": 1, "provider": "email", "full_name": "Aloysius Tan", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-03-30 06:29:01.642821+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-04-03 13:24:30.308754+00', '{"role_id": 1, "provider": "email", "full_name": "Aloysius Tan", "providers": ["email"]}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-04-03 13:24:30.312679+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -57,8 +58,6 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
-	('a4a2cb37-c19f-4ab0-93af-806fa548206e', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-03-30 06:29:01.638973+00', '2024-03-30 06:29:01.638973+00', NULL, 'aal1', NULL, NULL, 'node', '13.214.217.25', NULL);
 
 
 --
@@ -66,7 +65,12 @@ INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "fac
 --
 
 INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
-	('a4a2cb37-c19f-4ab0-93af-806fa548206e', '2024-03-30 06:29:01.643636+00', '2024-03-30 06:29:01.643636+00', 'password', '645c16e1-1823-4aaa-8f51-c4a4affeac57');
+	('a4a2cb37-c19f-4ab0-93af-806fa548206e', '2024-03-30 06:29:01.643636+00', '2024-03-30 06:29:01.643636+00', 'password', '645c16e1-1823-4aaa-8f51-c4a4affeac57'),
+	('3b7ab1ae-7bd8-4850-a74b-a6b4b447859a', '2024-03-30 11:37:59.565078+00', '2024-03-30 11:37:59.565078+00', 'password', '6370435b-86c7-4074-8c25-b08dae1270ad'),
+	('5a2203dd-2f95-4e95-91de-4cd881006056', '2024-03-30 11:46:24.264009+00', '2024-03-30 11:46:24.264009+00', 'password', '592aae90-fd83-4f68-b734-c8630277594a'),
+	('ea6c2ab3-e5b1-4b4d-bdb3-66b2415b036c', '2024-03-30 12:07:52.497766+00', '2024-03-30 12:07:52.497766+00', 'password', 'f05aaea7-cd18-4f73-8193-089995e4874c'),
+	('9cc64d15-1379-43d9-8cdc-b1e311034dfc', '2024-03-31 03:00:32.393815+00', '2024-03-31 03:00:32.393815+00', 'password', '08eb51ef-1259-40ca-bfd9-5dd862375907'),
+	('3ba57d5a-b998-4721-a06f-756e6232474e', '2024-04-03 13:24:30.313456+00', '2024-04-03 13:24:30.313456+00', 'password', '0464f978-35b8-4fff-a751-a2dd116032ac');
 
 
 --
@@ -86,7 +90,12 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 --
 
 INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
-	('00000000-0000-0000-0000-000000000000', 43, 'KgVHlWJRZKz6BuxWdBkYVA', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 06:29:01.640803+00', '2024-03-30 06:29:01.640803+00', NULL, 'a4a2cb37-c19f-4ab0-93af-806fa548206e');
+	('00000000-0000-0000-0000-000000000000', 43, 'KgVHlWJRZKz6BuxWdBkYVA', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 06:29:01.640803+00', '2024-03-30 06:29:01.640803+00', NULL, 'a4a2cb37-c19f-4ab0-93af-806fa548206e'),
+	('00000000-0000-0000-0000-000000000000', 44, 'o0pDN7kS9hlZV5mM0v416w', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 11:37:59.563362+00', '2024-03-30 11:37:59.563362+00', NULL, '3b7ab1ae-7bd8-4850-a74b-a6b4b447859a'),
+	('00000000-0000-0000-0000-000000000000', 45, 'JB5qIHixf61PTeIdI7yhbg', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 11:46:24.262144+00', '2024-03-30 11:46:24.262144+00', NULL, '5a2203dd-2f95-4e95-91de-4cd881006056'),
+	('00000000-0000-0000-0000-000000000000', 46, 'MbrteFtV3TcsnnIHA6aNJg', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-30 12:07:52.495418+00', '2024-03-30 12:07:52.495418+00', NULL, 'ea6c2ab3-e5b1-4b4d-bdb3-66b2415b036c'),
+	('00000000-0000-0000-0000-000000000000', 47, '9Jmx7uqYMY7AOd5AkXIolw', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-03-31 03:00:32.388923+00', '2024-03-31 03:00:32.388923+00', NULL, '9cc64d15-1379-43d9-8cdc-b1e311034dfc'),
+	('00000000-0000-0000-0000-000000000000', 48, '6TXMGxalEp5vNBK9vOmeNg', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-04-03 13:24:30.310994+00', '2024-04-03 13:24:30.310994+00', NULL, '3ba57d5a-b998-4721-a06f-756e6232474e');
 
 
 --
@@ -137,17 +146,17 @@ INSERT INTO "public"."country" ("id", "name") OVERRIDING SYSTEM VALUE VALUES
 -- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."customers" ("id", "address", "avatar", "created_at", "email", "name", "phone_number") OVERRIDING SYSTEM VALUE VALUES
-	(1, '{"city": "Cleveland", "country": "USA", "state": "Ohio", "street": "2849 Fulton Street"}', 'avatar-carson-darrin.webp', '2024-01-15 10:30:00', 'carson.darrin@devias.io', 'Carson Darrin', '304-428-3097'),
-	(2, '{"city": "Atlanta", "country": "USA", "state": "Georgia", "street": "1865 Pleasant Hill Road"}', 'avatar-fran-perez.webp', '2024-01-14 11:30:00', 'fran.perez@devias.io', 'Fran Perez', '712-351-5711'),
-	(3, '{"city": "North Canton", "country": "USA", "state": "Ohio", "street": "4894 Lakeland Park Drive"}', 'avatar-jie-yan-song.webp', '2024-01-14 14:30:00', 'jie.yan.song@devias.io', 'Jie Yan Song', '770-635-2682'),
-	(4, '{"city": "Madrid", "country": "Spain", "state": "Basque Country", "street": "4158 Hedge Street"}', 'dpgc.webp', '2024-01-14 21:30:00', 'aloysiustan.2020@scis.smu.edu.sg', 'Aloysius Tan', '91234567'),
-	(5, '{"city": "San Diego", "country": "USA", "state": "California", "street": "75247"}', 'avatar-miron-vitold.webp', '2024-01-14 17:30:00', 'miron.vitold@devias.io', 'Miron Vitold', '972-333-4106'),
-	(6, '{"city": "Berkeley", "country": "USA", "state": "California", "street": "317 Angus Road"}', 'avatar-penjani-inyene.webp', '2024-01-14 15:30:00', 'penjani.inyene@devias.io', 'Penjani Inyene', '858-602-3409'),
-	(7, '{"city": "Carson City", "country": "USA", "state": "Nevada", "street": "2188 Armbrester Drive"}', 'avatar-omar-darboe.webp', '2024-01-14 09:30:00', 'omar.darobe@devias.io', 'Omar Darobe', '415-907-2647'),
-	(8, '{"city": "Los Angeles", "country": "USA", "state": "California", "street": "1798 Hickory Ridge Drive"}', 'avatar-siegbert-gottfried.webp', '2024-01-14 12:30:00', 'siegbert.gottfried@devias.io', 'Siegbert Gottfried', '702-661-1654'),
-	(9, '{"city": "Murray", "country": "USA", "state": "Utah", "street": "3934 Wildrose Lane"}', 'avatar-iulia-albu.webp', '2024-01-14 16:30:00', 'iulia.albu@devias.io', 'Iulia Albu', '313-812-8947'),
-	(10, '{"city": "Salt Lake City", "country": "USA", "state": "Utah", "street": "368 Lamberts Branch Road"}', 'avatar-nasimiyu-danai.webp', '2024-01-14 19:30:00', 'nasimiyu.danai@devias.io', 'Nasimiyu Danai', '801-301-7894');
+INSERT INTO "public"."customers" ("address", "avatar", "created_at", "email", "name", "phone_number", "id") VALUES
+	('{"city": "Cleveland", "state": "Ohio", "street": "2849 Fulton Street", "country": "USA"}', 'avatar-carson-darrin.webp', '2024-01-15 10:30:00', 'carson.darrin@devias.io', 'Carson Darrin', '304-428-3097', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	('{"city": "Atlanta", "state": "Georgia", "street": "1865 Pleasant Hill Road", "country": "USA"}', 'avatar-fran-perez.webp', '2024-01-14 11:30:00', 'fran.perez@devias.io', 'Fran Perez', '712-351-5711', '87caa20c-2357-4839-b8b3-0204105a49de'),
+	('{"city": "North Canton", "state": "Ohio", "street": "4894 Lakeland Park Drive", "country": "USA"}', 'avatar-jie-yan-song.webp', '2024-01-14 14:30:00', 'jie.yan.song@devias.io', 'Jie Yan Song', '770-635-2682', '72f310ff-3362-4ad4-a7e9-850b960a031a'),
+	('{"city": "Madrid", "state": "Basque Country", "street": "4158 Hedge Street", "country": "Spain"}', 'dpgc.webp', '2024-01-14 21:30:00', 'aloysiustan.2020@scis.smu.edu.sg', 'Aloysius Tan', '91234567', '85c38a7d-9954-485b-9e41-c12611f36edf'),
+	('{"city": "San Diego", "state": "California", "street": "75247", "country": "USA"}', 'avatar-miron-vitold.webp', '2024-01-14 17:30:00', 'miron.vitold@devias.io', 'Miron Vitold', '972-333-4106', '047df30f-af7b-4e21-ab3c-ddf04fa0778c'),
+	('{"city": "Berkeley", "state": "California", "street": "317 Angus Road", "country": "USA"}', 'avatar-penjani-inyene.webp', '2024-01-14 15:30:00', 'penjani.inyene@devias.io', 'Penjani Inyene', '858-602-3409', '28fe16e0-a083-45c5-b5e1-3575476b8395'),
+	('{"city": "Carson City", "state": "Nevada", "street": "2188 Armbrester Drive", "country": "USA"}', 'avatar-omar-darboe.webp', '2024-01-14 09:30:00', 'omar.darobe@devias.io', 'Omar Darobe', '415-907-2647', '3a875f70-c21d-4a67-ad60-5c258fd3407b'),
+	('{"city": "Los Angeles", "state": "California", "street": "1798 Hickory Ridge Drive", "country": "USA"}', 'avatar-siegbert-gottfried.webp', '2024-01-14 12:30:00', 'siegbert.gottfried@devias.io', 'Siegbert Gottfried', '702-661-1654', '436440af-e58a-471e-81e1-2da6c6ac2a0a'),
+	('{"city": "Murray", "state": "Utah", "street": "3934 Wildrose Lane", "country": "USA"}', 'avatar-iulia-albu.webp', '2024-01-14 16:30:00', 'iulia.albu@devias.io', 'Iulia Albu', '313-812-8947', '76ee136f-4ad4-4035-ae7d-ad8e222fdab0'),
+	('{"city": "Salt Lake City", "state": "Utah", "street": "368 Lamberts Branch Road", "country": "USA"}', 'avatar-nasimiyu-danai.webp', '2024-01-14 19:30:00', 'nasimiyu.danai@devias.io', 'Nasimiyu Danai', '801-301-7894', '7868d62d-081c-4b54-9b2e-9e5515bf62a4');
 
 
 --
@@ -184,15 +193,17 @@ INSERT INTO "public"."destination" ("id", "country_id", "cost", "name", "notes",
 -- Data for Name: itinerary; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."itinerary" ("id", "country_id", "user_id", "budget", "title", "title_image") OVERRIDING SYSTEM VALUE VALUES
-	(1, 1, 1, 500, 'Sentosa Serenity: Island Escapes & Tropical Delights', 'sentosa'),
-	(2, 1, 1, 800, 'Gardens by the Bay: Nature''s Wonderland in the City', 'gbtb'),
-	(3, 1, 2, 600, 'Kampong Glam Adventure: History, Street Art & Malay Cuisine', 'kampong-glam'),
-	(4, 2, 1, 3500, 'Tokyo Trek: Exploring the Vibrant Metropolis', 'tokyo-trek'),
-	(5, 2, 1, 2800, 'Hokkaido Highlights: Nature''s Playground', 'hokkaido'),
-	(6, 4, 1, 750, 'Famous theme park in California', 'disneyland-california'),
-	(7, 4, 1, 400, 'Spectacular natural gorge in Arizona', 'grand-canyon'),
-	(8, 7, 1, 1500, 'Gaudí''s unfinished masterpiece in Barcelona', 'sagrada-familia');
+INSERT INTO "public"."itinerary" ("id", "country_id", "budget", "title", "title_image", "user_id") OVERRIDING SYSTEM VALUE VALUES
+	(1, 1, 500, 'Sentosa Serenity: Island Escapes & Tropical Delights', 'sentosa', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(2, 1, 800, 'Gardens by the Bay: Nature''s Wonderland in the City', 'gbtb', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(3, 1, 600, 'Kampong Glam Adventure: History, Street Art & Malay Cuisine', 'kampong-glam', '87caa20c-2357-4839-b8b3-0204105a49de'),
+	(4, 2, 3500, 'Tokyo Trek: Exploring the Vibrant Metropolis', 'tokyo-trek', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(5, 2, 2800, 'Hokkaido Highlights: Nature''s Playground', 'hokkaido', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(6, 4, 750, 'Famous theme park in California', 'disneyland-california', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(7, 4, 400, 'Spectacular natural gorge in Arizona', 'grand-canyon', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(8, 7, 1500, 'Gaudí''s unfinished masterpiece in Barcelona', 'sagrada-familia', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'),
+	(9, 6, 750, 'Iconic performing arts venue', 'soh', '87caa20c-2357-4839-b8b3-0204105a49de'),
+	(10, 6, 275, 'World''s largest coral reef system', 'gbr', '87caa20c-2357-4839-b8b3-0204105a49de');
 
 
 --
@@ -200,15 +211,19 @@ INSERT INTO "public"."itinerary" ("id", "country_id", "user_id", "budget", "titl
 --
 
 INSERT INTO "public"."itinerary_destination" ("id", "destination_id", "itinerary_id") OVERRIDING SYSTEM VALUE VALUES
-	(1, 1, 1),
-	(2, 2, 1),
-	(3, 3, 1),
-	(4, 4, 2),
-	(5, 5, 2),
-	(6, 2, 3),
-	(8, 11, 6),
-	(9, 10, 7),
-	(10, 21, 8);
+	(15, 1, 1),
+	(16, 2, 1),
+	(17, 3, 1),
+	(18, 4, 2),
+	(19, 5, 2),
+	(20, 2, 3),
+	(21, 11, 6),
+	(22, 10, 7),
+	(23, 21, 8),
+	(24, 12, 4),
+	(25, 14, 5),
+	(26, 18, 9),
+	(27, 19, 10);
 
 
 --
@@ -242,7 +257,7 @@ INSERT INTO "public"."user_account" ("id", "full_name", "role_id") VALUES
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 43, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 48, true);
 
 
 --
@@ -260,13 +275,6 @@ SELECT pg_catalog.setval('"public"."country_id_seq"', 3, true);
 
 
 --
--- Name: customers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('"public"."customers_id_seq"', 10, true);
-
-
---
 -- Name: destination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -277,14 +285,14 @@ SELECT pg_catalog.setval('"public"."destination_id_seq"', 23, true);
 -- Name: itinerary_destination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 10, true);
+SELECT pg_catalog.setval('"public"."itinerary_destination_id_seq"', 27, true);
 
 
 --
 -- Name: itinerary_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."itinerary_id_seq"', 8, true);
+SELECT pg_catalog.setval('"public"."itinerary_id_seq"', 10, true);
 
 
 --

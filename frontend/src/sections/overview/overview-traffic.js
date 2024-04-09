@@ -83,9 +83,9 @@ const iconMap = {
 
 export const OverviewTraffic = (props) => {
   const { sx, trafficByCountry } = props;
-  const donutSeries = trafficByCountry?.map((x) => x.total) ?? [0, 0, 0];
-  const chartSeries = trafficByCountry?.map((x) => x.percentage) ?? [0, 0, 0];
-  const labels = trafficByCountry?.map((x) => x.name)?? ['A', 'B', 'C'];
+  const donutSeries = trafficByCountry?.map((x) => x.total) ?? [33, 33, 33];
+  const chartSeries = trafficByCountry?.map((x) => x.percentage) ?? [33, 33, 33];
+  const labels = trafficByCountry?.map((x) => x.name) ?? ['Others', 'Others', 'Others'];
   const chartOptions = useChartOptions(labels);
 
   return (
@@ -111,7 +111,7 @@ export const OverviewTraffic = (props) => {
 
             return (
               <Box
-                key={label}
+                key={label + index}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',

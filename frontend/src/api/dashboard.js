@@ -10,4 +10,14 @@ const getDashboardDetails = async () => {
   }
 }
 
-export {getDashboardDetails};
+const getUserDashboardDetails = async (userId) => {
+  try {
+      const { data: { dashboard } } = await api.get(`/dashboard/user/${userId}`);
+      return dashboard
+
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+export {getDashboardDetails, getUserDashboardDetails};

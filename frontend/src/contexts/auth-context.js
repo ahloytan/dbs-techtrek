@@ -83,10 +83,11 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const [sessionId, fullName, roleId, email] = getUserDetailsFromJwt();
+      const [sessionId, fullName, userId, roleId, email] = getUserDetailsFromJwt();
 
       const user = {
         id: sessionId,
+        userId: userId,
         avatar: '/assets/avatars/dpgc.webp',
         name: fullName,
         email,
@@ -114,9 +115,10 @@ export const AuthProvider = (props) => {
 
   const signIn = async (email, password) => {
     await login(email, password);
-    const [sessionId, fullName, roleId] = getUserDetailsFromJwt();
+    const [sessionId, fullName, userId, roleId] = getUserDetailsFromJwt();
     const user = {
       id: sessionId,
+      userId: userId,
       avatar: '/assets/avatars/dpgc.webp',
       name: fullName,
       email,

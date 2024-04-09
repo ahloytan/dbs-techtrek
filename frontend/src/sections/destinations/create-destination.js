@@ -74,9 +74,7 @@ export default function CreateDestinationFormDialog({countries, fetchDestination
                 <PlusIcon />
             </SvgIcon>
         )}
-        sx={{
-            marginRight: "20px"
-        }}
+        sx={{ "margin": "0 0 5px 0" }}
         variant="contained" 
         onClick={openModal}
       >
