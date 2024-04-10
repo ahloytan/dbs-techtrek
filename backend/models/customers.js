@@ -1,9 +1,7 @@
 'use strict';
 
 const dateFNS = require('date-fns');
-const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { supabase } = require('../util/db.js');
 const customersTable = 'customers';
 
 module.exports = {  

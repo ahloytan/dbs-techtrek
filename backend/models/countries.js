@@ -1,14 +1,11 @@
 'use strict';
 
-const dateFNS = require('date-fns');
-const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { supabase } = require('../util/db.js');
 const countriesTable = 'country';
 
 module.exports = {  
   async addCountry(name) {
-    const doesCountryExist = await this.getCustomer(name);
+    const doesCountryExist = await this.getCountry(name);
     if (doesCountryExist.length > 0) throw new Error("Country already exist!"); 
 
     const { data, error } = await supabase
@@ -39,4 +36,13 @@ module.exports = {
 
     return data;
   },
+  async deleteCountries(names) {
+    const { error } = await supabase
+    .from(countriesTable)
+    .delete()
+    .in('name', names)
+
+    if (error) throw new Error(error.message);
+  }
+
 };

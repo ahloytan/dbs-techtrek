@@ -31,9 +31,9 @@ router.get('/', async function (req, res, next) {
 
 router.delete('/', async function (req, res, next) {
     try {
-        const ids = req.body;
-        await Countries.deleteDestination(ids);
-        res.json({ 'message': `Countries with id: ${ids} has been successfully deleted!` });
+        const { names } = req.body;
+        await Countries.deleteCountries(names);
+        res.json({ 'message': `Countries with names: ${names} has been successfully deleted!` });
         
     } catch (error) {
         logger.warn(error);
