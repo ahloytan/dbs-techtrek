@@ -13,12 +13,14 @@ import {
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { DestinationCard } from 'src/sections/destinations/destination-card';
 import { DestinationsSearch } from 'src/sections/destinations/destinations-search';
-import { getAllDestinations, getAllCountries } from '@/api/index.js';
+import { getAllDestinations } from '@/api/destinations';
+import { getAllCountries } from '@/api/countries';
 import { useEffect, useState } from 'react';
 import DeleteDestinationFormDialog from '../sections/destinations/delete-destinations.js';
 import CreateDestinationFormDialog from '../sections/destinations/create-destination.js';
 import Snackbar from '@/components/snackbar.js';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { mkConfig, generateCsv, download } from "export-to-csv";
 
 const Page = () => {
   const { user } = useAuthContext();
@@ -48,6 +50,11 @@ const Page = () => {
     fetchDestinations();
   }, []);
 
+  const exportDestinations = () => {
+    const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'destinations' });
+    const csv = generateCsv(csvConfig)(destinationsList);
+    download(csvConfig)(csv);
+  }
 
   return (
   <>
@@ -96,6 +103,7 @@ const Page = () => {
                       <ArrowDownOnSquareIcon />
                     </SvgIcon>
                   )}
+                  onClick={exportDestinations}
                 >
                   Export
                 </Button>

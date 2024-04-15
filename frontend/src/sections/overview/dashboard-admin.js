@@ -9,7 +9,7 @@ import { OverviewTasksProgress } from './overview-tasks-progress';
 import { OverviewTotalCustomers } from './overview-total-customers';
 import { OverviewTotalProfit } from './overview-total-profit';
 import { OverviewTraffic } from './overview-traffic';
-import { getDashboardDetails } from '@/api/index.js';
+import { getDashboardDetails } from '@/api/dashboard';
 
 
 const now = new Date();

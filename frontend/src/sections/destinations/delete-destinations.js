@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setSnackbarStatus } from '@/store/index';
 import { Button, SvgIcon, Select, MenuItem, Dialog, Stack, DialogActions, DialogContent, DialogTitle, Typography, FormControl } from '@mui/material';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
-import { deleteDestinations } from '@/api/index.js';
+import { deleteDestinations } from '@/api/destinations';
 
 const MenuProps = {
   PaperProps: {

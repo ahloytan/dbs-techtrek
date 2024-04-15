@@ -5,7 +5,7 @@ import { setSnackbarStatus } from '@/store/index';
 import * as Yup from 'yup';
 import { Button, SvgIcon, Select, MenuItem, Dialog, Stack, DialogActions, DialogContent, DialogTitle, TextField, Typography, InputLabel, FormControl } from '@mui/material';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { addCustomer } from '@/api/index.js';
+import { addCustomer } from '@/api/customers';
 
 export default function FormDialog({fetchCustomers}) {
   const dispatch = useDispatch();

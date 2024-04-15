@@ -8,7 +8,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
-import { getAllCustomers } from '@/api/index.js';
+import { getAllCustomers } from '@/api/customers';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import FormDialog from '../sections/customer/create-customer.js';
 import Snackbar from '@/components/snackbar.js';
@@ -77,7 +77,7 @@ const Page = () => {
   }
 
   const exportCustomerRecords = () => {
-    const csvConfig = mkConfig({ useKeysAsHeaders: true });
+    const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'customers' });
     const csv = generateCsv(csvConfig)(customersList);
     download(csvConfig)(csv);
   }
