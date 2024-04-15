@@ -9,18 +9,18 @@ const countries = require('./countries');
 const customers = require('./customers');
 const dashboard = require('./dashboard');
 const destinations = require('./destinations');
-const genAI = require('./genAI');
+const llm = require('./llm');
 const account = require('./account');
 const itineraries = require('./itineraries');
 const ocr = require('./ocr');
 
-router.use('/countries', countries);
+router.use('/countries', jwtValidator, countries);
 router.use('/customers', jwtValidator, customers);
-router.use('/dashboard', dashboard);
-router.use('/destinations', destinations);
-router.use('/genAI', genAI);
-router.use('/itineraries', itineraries);
+router.use('/dashboard', jwtValidator, dashboard);
+router.use('/destinations', jwtValidator, destinations);
+router.use('/llm', jwtValidator, llm);
+router.use('/itineraries', jwtValidator, itineraries);
 router.use('/account', account);
-router.use('/ocr', ocr);
+router.use('/ocr', jwtValidator, ocr);
 
 module.exports = router;

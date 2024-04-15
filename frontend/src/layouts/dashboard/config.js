@@ -1,11 +1,14 @@
-import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
-import UserIcon from '@heroicons/react/24/solid/UserIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
-import DocumentIcon from '@heroicons/react/24/solid/DocumentIcon';
-import MapPinIcon from '@heroicons/react/24/solid/MapPinIcon';
-import ArrowLeftOnRectangleIcon from '@heroicons/react/24/solid/ArrowLeftOnRectangleIcon';
+import { 
+  ArrowLeftOnRectangleIcon, 
+  ChatBubbleBottomCenterTextIcon, 
+  MapPinIcon, 
+  DocumentIcon, 
+  UsersIcon, 
+  UserIcon, 
+  ShoppingBagIcon, 
+  CogIcon, 
+  ChartBarIcon 
+} from '@heroicons/react/24/solid';
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -81,6 +84,15 @@ export const adminItems = [
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Generative AI',
+    path: '/llm',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChatBubbleBottomCenterTextIcon />
       </SvgIcon>
     )
   },
