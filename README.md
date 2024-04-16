@@ -37,9 +37,10 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 2. Ensure that you have a `.env` file with all the credentials in the root folder
 ```
 CHATGPT_API=""
-BARD_COOKIE="" 
+GEMINI_API_KEY="" 
 TELEGRAM_BOT_TOKEN=""
 FE_ENDPOINT=""
+FE_PREVIEW_ENDPOINT=""
 SUPABASE_URL=""
 SUPABASE_ANON_KEY=""
 ```
@@ -90,10 +91,11 @@ SUPABASE_ANON_KEY=""
 
 5. [supabase](https://www.npmjs.com/package/@supabase/supabase-js) - Isomorphic JavaScript Client for Supabase
 6. [telegraf](https://www.npmjs.com/package/telegraf) - Telegram bot
-7. [bard](https://www.npmjs.com/package/bard-ai-google) - Bard
+7. [gemini](https://www.npmjs.com/package/@google/generative-ai) - Google GenAI
 8. [chatgpt](https://github.com/PawanOsman/ChatGPT) - ChatGPT
 9. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
 10. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK (Alternative NoSQL database)
+11. [jest](https://jestjs.io/) - JavaScript Testing Framework
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

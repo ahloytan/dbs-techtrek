@@ -1,5 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
+let Countries = require('../models/countries');
+let Dashboard = require('../models/dashboard');
 
 describe("Test health check", () => {
     test("It should response with 'ok'", async () => {
@@ -10,48 +12,42 @@ describe("Test health check", () => {
 });
 
 describe("Test countries API", () => {
-    // test("POST country", async () => {
-    //     const response = await request(app)
-    //                             .post("/countries")
-    //                             .send({ name });
+    test("POST country", async () => {
+        const response = await Countries.addCountry('Canada');
 
-    //     expect(response.statusCode).toBe(200);
-    //     expect(response.body.message).toEqual(`Country: ${name} has been successfully created!`);
-    // });
-
-    test("POST country - duplicate", async () => {
-        const response = await request(app)
-                                .post("/countries")
-                                .send({ name: 'Singapore' });
-
-        expect(response.statusCode).toBe(500);
-        expect(response.body.message).toEqual(`Country already exist!`);
+        expect(response).toHaveLength(1);
+        expect(response).toContainEqual({'id': expect.any(Number), 'name': 'Canada'});
     });
 
-    // test("DELETE countries", async () => {
-    //     const response = await request(app)
-    //                             .delete("/countries")
-    //                             .send({ names: [name] });
+    test("POST country - duplicate", async () => {
+        try {
+            await Countries.addCountry('Singapore');
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error);
+            expect(error).toHaveProperty('message', `Country already exist!`);
+        }
+    });
 
-    //     expect(response.statusCode).toBe(200);
-    //     expect(response.body.message).toEqual(`Countries with names: ${name} has been successfully deleted!`);
-    // });
+    test("DELETE countries", async () => {
+        await Countries.deleteCountries(['Canada']);
+        const response = await Countries.getAllCountries();
+        expect(response).toHaveLength(7);
+    });
 
     test("GET countries", async () => {
-        const response = await request(app).get("/countries");
         const singapore = {id: 1, name: 'Singapore'};
-        expect(response.statusCode).toBe(200);
-        expect(response.body.countries).toHaveLength(7);
-        expect(response.body.countries).toContainEqual(singapore);
+        const response = await Countries.getAllCountries();
+        expect(response).toHaveLength(7);
+        expect(response).toContainEqual(singapore);
+
     });
 
 });
 
 describe("Test dashboard API", () => {
     test("GET dashboard", async () => {
-        const response = await request(app).get("/dashboard");
-        expect(response.statusCode).toBe(200);
-        expect(response.body.dashboard).toEqual(
+        const response = await Dashboard.getDashboardDetails();
+        expect(response).toEqual(
             expect.objectContaining({
                 'totalBudget': expect.any(Number),
                 'uniqueCustomers': expect.any(Number),
@@ -59,7 +55,7 @@ describe("Test dashboard API", () => {
                 'trafficByCountry': expect.arrayContaining([])
             })
         );
-        expect(response.body.dashboard.trafficByCountry).toHaveLength(3);
+        expect(response.trafficByCountry).toHaveLength(3);
     });
 });
 
