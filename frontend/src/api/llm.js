@@ -8,7 +8,7 @@ const sendPromptToLLM = async (model, prompt) => {
     return data;
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    // throw new Error(error);
   }
 }
 

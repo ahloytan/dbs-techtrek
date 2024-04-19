@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import Head from 'next/head';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -43,6 +43,7 @@ const Page = () => {
   const customers = useCustomers(filteredCustomersList, page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  const customersRecordsFile = useRef(null) 
 
   const fetchCustomers = async () => {
     const customers = await getAllCustomers();
@@ -82,6 +83,10 @@ const Page = () => {
     download(csvConfig)(csv);
   }
 
+  const importCustomerRecords = () => {
+    customersRecordsFile.current.click();
+  }
+
   return (
     <>
       <Head>
@@ -119,6 +124,7 @@ const Page = () => {
                         <ArrowUpOnSquareIcon />
                       </SvgIcon>
                     )}
+                    onClick={importCustomerRecords}
                   >
                     Import
                   </Button>
@@ -133,6 +139,7 @@ const Page = () => {
                   >
                     Export
                   </Button>
+                  <input type='file' id='file' ref={customersRecordsFile} style={{display: 'none'}}/>
                 </Stack>
               </Stack>
               { 

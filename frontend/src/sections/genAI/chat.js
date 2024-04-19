@@ -11,7 +11,7 @@ export default function Chat ({chatHistory}) {
                         />
         
                         <div className="flex max-w-full items-center">
-                            <p>{msg}</p>
+                            <p>{[msg]}</p>
                         </div>
                     </div>
                 ) : (
@@ -24,7 +24,7 @@ export default function Chat ({chatHistory}) {
                             />
             
                             <div className="flex max-w-full items-center rounded-xl">
-                                <p>{msg}</p>
+                                <p>{[msg]}</p>
                             </div>
                         </div>
                     </div>

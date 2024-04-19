@@ -40,6 +40,15 @@ export const items = [
     )
   },
   {
+    title: 'Generative AI',
+    path: '/llm',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChatBubbleBottomCenterTextIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Account',
     path: '/account',
     icon: (
@@ -84,15 +93,6 @@ export const adminItems = [
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Generative AI',
-    path: '/llm',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ChatBubbleBottomCenterTextIcon />
       </SvgIcon>
     )
   },

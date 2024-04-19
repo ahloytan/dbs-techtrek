@@ -112,7 +112,7 @@ const Page = () => {
             { 
               isAdmin && 
               <div>
-                <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/>
+                {/* <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/> */}
                 <CreateDestinationFormDialog countries={countriesList} fetchDestinations={fetchDestinations} />
               </div>
             }

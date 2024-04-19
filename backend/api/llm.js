@@ -41,15 +41,15 @@ router.post('/chatgpt', async (req, res, next) => {
 });
  
 
-
+//https://ai.google.dev/tutorials/get_started_node#multi-turn-conversations-chat
 router.post('/gemini', async (req, res, next) => {
   try {
     const { prompt } = req.body;
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest"});
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro"});
 
     const result = await model.generateContent(prompt);
-    const response = await result.response;
+    const { response } = await result;
 
     res.status(200).json({data: response.text()})
   } catch (error) {

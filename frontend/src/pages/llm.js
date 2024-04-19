@@ -39,11 +39,18 @@ const Page = () => {
 
     const sendPrompt = async () => {
       setPrompt("");
-      chatHistory.push(prompt);
       setIsLoading(true);
       let answer = await sendPromptToLLM(model, prompt);
+      chatHistory.push(prompt);
       chatHistory.push(answer);
       setIsLoading(false);
+    }
+
+    const onEnterKeyPressed = (e) => {
+      if (e.key === 'Enter') {
+        sendPrompt(); 
+        e.preventDefault();
+      }
     }
 
     return (
@@ -147,6 +154,7 @@ const Page = () => {
                     <textarea
                       value={prompt}
                       onChange={handleInputChange}
+                      onKeyDown={(e) => onEnterKeyPressed(e) }
                       id="chat-input"
                       className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pl-10 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-500 sm:text-base"
                       placeholder="Enter your prompt"
