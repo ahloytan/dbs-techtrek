@@ -30,9 +30,9 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-router.get('/one', async function (req, res, next) {
+router.get('/:email', async function (req, res, next) {
     try {
-        let email = 1
+        const { email } = req.params;
         let customers = await Customers.getCustomer(email);
 
         res.json({ customers });
@@ -55,9 +55,10 @@ router.put('/', async function (req, res, next) {
 
 router.delete('/', async function (req, res, next) {
     try {
-        let customer = await Customers.deleteCustomer();
-
-        res.json({ customer });
+        const { ids } = req.body;
+        await Customers.deleteCustomers(ids);
+        res.json({ 'message': `Customers with id: ${ids} has been successfully deleted!` });
+        
     } catch (error) {
         logger.warn(error);
         next(error);

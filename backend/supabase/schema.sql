@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS "public"."customers" (
     "email" character varying(256) NOT NULL,
     "name" character varying(256) NOT NULL,
     "phone_number" character varying(256) NOT NULL,
-    "id" "uuid" DEFAULT "auth"."uid"() NOT NULL
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL
 );
 
 ALTER TABLE "public"."customers" OWNER TO "postgres";

@@ -41,4 +41,13 @@ module.exports = {
 
     return data;
   },
+  
+  async deleteCustomers(ids) {
+    const { error } = await supabase
+    .from(customersTable)
+    .delete()
+    .in('id', ids)
+
+    if (error) throw new Error(error.message);
+  }
 };

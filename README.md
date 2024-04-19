@@ -3,7 +3,7 @@
 A proof of concept full-stack web application for the DBS TechTrek Hackathon on 20th January 2024
 
 # Docs
-- API documentation: https://docs.google.com/document/d/1hWhf-5ytvn-O1q9UHb7SWASgIA3gR9MakcC6iGB-Bwk/edit
+- API documentation: https://docs.google.com/document/d/1uwBqQFhrHikR9pl9s1yidvFapXShNABp_OkhFqPTc8c/edit
 - [How to Set Up](#how-to-set-up)
 - [Tech Stack](#tech-stack)
 - [Contact Me](#contact-me)
