@@ -20,11 +20,11 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 1. Start up Docker Desktop
 2. Open command prompt, type in `cd backend`
 3. Now, to start the Supabase stack, run `npx supabase start`. This will take about 5 minutes as multiple containers are being installed. Note: I'm using NPX
-4. The local development environment includes Supabase Studio, a graphical interface for working with your database, running by default on `localhost:54323`.
+4. The local development environment includes Supabase Studio, a graphical interface for working with your database, running by default on `localhost:54323`
 5. Navigate to the `SQL Editor` tab in the Supabase GUI and run `custom_claims.sql`, `seed_schema.sql`, and `seed_data.sql` in the `backend/supabase` folder
 6. When you are finished working on your Supabase project, you can stop the stack with: `npx supabase stop`
 7. Read the [guide](https://supabase.com/docs/guides/cli/getting-started?platform=npx) for more comprehensive explanation 
-8. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI.
+8. Log in if you are planning to deploy your project to the Supabase Platform by typing `npx supabase login`. This step is optional and is not required to use the Supabase CLI
 9. Refer to [link](https://supabase.com/docs/reference/cli/supabase-migration-list) for the list of migration commands
 
 ## Frontend
@@ -39,6 +39,7 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 CHATGPT_API=""
 GEMINI_API_KEY="" 
 TELEGRAM_BOT_TOKEN=""
+TELEGRAM_SECRET_HASH=""
 FE_ENDPOINT=""
 FE_PREVIEW_ENDPOINT=""
 SUPABASE_URL=""
@@ -48,6 +49,15 @@ SUPABASE_ANON_KEY=""
 4. Open command prompt, type in `cd backend`
 5. If this is your first time setting up the project, type `npm i`
 6. Launch the project using `npm run start`
+
+## Telegram WebHook
+1. Search for `DBSTechTrekBot` in Telegram
+2. Set up `ngrok`. Previously, the service didn't require an auth token. However, it's required now. Sign up an [account](https://dashboard.ngrok.com/get-started/setup/windows). You should see a command like `ngrok config add-authtoken <YOURTOKEN>` to add your auth token. Copy and run that command in the command line. You should see an output `Authtoken saved to configuration file: C:\<YOUR_PATH>/ngrok/ngrok.yml`
+3. Since our server is running on `http://localhost:5000`, we need to expose our port by typing `ngrok http 5000` in the terminal
+4. Beside the `Forwarding` property, we should see an `ngrok` url like `https://4f70-219-74-105-56.ngrok-free.app`. Go to `https://<ngrok-url>/telegram?setWebhook=true` to set bot webhook url. (Note: During development, the `ngrok` url will change everything you expose your port, which means you will have to set the webhook again whenever you restart it)
+5. Message the bot or use any of its commands in Telegram to see it in action 
+6. When hosting, repeat step 4 to set the bot's webhook url in production. The `ngrok-url` will be replaced with our production backend url
+7. Note - To view/delete the web hook respectively: `https://api.telegram.org/bot<BOT_TOKEN>/getWebhookInfo`, `https://api.telegram.org/bot<BOT_TOKEN>/deleteWebhook`, 
 
 ## Deployment
 1. If you have not set up the deployment projects, head over to Vercel and create 2 repository on your own (1 for the frontend, another for the backend)
@@ -96,6 +106,7 @@ SUPABASE_ANON_KEY=""
 9. [ocr](https://www.npmjs.com/package/ocr-space-api-wrapper) - Optical character recognition
 10. [firebase-admin](https://www.npmjs.com/package/firebase-admin) - Firebase SDK (Alternative NoSQL database)
 11. [jest](https://jestjs.io/) - JavaScript Testing Framework
+12. [ngrok](https://www.npmjs.com/package/ngrok) - Creates secure tunnels (paths) to localhost machine. Exposes a local development server to the Internet
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -106,5 +117,6 @@ SUPABASE_ANON_KEY=""
 # Useful links
 1. https://stackoverflow.com/questions/4448340/postgresql-duplicate-key-violates-unique-constraint
 2. https://supabase.com/docs/reference/cli/supabase-db-dump
+3. https://github.com/telegraf/telegraf/discussions/1529
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

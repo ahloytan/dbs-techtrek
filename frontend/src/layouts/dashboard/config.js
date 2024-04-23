@@ -7,7 +7,8 @@ import {
   UserIcon, 
   ShoppingBagIcon, 
   CogIcon, 
-  ChartBarIcon 
+  ChartBarIcon, 
+  PaperAirplaneIcon
 } from '@heroicons/react/24/solid';
 import { SvgIcon } from '@mui/material';
 
@@ -45,6 +46,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <ChatBubbleBottomCenterTextIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Telegram',
+    path: '/telegram',
+    icon: (
+      <SvgIcon fontSize="small">
+        <PaperAirplaneIcon />
       </SvgIcon>
     )
   },

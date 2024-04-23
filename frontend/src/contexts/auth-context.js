@@ -83,7 +83,7 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const [sessionId, fullName, userId, roleId, email] = getUserDetailsFromJwt();
+      const [sessionId, fullName, userId, roleId, email, uniqueCode] = getUserDetailsFromJwt();
 
       const user = {
         id: sessionId,
@@ -91,7 +91,8 @@ export const AuthProvider = (props) => {
         avatar: '/assets/avatars/dpgc.webp',
         name: fullName,
         email,
-        isAdmin: isAdmin(roleId)
+        isAdmin: isAdmin(roleId),
+        uniqueCode
       };
 
       dispatch({
@@ -115,14 +116,15 @@ export const AuthProvider = (props) => {
 
   const signIn = async (email, password) => {
     await login(email, password);
-    const [sessionId, fullName, userId, roleId] = getUserDetailsFromJwt();
+    const [sessionId, fullName, userId, roleId, _, uniqueCode] = getUserDetailsFromJwt();
     const user = {
       id: sessionId,
       userId: userId,
       avatar: '/assets/avatars/dpgc.webp',
       name: fullName,
       email,
-      isAdmin: isAdmin(roleId)
+      isAdmin: isAdmin(roleId),
+      uniqueCode
     };
 
     dispatch({

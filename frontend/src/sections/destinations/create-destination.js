@@ -13,7 +13,7 @@ export default function CreateDestinationFormDialog({countries, fetchDestination
   const formik = useFormik({
     initialValues: {
       country: 1,
-      cost: 0,
+      cost: 100,
       name: 'somewhere over the rainbow',
       notes: 'blue birds fly',
       imageName: 'placeholder',

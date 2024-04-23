@@ -128,20 +128,6 @@ $$;
 
 ALTER FUNCTION "public"."is_claims_admin"() OWNER TO "postgres";
 
-CREATE OR REPLACE FUNCTION "public"."register_user_account"("uid" "uuid") RETURNS "text"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    SET "search_path" TO 'public'
-    AS $$
-    BEGIN      
-      update auth.users set raw_app_meta_data = 
-        raw_app_meta_data || 
-          json_build_object('role_id', 2)::jsonb where id = uid;
-      return 'OK';
-    END;
-$$;
-
-ALTER FUNCTION "public"."register_user_account"("uid" "uuid") OWNER TO "postgres";
-
 CREATE OR REPLACE FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") RETURNS "text"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -269,7 +255,9 @@ ALTER TABLE "public"."itinerary" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENT
 CREATE TABLE IF NOT EXISTS "public"."user_account" (
     "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "full_name" character varying NOT NULL,
-    "role_id" smallint
+    "role_id" smallint,
+    "unique_code" "uuid" DEFAULT "gen_random_uuid"(),
+    "telegram_chat_id" "text"
 );
 
 ALTER TABLE "public"."user_account" OWNER TO "postgres";
@@ -313,6 +301,38 @@ ALTER TABLE ONLY "public"."itinerary"
 ALTER TABLE ONLY "public"."user_account"
     ADD CONSTRAINT "public_user_account_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE POLICY "Enable CRUD permission for super admin only" ON "public"."user_account" USING (true);
+
+CREATE POLICY "Enable delete only for admin" ON "public"."customers" FOR DELETE TO "anon" USING ((( SELECT "auth"."uid"() AS "uid") = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid"));
+
+CREATE POLICY "Enable delete only for admin" ON "public"."destination" FOR DELETE TO "anon" USING ((( SELECT "auth"."uid"() AS "uid") = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid"));
+
+CREATE POLICY "Enable insert for admin only" ON "public"."customers" FOR INSERT TO "anon" WITH CHECK (true);
+
+CREATE POLICY "Enable insert for admin only" ON "public"."destination" FOR INSERT TO "anon" WITH CHECK (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."country" FOR SELECT USING (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."customers" FOR SELECT TO "anon" USING (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."destination" FOR SELECT TO "anon" USING (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."itinerary" FOR SELECT USING (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."itinerary_destination" FOR SELECT USING (true);
+
+ALTER TABLE "public"."country" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."customers" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."destination" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."itinerary" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."itinerary_destination" ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE "public"."user_account" ENABLE ROW LEVEL SECURITY;
+
 ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
@@ -343,10 +363,6 @@ GRANT ALL ON FUNCTION "public"."get_my_claims"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "anon";
 GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."is_claims_admin"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "anon";
-GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "authenticated";
-GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid") TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") TO "anon";
 GRANT ALL ON FUNCTION "public"."register_user_account"("uid" "uuid", "full_name" "text") TO "authenticated";
