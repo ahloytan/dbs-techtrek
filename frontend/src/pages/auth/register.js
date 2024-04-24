@@ -12,8 +12,8 @@ const Page = () => {
   const auth = useAuth();
   const formik = useFormik({
     initialValues: {
-      email: 'user3@user.com',
-      name: 'user3',
+      email: 'user2@user.com',
+      name: 'user2',
       password: 'Password1!',
       submit: null
     },

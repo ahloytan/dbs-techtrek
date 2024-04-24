@@ -83,9 +83,22 @@ const iconMap = {
 
 export const OverviewTraffic = (props) => {
   const { sx, trafficByCountry } = props;
-  const donutSeries = trafficByCountry?.map((x) => x.total) ?? [33, 33, 33];
-  const chartSeries = trafficByCountry?.map((x) => x.percentage) ?? [33, 33, 33];
-  const labels = trafficByCountry?.map((x) => x.name) ?? ['Others', 'Others', 'Others'];
+  let donutSeries = [33, 33, 33];
+  let chartSeries = [33, 33, 33];
+  let labels = ['Others', 'Others', 'Others'];
+
+  if (trafficByCountry && trafficByCountry.length > 0) {
+    donutSeries = [];
+    chartSeries = [];
+    labels = [];
+    
+    trafficByCountry.forEach(({ total, percentage, name }) => {
+      donutSeries.push(total);
+      chartSeries.push(percentage);
+      labels.push(name);
+    });
+  }
+
   const chartOptions = useChartOptions(labels);
 
   return (
@@ -106,6 +119,7 @@ export const OverviewTraffic = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
+          
           {chartSeries && chartSeries.map((item, index) => {
             const label = labels[index];
 

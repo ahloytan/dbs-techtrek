@@ -61,27 +61,6 @@ module.exports = {
         const telegram_chat_id = ctx.message.chat.id;
         const { data, error } = await supabase
             .from('user_account')
-            .select('id, role_id')
-            .eq('telegram_chat_id', telegram_chat_id)
-
-        if (data.length === 0 || error) {
-            ctx.reply("You do not have permission to access this resource, please try again with proper credentials!");
-            logger.warn(error);
-            return;
-        }
-
-        const { id, role_id } = data[0];
-        const dashboard_details = role_id === 1 ? await Dashboard.getDashboardDetails() : await Dashboard.getUserDashboardDetails(id);
-        if (dashboard_details.length === 0) ctx.reply("No dashboard details found!");
-
-        const formatted_dashboard_details = JSON.stringify(dashboard_details, null, 2);
-        ctx.replyWithMarkdownV2(`*Object Details:*\n\`\`\`${formatted_dashboard_details}\`\`\``);
-    },
-
-    async dashboardCommand(ctx) {
-        const telegram_chat_id = ctx.message.chat.id;
-        const { data, error } = await supabase
-            .from('user_account')
             .select('id')
             .eq('telegram_chat_id', telegram_chat_id)
 
@@ -93,12 +72,39 @@ module.exports = {
 
         const { id } = data[0];
         const itinerary_details = await Itineraries.getUserItineraries(id);
-        if (itinerary_details.length === 0) ctx.reply("No itineraries found!");
+        if (itinerary_details.length === 0) {
+            ctx.reply("No itineraries found!");
+            return
+        };
 
         const formatted_itinerary_details = JSON.stringify(itinerary_details, null, 2);
         ctx.replyWithMarkdownV2(`*Itineraries Details:*\n\`\`\`${formatted_itinerary_details}\`\`\``);
     },
 
+    async dashboardCommand(ctx) {
+        const telegram_chat_id = ctx.message.chat.id;
+        const { data, error } = await supabase
+            .from('user_account')
+            .select('id, role_id')
+            .eq('telegram_chat_id', telegram_chat_id)
+
+        if (data.length === 0 || error) {
+            ctx.reply("You do not have permission to access this resource, please try again with proper credentials!");
+            logger.warn(error);
+            return;
+        }
+
+        const { id, role_id } = data[0];
+        const dashboard_details = role_id === 1 ? await Dashboard.getDashboardDetails() : await Dashboard.getUserDashboardDetails(id);
+        if (dashboard_details.trafficByCountry.length === 0) {
+            ctx.reply("No dashboard details found!");
+            return;    
+        }
+
+        const formatted_dashboard_details = JSON.stringify(dashboard_details, null, 2);
+        ctx.replyWithMarkdownV2(`*Dashboard Details:*\n\`\`\`${formatted_dashboard_details}\`\`\``);
+    },
+    
     async onMessage(ctx) {
         const { message } = ctx;
 

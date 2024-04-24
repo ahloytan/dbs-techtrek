@@ -10,6 +10,8 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
+
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
 
 COMMENT ON SCHEMA "public" IS 'standard public schema';
@@ -132,13 +134,17 @@ CREATE OR REPLACE FUNCTION "public"."register_user_account"("uid" "uuid", "full_
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
     AS $$
+    DECLARE 
+      unique_code uuid;
     BEGIN      
       insert into public.user_account (id, full_name, role_id)
         values (uid, full_name, 2);
 
+      select public.user_account.unique_code into unique_code from public.user_account where id = uid;
+
       update auth.users set raw_app_meta_data = 
         raw_app_meta_data || 
-          json_build_object('full_name', full_name, 'role_id', 2)::jsonb where id = uid;
+          json_build_object('full_name', full_name, 'role_id', 2, 'unique_code', unique_code)::jsonb where id = uid;
       return 'OK';
     END;
 $$;

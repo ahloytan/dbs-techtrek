@@ -1,19 +1,20 @@
-const groupByCountry = (arr) => {
-    const totalSum = Object.values(arr).reduce((country, { total }) => country + total, 0);
+const groupByCountry = (countries) => {
+    const numOfCountriesToShow = 2;
+    const totalSum = Object.values(countries).reduce((country, { total }) => country + total, 0);
 
-    const sortedCountries = Object.values(arr)
+    const sortedCountries = Object.values(countries)
       .sort((a, b) => b.total - a.total)
-      .slice(0, 2)
+      .slice(0, numOfCountriesToShow)
       .map(country => ({ ...country, percentage: ((country.total / totalSum) * 100) }));
   
-    const remainingTotal = Object.values(arr)
+    const remainingTotal = Object.values(countries)
       .sort((a, b) => b.total - a.total)
-      .slice(2)
+      .slice(numOfCountriesToShow)
       .reduce((sum, country) => sum + country.total, 0);
   
     const percentageForRemaining = (remainingTotal / totalSum) * 100;
 
-    sortedCountries.push({ name: 'Others', total: remainingTotal, percentage: percentageForRemaining });
+    if (Object.keys(countries).length >= numOfCountriesToShow) sortedCountries.push({ name: 'Others', total: remainingTotal, percentage: percentageForRemaining });
   
     return sortedCountries;
 }
