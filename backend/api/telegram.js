@@ -1,13 +1,13 @@
 const { Telegraf } = require("telegraf");
-const { TELEGRAM_SECRET_HASH, TELEGRAM_BOT_TOKEN, BE_ENDPOINT } = process.env;
+const { TELEGRAM_SECRET_HASH, TELEGRAM_BOT_TOKEN, BE_ENDPOINT, NODE_ENV } = process.env;
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 const Telegram = require('../models/telegram');
-const BASE_PATH = process.env.NODE_ENV === "production" ? BE_ENDPOINT : "https://4f70-219-74-105-56.ngrok-free.app";
+const BASE_PATH = NODE_ENV === "production" ? BE_ENDPOINT : "https://4f70-219-74-105-56.ngrok-free.app";
 
 bot.command("start", async (ctx) => await Telegram.startCommand(ctx));
 bot.command("help", async (ctx) => await Telegram.helpCommand(ctx));
 bot.command("itineraries", async (ctx) => await Telegram.itinerariesCommand(ctx));
-bot.on("dashboard", async (ctx) => await Telegram.dashboardCommand(ctx));
+bot.command("dashboard", async (ctx) => await Telegram.dashboardCommand(ctx));
 bot.on("message", async (ctx) => await Telegram.onMessage(ctx));
 bot.on('sticker', (ctx) => ctx.reply('👍'));
 bot.hears('hi', (ctx) => ctx.reply("ahha oik"));

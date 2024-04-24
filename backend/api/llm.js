@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../modules/logger');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { CHATGPT_API, GEMINI_API_KEY } = process.env;
 
 router.post('/chatgpt', async (req, res, next) => {
   try {
@@ -28,7 +29,7 @@ router.post('/chatgpt', async (req, res, next) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.CHATGPT_API}`,
+          Authorization: `Bearer ${CHATGPT_API}`,
         },
       }
     );
@@ -45,7 +46,7 @@ router.post('/chatgpt', async (req, res, next) => {
 router.post('/gemini', async (req, res, next) => {
   try {
     const { prompt } = req.body;
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro"});
 
     const result = await model.generateContent(prompt);

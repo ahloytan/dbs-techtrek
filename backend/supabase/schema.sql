@@ -321,6 +321,10 @@ CREATE POLICY "Enable read access for all users" ON "public"."itinerary" FOR SEL
 
 CREATE POLICY "Enable read access for all users" ON "public"."itinerary_destination" FOR SELECT USING (true);
 
+CREATE POLICY "Everyone allowed to delete" ON "public"."country" FOR DELETE USING (true);
+
+CREATE POLICY "Everyone allowed to insert" ON "public"."country" FOR INSERT WITH CHECK (true);
+
 ALTER TABLE "public"."country" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."customers" ENABLE ROW LEVEL SECURITY;

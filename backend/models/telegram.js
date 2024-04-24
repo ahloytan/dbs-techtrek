@@ -1,15 +1,15 @@
 'use strict';
 const { supabase } = require('../util/db.js');
 const startMsg = "Welcome to DBS TechTrek Bot! To get started, use /help to view the list of commands or check out what you can do with this bot with the menu provided below!";
-
+const Dashboard = require('./dashboard.js');
+const Itineraries = require('./itineraries.js');
+const logger = require('../modules/logger');
 
 module.exports = { 
     async startCommand(ctx) {
-        const COMMAND = "/start";
         const { message } = ctx;
 
-        const didReply = ctx.reply(startMsg);
-        didReply ? console.log(`Replied to ${COMMAND} command sent successfully.`) : console.error(`Something went wrong with the ${COMMAND} command. Reply not sent.`);
+        ctx.reply(startMsg);
         const text = message?.text;
         const received_unique_code = text ? text.split(' ')[1] : null;
 
@@ -31,15 +31,12 @@ module.exports = {
         }
 
         const telegram_chat_id = ctx.message.chat.id;
-        const { error: update_telegram_chat_id } = await supabase
+        const { error: update_telegram_chat_id_error } = await supabase
         .from('user_account')
         .update({ telegram_chat_id })
         .eq('unique_code', received_unique_code);
 
-        if (update_telegram_chat_id) {
-            logger.warn(unique_code_error);
-            return;
-        }
+        if (update_telegram_chat_id_error) logger.warn(update_telegram_chat_id_error);
     },
 
     async helpCommand(ctx) {
@@ -57,7 +54,7 @@ module.exports = {
             This telegram bot is still under development. Feel free to reach out if you need any assistance or have questions!
 
             View my portfolio (ahloytan.netlify.app)\u{1F37B} or contact me (aloysiustan.2020@scis.smu.edu.sg)\u{1F4E7}`
-            ,{ disable_web_page_preview: true })
+        ,{ disable_web_page_preview: true })
     },
 
     async itinerariesCommand(ctx) {

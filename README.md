@@ -70,6 +70,10 @@ SUPABASE_ANON_KEY=""
 8. ![Staging](https://github.com/ahloytan/dbs-techtrek/assets/28771440/16232e9c-d9df-41c8-9bf4-a66af407e883)
 9. Once you are satisfied with the previews, you can deploy to production by typing `vercel --prod`
 
+## Github Actions
+1. There are some basic unit tests for the models and APIs. It's triggered upon pushing to commits to main
+2. 3 environment secrets are needed to be stored on Github's secrets: `SUPABASE_ANON_KEY`, `SUPABASE_URL`, and `TELEGRAM_BOT_TOKEN`
+3. Be reminded to update environment variables in `.github/workflows/jest.yml` to allow the unit tests to run successfully
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
