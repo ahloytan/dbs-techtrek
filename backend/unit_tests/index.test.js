@@ -1,7 +1,17 @@
 const request = require("supertest");
 const app = require("../app");
-let Countries = require('../models/countries');
-let Dashboard = require('../models/dashboard');
+
+let headers = {
+    'Content-Type': 'application/json'
+};
+
+beforeAll(async () => {
+    const response = await request(app).post("/account/login").send({
+        "username": "admin1@admin.com",
+        "password": "Password1!"
+    });
+    headers['Authorization'] = `Bearer ${response.body.jwt}`;
+});
 
 describe("Test health check", () => {
     test("It should response with 'ok'", async () => {
@@ -13,32 +23,41 @@ describe("Test health check", () => {
 
 describe("Test countries API", () => {
     test("POST country", async () => {
-        const response = await Countries.addCountry('Canada');
+        const response = await request(app)
+                                .post("/countries")
+                                .send({"name": "Canada"})
+                                .set(headers)
 
-        expect(response).toHaveLength(1);
-        expect(response).toContainEqual({'id': expect.any(Number), 'name': 'Canada'});
+        expect(response.body.message).toBe("Country: Canada has been successfully created!");
     });
 
     test("POST country - duplicate", async () => {
-        try {
-            await Countries.addCountry('Singapore');
-        } catch (error) {
-            expect(error).toBeInstanceOf(Error);
-            expect(error).toHaveProperty('message', `Country already exist!`);
-        }
+        const response = await request(app)
+                                .post("/countries")
+                                .send({"name": "Canada"})
+                                .set(headers)
+
+        expect(response.body.message).toBe("Country already exist!");
     });
 
     test("DELETE countries", async () => {
-        await Countries.deleteCountries(['Canada']);
-        const response = await Countries.getAllCountries();
-        expect(response).toHaveLength(7);
+        const response = await request(app)
+                                .delete("/countries")
+                                .send({"names": ["Canada"]})
+                                .set(headers)
+
+        expect(response.body.message).toBe("Countries with names: Canada has been successfully deleted!")
     });
 
     test("GET countries", async () => {
         const singapore = {id: 1, name: 'Singapore'};
-        const response = await Countries.getAllCountries();
-        expect(response).toHaveLength(7);
-        expect(response).toContainEqual(singapore);
+        const response = await request(app)
+                                .get("/countries")
+                                .set(headers)
+
+        const { body: { countries }} = response;
+        expect(countries).toHaveLength(7);
+        expect(countries).toContainEqual(singapore);
 
     });
 
@@ -46,8 +65,12 @@ describe("Test countries API", () => {
 
 describe("Test dashboard API", () => {
     test("GET dashboard", async () => {
-        const response = await Dashboard.getDashboardDetails();
-        expect(response).toEqual(
+        const response = await request(app)
+                                .get("/dashboard")
+                                .set(headers);
+        
+        const { body: { dashboard }} = response;
+        expect(dashboard).toEqual(
             expect.objectContaining({
                 'totalBudget': expect.any(Number),
                 'uniqueCustomers': expect.any(Number),
@@ -55,17 +78,35 @@ describe("Test dashboard API", () => {
                 'trafficByCountry': expect.arrayContaining([])
             })
         );
-        expect(response.trafficByCountry).toHaveLength(3);
+        expect(dashboard.trafficByCountry).toHaveLength(3);
+    });
+});
+
+describe("Test login API", () => {
+    test("Correct password", async () => {
+        const response = await request(app)
+                                .post("/account/login")
+                                .send({
+                                    "username": "admin1@admin.com",
+                                    "password": "Password1!"
+                                });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toBe('Login successful!');
+        expect(response.body).toHaveProperty('jwt');
     });
 });
 
 describe("Test login API", () => {
     test("Wrong password", async () => {
-        const response = await request(app).post("/login",{
-            "username": "wrong",
-            "password": "wrong"
-        });
-        expect(response.statusCode).toBe(404);
+        const response = await request(app)
+                                .post("/account/login")
+                                .send({
+                                    "username": "wrong",
+                                    "password": "wrong"
+                                });
+
+        expect(response.statusCode).toBe(400);
     });
 });
 

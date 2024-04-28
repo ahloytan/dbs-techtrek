@@ -28,7 +28,7 @@ module.exports = {
     .eq('email', email)
 
     if (error) throw new Error(error.message);
-    console.log(data, error);
+
     return data;
   },
 

@@ -14,7 +14,7 @@ router.post('/login', async function (req, res, next) {
         });
 
         if (error) {
-            res.status(401).send(error);
+            res.status(400).send(error);
             return;
         }
 
