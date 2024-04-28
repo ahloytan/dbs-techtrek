@@ -307,29 +307,35 @@ ALTER TABLE ONLY "public"."itinerary"
 ALTER TABLE ONLY "public"."user_account"
     ADD CONSTRAINT "public_user_account_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-CREATE POLICY "Enable CRUD permission for super admin only" ON "public"."user_account" USING (true);
+CREATE POLICY "Allow delete only for admin" ON "public"."user_account" FOR DELETE TO "authenticated" USING ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable delete only for admin" ON "public"."customers" FOR DELETE TO "anon" USING ((( SELECT "auth"."uid"() AS "uid") = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid"));
+CREATE POLICY "Allow insert only for admin" ON "public"."user_account" FOR INSERT TO "authenticated" WITH CHECK ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable delete only for admin" ON "public"."destination" FOR DELETE TO "anon" USING ((( SELECT "auth"."uid"() AS "uid") = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid"));
+CREATE POLICY "Allow read for all authenticated users" ON "public"."user_account" FOR SELECT TO "authenticated" USING (true);
 
-CREATE POLICY "Enable insert for admin only" ON "public"."customers" FOR INSERT TO "anon" WITH CHECK (true);
+CREATE POLICY "Allow update only for admin" ON "public"."user_account" FOR UPDATE TO "authenticated" USING ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable insert for admin only" ON "public"."destination" FOR INSERT TO "anon" WITH CHECK (true);
+CREATE POLICY "Enable delete only for admin" ON "public"."customers" FOR DELETE TO "authenticated" USING ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable read access for all users" ON "public"."country" FOR SELECT USING (true);
+CREATE POLICY "Enable delete only for admin" ON "public"."destination" FOR DELETE TO "authenticated" USING ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable read access for all users" ON "public"."customers" FOR SELECT TO "anon" USING (true);
+CREATE POLICY "Enable insert only for admin" ON "public"."customers" FOR INSERT TO "authenticated" WITH CHECK ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable read access for all users" ON "public"."destination" FOR SELECT TO "anon" USING (true);
+CREATE POLICY "Enable insert only for admin" ON "public"."destination" FOR INSERT TO "authenticated" WITH CHECK ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
-CREATE POLICY "Enable read access for all users" ON "public"."itinerary" FOR SELECT USING (true);
+CREATE POLICY "Enable read access for all users" ON "public"."country" FOR SELECT TO "authenticated" USING (true);
 
-CREATE POLICY "Enable read access for all users" ON "public"."itinerary_destination" FOR SELECT USING (true);
+CREATE POLICY "Enable read access for all users" ON "public"."customers" FOR SELECT TO "authenticated" USING (true);
 
-CREATE POLICY "Everyone allowed to delete" ON "public"."country" FOR DELETE USING (true);
+CREATE POLICY "Enable read access for all users" ON "public"."destination" FOR SELECT TO "authenticated" USING (true);
 
-CREATE POLICY "Everyone allowed to insert" ON "public"."country" FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable read access for all users" ON "public"."itinerary" FOR SELECT TO "authenticated" USING (true);
+
+CREATE POLICY "Enable read access for all users" ON "public"."itinerary_destination" FOR SELECT TO "authenticated" USING (true);
+
+CREATE POLICY "Everyone allowed to delete" ON "public"."country" FOR DELETE TO "authenticated" USING ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
+
+CREATE POLICY "Everyone allowed to insert" ON "public"."country" FOR INSERT TO "authenticated" WITH CHECK ((("auth"."uid"() = 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0'::"uuid") OR ("auth"."uid"() = '7fca0c45-313e-44b2-89a5-abdd04d7e8fd'::"uuid")));
 
 ALTER TABLE "public"."country" ENABLE ROW LEVEL SECURITY;
 

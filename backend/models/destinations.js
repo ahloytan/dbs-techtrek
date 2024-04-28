@@ -1,6 +1,6 @@
 'use strict';
 
-const { supabase } = require('../util/db.js');
+const { supabaseWithRLS } = require('../util/jwt-validator');
 const destinationsTable = 'destination';
 
 module.exports = {  
@@ -8,7 +8,7 @@ module.exports = {
         const doesDestinationExist = await this.getDestination(name);
         if (doesDestinationExist.length > 0) throw new Error("Destination already exist!"); 
     
-        const { data, error } = await supabase
+        const { data, error } = await supabaseWithRLS.db
         .from(destinationsTable)
         .insert({ country_id, cost, name, notes, image_name })
         .select()
@@ -18,7 +18,7 @@ module.exports = {
         return data;
     },
     async getDestination(name) {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseWithRLS.db
         .from(destinationsTable)
         .select()
         .eq('name', name)
@@ -28,7 +28,7 @@ module.exports = {
         return data;
       },  
     async getAllDestinations() {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseWithRLS.db
         .from(destinationsTable)
         .select()
     
@@ -37,7 +37,7 @@ module.exports = {
         return data;
     },
     async deleteDestination(ids) {
-        const { error } = await supabase
+        const { error } = await supabaseWithRLS.db
         .from(destinationsTable)
         .delete()
         .in('id', ids)

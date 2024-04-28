@@ -27,7 +27,7 @@ export const SideNav = (props) => {
   const router = useRouter();
   const auth = useAuth();
   const { user } = useAuthContext();
-  const { isAdmin } = user || false; 
+  const isAdmin = user ? user.isAdmin : false; 
 
   const handleSignOut = useCallback(
     () => {

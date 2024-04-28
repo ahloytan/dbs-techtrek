@@ -1,7 +1,7 @@
 'use strict';
 
 const dateFNS = require('date-fns');
-const { supabase } = require('../util/db.js');
+const { supabaseWithRLS } = require('../util/jwt-validator');
 const customersTable = 'customers';
 
 module.exports = {  
@@ -11,7 +11,7 @@ module.exports = {
 
     const createdAt = dateFNS.format(new Date(), 'yyyy-MM-dd HH:mm:ss');    
     avatar = `${avatar}.webp`;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseWithRLS.db
     .from(customersTable)
     .insert({ address, avatar, 'created_at': createdAt, email, name, 'phone_number': phoneNumber })
     .select()
@@ -22,18 +22,18 @@ module.exports = {
     return data;
   },  
   async getCustomer(email) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseWithRLS.db
     .from(customersTable)
     .select()
     .eq('email', email)
 
     if (error) throw new Error(error.message);
-
+    console.log(data, error);
     return data;
   },
 
   async getAllCustomers() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseWithRLS.db
     .from(customersTable)
     .select()
 
@@ -43,7 +43,7 @@ module.exports = {
   },
   
   async deleteCustomers(ids) {
-    const { error } = await supabase
+    const { error } = await supabaseWithRLS.db
     .from(customersTable)
     .delete()
     .in('id', ids)

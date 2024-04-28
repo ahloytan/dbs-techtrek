@@ -49,7 +49,7 @@ export const DashboardAdmin = (props) => {
                         difference={12}
                         positive
                         sx={{ height: '100%' }}
-                        value={`$${dashboardData.totalBudget ?? 0}`}
+                        value={`$${dashboardData.totalBudget}`}
                         />
                     </Grid>
                     <Grid
@@ -62,7 +62,7 @@ export const DashboardAdmin = (props) => {
                         difference={16}
                         positive={false}
                         sx={{ height: '100%' }}
-                        value={(dashboardData.uniqueCustomers ?? 0).toString()}
+                        value={(dashboardData.uniqueCustomers)?.toString()}
                         />
                     </Grid>
                     <Grid
@@ -82,7 +82,7 @@ export const DashboardAdmin = (props) => {
                     >
                         <OverviewTotalProfit
                         sx={{ height: '100%' }}
-                        value={`$${dashboardData.totalCost ?? 0}`}
+                        value={`$${dashboardData.totalCost}`}
                         />
                     </Grid>
                     <Grid

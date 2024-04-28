@@ -6,7 +6,7 @@ import { useAuthContext } from 'src/contexts/auth-context';
 
 const Page = () => {
   const { user } = useAuthContext();
-  const { isAdmin } = user || false; 
+  const isAdmin = user ? user.isAdmin : false; 
 
   return (
     <>

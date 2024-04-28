@@ -3,9 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../modules/logger');
-const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { supabase } = require('../util/db.js');
 
 router.post('/login', async function (req, res, next) {
     try {

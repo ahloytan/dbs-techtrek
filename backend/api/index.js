@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const jwt_validator = require('../util/jwt-validator');
+const { jwtValidator } = require('../util/jwt-validator');
 
 const countries = require('./countries');
 const customers = require('./customers');
@@ -15,14 +15,14 @@ const itineraries = require('./itineraries');
 const ocr = require('./ocr');
 const telegram = require('./telegram');
 
-router.use('/countries', jwt_validator, countries);
-router.use('/customers', jwt_validator, customers);
-router.use('/dashboard', jwt_validator, dashboard);
-router.use('/destinations', jwt_validator, destinations);
-router.use('/llm', jwt_validator, llm);
-router.use('/itineraries', jwt_validator, itineraries);
+router.use('/countries', jwtValidator, countries);
+router.use('/customers', jwtValidator, customers);
+router.use('/dashboard', jwtValidator, dashboard);
+router.use('/destinations', jwtValidator, destinations);
+router.use('/llm', jwtValidator, llm);
+router.use('/itineraries', jwtValidator, itineraries);
 router.use('/account', account);
-router.use('/ocr', jwt_validator, ocr);
+router.use('/ocr', jwtValidator, ocr);
 router.use('/telegram', telegram);
 
 module.exports = router;

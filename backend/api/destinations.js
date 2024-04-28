@@ -31,7 +31,7 @@ router.get('/', async function (req, res, next) {
 
 router.delete('/', async function (req, res, next) {
     try {
-        const ids = req.body;
+        const { ids } = req.body;
         await Destinations.deleteDestination(ids);
         res.json({ 'message': `Destination with id: ${ids} has been successfully deleted!` });
         

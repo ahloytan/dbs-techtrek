@@ -35,7 +35,7 @@ SET row_security = off;
 
 INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
 	('00000000-0000-0000-0000-000000000000', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', 'authenticated', 'authenticated', 'superuser@superuser.com', '$2a$10$mmaNPtuevoUl6bPv1ob5RezA5yME8XdSZtW6wjKmsd7MpJ.qu1Ufi', '2024-04-24 13:50:15.232019+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-04-24 13:50:20.828059+00', '{"role_id": 2, "provider": "email", "full_name": "Super User", "providers": ["email"], "unique_code": "59ae0f6d-76ef-49ba-85bf-24343bf7ac52"}', '{"sub": "7fca0c45-313e-44b2-89a5-abdd04d7e8fd", "email": "superuser@superuser.com", "email_verified": false, "phone_verified": false}', NULL, '2024-04-24 13:50:15.225799+00', '2024-04-24 13:50:20.830737+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-04-24 13:44:46.490364+00', '{"role_id": 1, "provider": "email", "full_name": "Aloysius Tan", "providers": ["email"], "unique_code": "f706c698-bb00-41fb-896c-b24c36d600da"}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-04-24 13:44:46.494934+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'authenticated', 'authenticated', 'admin1@admin.com', '$2a$10$jRJenxKXzU3q1N0K9MtDeecte6BTgVexqe6vxhw.OdlwKbuxGd5by', '2024-03-13 06:59:25.082971+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-04-27 14:07:30.34989+00', '{"role_id": 1, "provider": "email", "full_name": "Aloysius Tan", "providers": ["email"], "unique_code": "f706c698-bb00-41fb-896c-b24c36d600da"}', '{"sub": "fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0", "email": "admin1@admin.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-13 06:59:25.07413+00', '2024-04-27 14:07:30.366092+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '87caa20c-2357-4839-b8b3-0204105a49de', 'authenticated', 'authenticated', 'user3@user.com', '$2a$10$og3s6n258Xg72ByS4iwPR.JgCjwrD17H9.Sz.Wk7HtMdHyxYZOZ7i', '2024-03-25 15:22:22.285123+00', NULL, '', NULL, '', NULL, '', '', NULL, '2024-04-24 13:48:03.08257+00', '{"role_id": 2, "provider": "email", "full_name": "user3", "providers": ["email"], "unique_code": "ff764e5c-f520-4de3-a0a7-09666b504628"}', '{"sub": "87caa20c-2357-4839-b8b3-0204105a49de", "email": "user3@user.com", "email_verified": false, "phone_verified": false}', NULL, '2024-03-25 15:22:22.276307+00', '2024-04-24 13:48:03.086119+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
@@ -60,7 +60,9 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 
 INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") VALUES
 	('7f79acbc-4a4d-4a44-baa2-f1ba998eb840', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', '2024-04-24 13:50:15.235311+00', '2024-04-24 13:50:15.235311+00', NULL, 'aal1', NULL, NULL, 'node', '47.128.150.144', NULL),
-	('2c40f57b-2936-4acf-a8be-87880e307d63', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', '2024-04-24 13:50:20.828142+00', '2024-04-24 13:50:20.828142+00', NULL, 'aal1', NULL, NULL, 'node', '47.128.150.144', NULL);
+	('2c40f57b-2936-4acf-a8be-87880e307d63', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', '2024-04-24 13:50:20.828142+00', '2024-04-24 13:50:20.828142+00', NULL, 'aal1', NULL, NULL, 'node', '47.128.150.144', NULL),
+	('66949c1c-858f-4322-bf1c-02eb562bc477', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-04-26 10:50:32.431001+00', '2024-04-26 10:50:32.431001+00', NULL, 'aal1', NULL, NULL, 'node', '54.151.150.235', NULL),
+	('d151ea40-9bdc-46e8-81f4-a798702df078', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', '2024-04-27 14:07:30.349969+00', '2024-04-27 14:07:30.349969+00', NULL, 'aal1', NULL, NULL, 'node', '13.212.251.87', NULL);
 
 
 --
@@ -69,7 +71,9 @@ INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "fac
 
 INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
 	('7f79acbc-4a4d-4a44-baa2-f1ba998eb840', '2024-04-24 13:50:15.237165+00', '2024-04-24 13:50:15.237165+00', 'password', '5e04f1de-f6ca-4890-aac1-0ba3140080bc'),
-	('2c40f57b-2936-4acf-a8be-87880e307d63', '2024-04-24 13:50:20.831051+00', '2024-04-24 13:50:20.831051+00', 'password', '5e96eed7-c52a-448d-9b01-86c74797ef68');
+	('2c40f57b-2936-4acf-a8be-87880e307d63', '2024-04-24 13:50:20.831051+00', '2024-04-24 13:50:20.831051+00', 'password', '5e96eed7-c52a-448d-9b01-86c74797ef68'),
+	('66949c1c-858f-4322-bf1c-02eb562bc477', '2024-04-26 10:50:32.480515+00', '2024-04-26 10:50:32.480515+00', 'password', '40fb8f10-5cab-4f6f-9d4e-d30b4358f5e2'),
+	('d151ea40-9bdc-46e8-81f4-a798702df078', '2024-04-27 14:07:30.367441+00', '2024-04-27 14:07:30.367441+00', 'password', 'dd7e9288-6541-4c62-8871-8471fd124f94');
 
 
 --
@@ -89,8 +93,10 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 --
 
 INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
+	('00000000-0000-0000-0000-000000000000', 118, 'XQRG4EcTGALKKx48lRuOwg', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-04-27 14:07:30.357063+00', '2024-04-27 14:07:30.357063+00', NULL, 'd151ea40-9bdc-46e8-81f4-a798702df078'),
 	('00000000-0000-0000-0000-000000000000', 115, 'oB0oSdh8tBkhQlDI4wvqow', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', false, '2024-04-24 13:50:15.236036+00', '2024-04-24 13:50:15.236036+00', NULL, '7f79acbc-4a4d-4a44-baa2-f1ba998eb840'),
-	('00000000-0000-0000-0000-000000000000', 116, 'beCtQJz-_6qiTUZkUHVTKA', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', false, '2024-04-24 13:50:20.829308+00', '2024-04-24 13:50:20.829308+00', NULL, '2c40f57b-2936-4acf-a8be-87880e307d63');
+	('00000000-0000-0000-0000-000000000000', 116, 'beCtQJz-_6qiTUZkUHVTKA', '7fca0c45-313e-44b2-89a5-abdd04d7e8fd', false, '2024-04-24 13:50:20.829308+00', '2024-04-24 13:50:20.829308+00', NULL, '2c40f57b-2936-4acf-a8be-87880e307d63'),
+	('00000000-0000-0000-0000-000000000000', 117, 'hUTgXxlIWSob39Puo3MvJg', 'fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', false, '2024-04-26 10:50:32.46286+00', '2024-04-26 10:50:32.46286+00', NULL, '66949c1c-858f-4322-bf1c-02eb562bc477');
 
 
 --
@@ -226,9 +232,9 @@ INSERT INTO "public"."itinerary_destination" ("id", "destination_id", "itinerary
 --
 
 INSERT INTO "public"."user_account" ("id", "full_name", "role_id", "unique_code", "telegram_chat_id") VALUES
-	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'Aloysius Tan', 1, 'f706c698-bb00-41fb-896c-b24c36d600da', NULL),
 	('87caa20c-2357-4839-b8b3-0204105a49de', 'user3', 2, 'ff764e5c-f520-4de3-a0a7-09666b504628', NULL),
-	('7fca0c45-313e-44b2-89a5-abdd04d7e8fd', 'Super User', 2, '59ae0f6d-76ef-49ba-85bf-24343bf7ac52', '29193694');
+	('7fca0c45-313e-44b2-89a5-abdd04d7e8fd', 'Super User', 2, '59ae0f6d-76ef-49ba-85bf-24343bf7ac52', NULL),
+	('fe3aaae8-efe1-4b9c-8351-9c86ec38d9e0', 'Aloysius Tan', 1, 'f706c698-bb00-41fb-896c-b24c36d600da', '29193694');
 
 
 --
@@ -271,7 +277,7 @@ INSERT INTO "public"."user_account" ("id", "full_name", "role_id", "unique_code"
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 116, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 118, true);
 
 
 --
@@ -285,7 +291,7 @@ SELECT pg_catalog.setval('"pgsodium"."key_key_id_seq"', 1, false);
 -- Name: country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."country_id_seq"', 18, true);
+SELECT pg_catalog.setval('"public"."country_id_seq"', 19, true);
 
 
 --

@@ -24,7 +24,7 @@ import { mkConfig, generateCsv, download } from "export-to-csv";
 
 const Page = () => {
   const { user } = useAuthContext();
-  const { isAdmin } = user || false; 
+  const isAdmin = user ? user.isAdmin : false; 
   const [filteredDestinationsList, setFilteredDestinationsList] = useState([]);
   const [destinationsList, setDestinations] = useState([]);
   const [countriesList, setCountries] = useState([]);
@@ -112,7 +112,7 @@ const Page = () => {
             { 
               isAdmin && 
               <div>
-                {/* <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/> */}
+                <DeleteDestinationFormDialog destinations={destinationsList} fetchDestinations={fetchDestinations}/>
                 <CreateDestinationFormDialog countries={countriesList} fetchDestinations={fetchDestinations} />
               </div>
             }

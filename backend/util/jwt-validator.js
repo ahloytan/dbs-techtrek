@@ -3,8 +3,10 @@
 const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { supabaseServerWithRLS } = require('./db');
+let supabaseWithRLS = { db: null };
 
-async function jwt_validator(req, res, next) {
+async function jwtValidator(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(440).json({ message: 'Invalid authorization header format' });
@@ -15,8 +17,8 @@ async function jwt_validator(req, res, next) {
     const { data: { user } } = await supabase.auth.getUser(token);
 
     if (!user) return res.status(440).json({ message: 'Invalid token' });
-
+    supabaseWithRLS.db = await supabaseServerWithRLS(token);
     next();
 }
 
-module.exports = jwt_validator;
+module.exports = { jwtValidator, supabaseWithRLS };

@@ -11,7 +11,7 @@ import { useAuthContext } from '@/contexts/auth-context';
 
 const Page = () => {
   const { user } = useAuthContext();
-  const { uniqueCode } = user || false; 
+  const uniqueCode = user ? user.uniqueCode : null; 
 
   return (
       <>

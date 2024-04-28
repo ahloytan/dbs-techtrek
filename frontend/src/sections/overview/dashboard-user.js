@@ -50,7 +50,7 @@ export const DashboardUser = (props) => {
                         difference={12}
                         positive
                         sx={{ height: '100%' }}
-                        value={`$${dashboardData.totalBudget ?? 0}`}
+                        value={`$${dashboardData.totalBudget}`}
                         />
                     </Grid>
                     <Grid
@@ -63,7 +63,7 @@ export const DashboardUser = (props) => {
                         difference={16}
                         positive={false}
                         sx={{ height: '100%' }}
-                        value={(dashboardData.uniqueCountries ?? 0).toString()}
+                        value={(dashboardData.uniqueCountries)?.toString()}
                         />
                     </Grid>
                     <Grid
@@ -83,7 +83,7 @@ export const DashboardUser = (props) => {
                     >
                         <OverviewTotalProfit
                         sx={{ height: '100%' }}
-                        value={`$${dashboardData.totalCost ?? 0}`}
+                        value={`$${dashboardData.totalCost}`}
                         />
                     </Grid>
                     <Grid
