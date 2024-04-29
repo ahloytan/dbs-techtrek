@@ -2,7 +2,8 @@ const { Telegraf } = require("telegraf");
 const { TELEGRAM_SECRET_HASH, TELEGRAM_BOT_TOKEN, BE_ENDPOINT, NODE_ENV } = process.env;
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
 const Telegram = require('../models/telegram');
-const BASE_PATH = NODE_ENV === "production" ? BE_ENDPOINT : "https://4f70-219-74-105-56.ngrok-free.app";
+const BASE_PATH = NODE_ENV === "production" ? BE_ENDPOINT : "https://53de-219-74-105-56.ngrok-free.app";
+const logger = require('../modules/logger');
 
 bot.command("start", async (ctx) => await Telegram.startCommand(ctx));
 bot.command("help", async (ctx) => await Telegram.helpCommand(ctx));
@@ -38,14 +39,13 @@ async function handleTelegramHook(req, res) {
     if (query.setWebhook === "true") {
       const webhookUrl = `${BASE_PATH}/telegram?TELEGRAM_SECRET_HASH=${TELEGRAM_SECRET_HASH}`;
       const isSet = await bot.telegram.setWebhook(webhookUrl);
-      console.log(`Set webhook to ${webhookUrl}: ${isSet}`);
+      logger.info(`Set webhook to ${webhookUrl}: ${isSet}`);
     }
 
     if (query.TELEGRAM_SECRET_HASH === TELEGRAM_SECRET_HASH) await bot.handleUpdate(body);
     
   } catch (error) {
-    console.error("Error sending message");
-    console.log(error.toString());
+    logger.warn(error.toString());
   }
 
   res.status(200).send("Telegram request handled successfully!");

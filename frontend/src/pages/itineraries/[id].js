@@ -17,6 +17,8 @@ const Page = () => {
       if (itineraries) setItineraries(itineraries)
     }
     fetchItineraries();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

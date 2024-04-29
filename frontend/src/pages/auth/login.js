@@ -71,6 +71,8 @@ const Page = () => {
     []
   );
 
+  const madePossibleWith = ['next-js', 'tailwind', 'nodejs', 'supabase', 'vercel'];
+
   return (
     <>
       <Head>
@@ -193,13 +195,26 @@ const Page = () => {
                 <Alert
                   color="primary"
                   severity="info"
-                  sx={{ mt: 3 }}
+                  sx={{ mt: 3, justifyContent: 'center' }}
                 >
                   <div>
                     {/* You can use <b>admin@admin.com</b> and password <b>admin</b> */}
-                    Still under development, please contact <b><a href="https://ahloytan.netlify.app" target="_blank" className="underline">admin</a></b> if you require a walkthrough
+                    Please contact <b><a href="https://glints-dashboard.s3.ap-southeast-1.amazonaws.com/resume/8f1c4bfc7f1832b6d7d7ae68145c1f7e.pdf" target="_blank" className="underline">admin</a></b> if you require a walkthrough
                   </div>
                 </Alert>
+                <div className="text-center mt-4">
+                  <Typography                
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    Made possible with:
+                  </Typography>
+                  <div className="flex justify-center mt-2">
+                    {
+                      madePossibleWith.map((item) => <img key={item} src={`/assets/icons/${item}.svg`} alt={item} title={item} className="rounded-full size-12 mx-2"/>)
+                    }
+                  </div>
+                </div>
               </form>
             )}
             {method === 'phoneNumber' && (

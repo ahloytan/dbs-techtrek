@@ -17,15 +17,17 @@ const now = new Date();
 export const DashboardUser = (props) => {
     const [dashboardData, setDashboardDetails] = useState([]);
     const { user } = useAuthContext();
-
-    const fetchDashboardDetails = async () => {
-        const { userId } = user;
-        const dashboardDetails = await getUserDashboardDetails(userId);
-        if (dashboardDetails) setDashboardDetails(dashboardDetails);
-    };
   
     useEffect(() => {
-      if (user) fetchDashboardDetails();
+        const fetchDashboardDetails = async () => {
+            const { userId } = user;
+            const dashboardDetails = await getUserDashboardDetails(userId);
+            if (dashboardDetails) setDashboardDetails(dashboardDetails);
+        };
+
+        if (user) fetchDashboardDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -28,20 +28,20 @@ const Page = () => {
           }}
         >
           <Container maxWidth="xl">
-          <Button
-              startIcon={(
-              <SvgIcon fontSize="small">
-                  <PaperAirplaneIcon />
-              </SvgIcon>
-              )}
-              sx={{ "margin": "0px 15px 5px 0" }}
-              variant="contained"
-              target="_blank" 
-              href={`https://t.me/dbstechtrekbot?start=${uniqueCode}`}
-              disabled={!uniqueCode}
-          >
-              Connect Telegram
-          </Button>
+            <Button
+                startIcon={(
+                <SvgIcon fontSize="small">
+                    <PaperAirplaneIcon />
+                </SvgIcon>
+                )}
+                sx={{ "margin": "0px 15px 5px 0" }}
+                variant="contained"
+                target="_blank" 
+                href={`https://t.me/dbstechtrekbot?start=${uniqueCode}`}
+                disabled={!uniqueCode}
+            >
+                Connect Telegram
+            </Button>
           </Container>
         </Box>
       </>
