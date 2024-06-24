@@ -1,6 +1,7 @@
 'use strict';
 
-const { supabaseWithRLS } = require('../util/jwt-validator');
+// const { supabaseWithRLS } = require('../util/jwt-validator');
+const { supabase } = require('../util/db.js');
 const itineraryDestinationTable = 'itinerary_destination';
 const itineraryTable = 'itinerary';
 const { groupByCountry } = require('../util/helper');
@@ -9,7 +10,7 @@ module.exports = {
 
   async getDashboardDetails() {
 
-    const { data, error } = await supabaseWithRLS.db
+    const { data, error } = await supabase
     .from(itineraryDestinationTable)
     .select(`
       itinerary:itinerary_id ( user_id, budget ),
@@ -43,7 +44,7 @@ module.exports = {
 
   async getUserDashboardDetails(user_id) {
 
-    const { data, error } = await supabaseWithRLS.db
+    const { data, error } = await supabase
     .from(itineraryTable)
     .select(`
       user_id, budget,

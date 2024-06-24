@@ -1,36 +1,17 @@
 const { Telegraf } = require("telegraf");
-const { TELEGRAM_SECRET_HASH, TELEGRAM_BOT_TOKEN, BE_ENDPOINT, NODE_ENV } = process.env;
+const { TELEGRAM_SECRET_HASH, TELEGRAM_BOT_TOKEN, BE_ENDPOINT } = process.env;
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN);
-const Telegram = require('../models/telegram');
-const BASE_PATH = NODE_ENV === "production" ? BE_ENDPOINT : "https://53de-219-74-105-56.ngrok-free.app";
+const BASE_PATH = BE_ENDPOINT ?? "https://589c-219-74-105-56.ngrok-free.app";
 const logger = require('../modules/logger');
+const botHears = require('../util/telegram/bot-hears');
+const botCommands = require('../util/telegram/bot-commands');
+const botActions = require('../util/telegram/bot-actions');
+const botOn = require('../util/telegram/bot-on');
 
-bot.command("start", async (ctx) => await Telegram.startCommand(ctx));
-bot.command("help", async (ctx) => await Telegram.helpCommand(ctx));
-bot.command("itineraries", async (ctx) => await Telegram.itinerariesCommand(ctx));
-bot.command("dashboard", async (ctx) => await Telegram.dashboardCommand(ctx));
-bot.on("message", async (ctx) => await Telegram.onMessage(ctx));
-bot.on('sticker', (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply("ahha oik"));
-
-bot.telegram.setMyCommands([
-  {
-    command: 'start',
-    description: 'Welcome to DBSTechTrek Bot!',
-  },
-  {
-    command: 'help',
-    description: 'View bot capabilities',
-  },
-  {
-    command: 'itineraries',
-    description: 'Get itineraries details',
-  },
-  {
-    command: 'dashboard',
-    description: 'Get dashboard details',
-  }
-]);
+botHears(bot);
+botCommands(bot);
+botActions(bot);
+botOn(bot);
 
 async function handleTelegramHook(req, res) {
   try {

@@ -1,11 +1,12 @@
 'use strict';
 
-const { supabaseWithRLS } = require('../util/jwt-validator');
+// const { supabaseWithRLS, supabase } = require('../util/jwt-validator');
+const { supabase } = require('../util/db.js');
 const itineraryTable = 'itinerary';
 
 module.exports = {  
   async getUserItineraries(userID) {
-    const { data, error } = await supabaseWithRLS.db
+    const { data, error } = await supabase
     .from(itineraryTable)
     .select(`id, country_id, budget, title, title_image, customers (name), country (name)`)
     .eq('user_id', userID)

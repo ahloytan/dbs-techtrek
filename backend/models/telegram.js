@@ -1,15 +1,23 @@
 'use strict';
 const { supabase } = require('../util/db.js');
-const startMsg = "Welcome to DBS TechTrek Bot! To get started, use /help to view the list of commands or check out what you can do with this bot with the menu provided below!";
+const { Markup } = require("telegraf");
+const Accounts = require('./accounts.js');
 const Dashboard = require('./dashboard.js');
 const Itineraries = require('./itineraries.js');
+const { startMsg, noPermissions, noDashboardDetails, noItineraries, help, about } = require('../util/telegram/bot-replies');;
 const logger = require('../modules/logger');
 
 module.exports = { 
     async startCommand(ctx) {
         const { message } = ctx;
 
-        ctx.reply(startMsg);
+        await ctx.replyWithHTML(startMsg, Markup.keyboard([
+                    ['🚀 menu 🚀'],
+                    ['help 🙋‍♂️','about this bot 🔎', 'contact me 📲']
+        ]).resize());
+
+        await this.preMenuCommand(ctx);
+
         const text = message?.text;
         const received_unique_code = text ? text.split(' ')[1] : null;
 
@@ -39,57 +47,37 @@ module.exports = {
         if (update_telegram_chat_id_error) logger.warn(update_telegram_chat_id_error);
     },
 
-    async helpCommand(ctx) {
-        ctx.replyWithHTML(
-            `\u{1F4AC} Welcome to DBS TechTrek Bot! \u{1F4AC}
-
-            Here's how you can interact:
-
-            1. To utilise all of the bot's functionalities, please connect your telegram through the website (dbs-t10.vercel.app)
-            2. /start - Start or restart the conversation with the bot \u{2139}
-            3. /dashboard - Retrieve your dashboard details \u{1F4C8}
-            4. <a href='https://docs.google.com/document/d/1uwBqQFhrHikR9pl9s1yidvFapXShNABp_OkhFqPTc8c/edit?usp=sharing'>API documentation</a>
-            5. <a href='https://www.youtube.com/watch?v=oHg5SJYRHA0&ab_channel=cotter548'>Tutorial</a>
-
-            This telegram bot is still under development. Feel free to reach out if you need any assistance or have questions!
-
-            View my portfolio (ahloytan.netlify.app)\u{1F37B} or contact me (aloysiustan.2020@scis.smu.edu.sg)\u{1F4E7}`
-        ,{ disable_web_page_preview: true })
+    aboutCommand(ctx) {
+        ctx.reply(about);
     },
 
-    async itinerariesCommand(ctx) {
-        const telegram_chat_id = ctx.message.chat.id;
-        const { data, error } = await supabase
-            .from('user_account')
-            .select('id')
-            .eq('telegram_chat_id', telegram_chat_id)
+    async preMenuCommand(ctx) {
+        await ctx.replyWithHTML("How can I assist you today? 📋", Markup.inlineKeyboard([
+            [Markup.button.callback('🚀 menu 🚀', 'menu')],
+            [Markup.button.callback('help 🙋‍♂️', 'help')],
+            [Markup.button.callback('about this bot 🔎', 'about_this_bot')],
+            [Markup.button.callback('contact me 📲', 'contact_me')],
+        ]));
+    },
 
-        if (data.length === 0 || error) {
-            ctx.reply("You do not have permission to access this resource, please try again with proper credentials!");
-            logger.warn(error);
-            return;
-        }
+    async menuCommand(ctx) {
+        await ctx.replyWithHTML("How can I assist you today? 📋", Markup.inlineKeyboard([
+            [Markup.button.callback('Dashboard 📊', 'dashboard')],
+            [Markup.button.callback('Itineraries 🗺️', 'itineraries')],
+            [Markup.button.callback('API Documentation 📝', 'api_documentation')],
+        ]));
+    },
 
-        const { id } = data[0];
-        const itinerary_details = await Itineraries.getUserItineraries(id);
-        if (itinerary_details.length === 0) {
-            ctx.reply("No itineraries found!");
-            return
-        };
-
-        const formatted_itinerary_details = JSON.stringify(itinerary_details, null, 2);
-        ctx.replyWithMarkdownV2(`*Itineraries Details:*\n\`\`\`${formatted_itinerary_details}\`\`\``);
+    async helpCommand(ctx) {
+        ctx.replyWithHTML(help, { disable_web_page_preview: true })
     },
 
     async dashboardCommand(ctx) {
-        const telegram_chat_id = ctx.message.chat.id;
-        const { data, error } = await supabase
-            .from('user_account')
-            .select('id, role_id')
-            .eq('telegram_chat_id', telegram_chat_id)
+        const telegram_chat_id = ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
+        const data = await Accounts.getUserUUIDFromChatId(telegram_chat_id);
 
-        if (data.length === 0 || error) {
-            ctx.reply("You do not have permission to access this resource, please try again with proper credentials!");
+        if (data.length === 0) {
+            ctx.reply(noPermissions);
             logger.warn(error);
             return;
         }
@@ -97,12 +85,36 @@ module.exports = {
         const { id, role_id } = data[0];
         const dashboard_details = role_id === 1 ? await Dashboard.getDashboardDetails() : await Dashboard.getUserDashboardDetails(id);
         if (dashboard_details.trafficByCountry.length === 0) {
-            ctx.reply("No dashboard details found!");
+            ctx.reply(noDashboardDetails);
             return;    
         }
 
         const formatted_dashboard_details = JSON.stringify(dashboard_details, null, 2);
         ctx.replyWithMarkdownV2(`*Dashboard Details:*\n\`\`\`${formatted_dashboard_details}\`\`\``);
+    },
+
+    async itinerariesCommand(ctx) {
+        const telegram_chat_id = await ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
+        const data = await Accounts.getUserUUIDFromChatId(telegram_chat_id);
+        if (data.length === 0) {
+            ctx.reply(noPermissions);
+            logger.warn(error);
+            return;
+        }
+
+        const { id } = data[0];
+        const itinerary_details = await Itineraries.getUserItineraries(id);
+        if (itinerary_details.length === 0) {
+            ctx.reply(noItineraries);
+            return;
+        };
+
+        const formatted_itinerary_details = JSON.stringify(itinerary_details, null, 2);
+        ctx.replyWithMarkdownV2(`*Itineraries Details:*\n\`\`\`${formatted_itinerary_details}\`\`\``);
+    },
+
+    async apiDocumentationCommand(ctx) {
+        ctx.replyWithHTML("Link: <a href='https://docs.google.com/document/d/1uwBqQFhrHikR9pl9s1yidvFapXShNABp_OkhFqPTc8c/edit?usp=sharing'>API documentation</a>")
     },
     
     async onMessage(ctx) {
