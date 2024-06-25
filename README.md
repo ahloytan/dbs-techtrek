@@ -38,6 +38,7 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 ```
 CHATGPT_API=""
 GEMINI_API_KEY="" 
+AWAN_API_KEY=""
 TELEGRAM_BOT_TOKEN=""
 TELEGRAM_SECRET_HASH=""
 FE_ENDPOINT=""
@@ -52,7 +53,7 @@ SUPABASE_ANON_KEY=""
 
 ## Telegram WebHook
 1. Search for `DBSTechTrekBot` in Telegram
-2. Set up `ngrok`. Previously, the service didn't require an auth token. However, it's required now. Sign up an [account](https://dashboard.ngrok.com/get-started/setup/windows). You should see a command like `ngrok config add-authtoken <YOURTOKEN>` to add your auth token. Copy and run that command in the command line. You should see an output `Authtoken saved to configuration file: C:\<YOUR_PATH>/ngrok/ngrok.yml`
+2. Set up `ngrok`. Previously, the service didn't require an auth token. However, it's required now. Sign up an [account](https://dashboard.ngrok.com/get-started/setup/windows). You should see a command like `ngrok config add-authtoken <YOURTOKEN>` to add your auth token. Copy and run that command in the command line. You should see an output `Authtoken saved to configuration file: C:\Users/<USER>/AppData/Local/ngrok/ngrok.yml`
 3. Since our server is running on `http://localhost:5000`, we need to expose our port by typing `ngrok http 5000` in the terminal
 4. Beside the `Forwarding` property, we should see an `ngrok` url like `https://4f70-219-74-105-56.ngrok-free.app`. Go to `https://<ngrok-url>/telegram?setWebhook=true` to set bot webhook url. (Note: During development, the `ngrok` url will change everything you expose your port, which means you will have to set the webhook again whenever you restart it)
 5. Message the bot or use any of its commands in Telegram to see it in action 

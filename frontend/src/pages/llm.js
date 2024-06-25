@@ -4,7 +4,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import PromptSuggestions from '@/sections/genAI/prompt-suggestions';
 import Chat from '@/sections/genAI/chat';
 import { Box, Container, Typography, Stack, Button, SvgIcon } from '@mui/material';
-import { ChatBubbleLeftIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
+import { ChatBubbleBottomCenterIcon, ChatBubbleLeftIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
 import { sendPromptToLLM } from '@/api/llm';
 import PromptLoader from '@/components/genAI/prompt-loading';
 
@@ -106,6 +106,18 @@ const Page = () => {
                           onClick={() => selectedLLM('chatGPT')}
                         >
                           ChatGPT
+                        </Button>
+                        <Button
+                          color="inherit"
+                          variant={model == 'awan' ? 'contained' : ''}
+                          startIcon={(
+                            <SvgIcon fontSize="small">
+                              <ChatBubbleBottomCenterIcon />
+                            </SvgIcon>
+                          )}
+                          onClick={() => selectedLLM('awan')}
+                        >
+                          Awan
                         </Button>
                       </Stack>
                     </Stack>
