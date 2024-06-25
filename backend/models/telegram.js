@@ -4,7 +4,7 @@ const { Markup } = require("telegraf");
 const Accounts = require('./accounts.js');
 const Dashboard = require('./dashboard.js');
 const Itineraries = require('./itineraries.js');
-const { startMsg, noPermissions, noDashboardDetails, noItineraries, help, about } = require('../util/telegram/bot-replies');;
+const { startMsg, noPermissions, noDashboardDetails, noItineraries, help, about, apiDocumentation, contactMe } = require('../util/telegram/bot-replies');;
 const logger = require('../modules/logger');
 
 module.exports = { 
@@ -38,13 +38,13 @@ module.exports = {
             return;
         }
 
-        const telegram_chat_id = ctx.message.chat.id;
-        const { error: update_telegram_chat_id_error } = await supabase
+        const telegramChatId = ctx.message.chat.id;
+        const { error: updateTelegramChatIdError } = await supabase
         .from('user_account')
-        .update({ telegram_chat_id })
+        .update({ 'telegram_chat_id' : telegramChatId })
         .eq('unique_code', received_unique_code);
 
-        if (update_telegram_chat_id_error) logger.warn(update_telegram_chat_id_error);
+        if (updateTelegramChatIdError) logger.warn(updateTelegramChatIdError);
     },
 
     aboutCommand(ctx) {
@@ -68,21 +68,24 @@ module.exports = {
         ]));
     },
 
+    async contactMeCommand(ctx) {
+        ctx.reply(contactMe);
+    },
+
     async helpCommand(ctx) {
         ctx.replyWithHTML(help, { disable_web_page_preview: true })
     },
 
     async dashboardCommand(ctx) {
-        const telegram_chat_id = ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
-        const data = await Accounts.getUserUUIDFromChatId(telegram_chat_id);
+        const telegramChatId = ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
+        const { id, role_id } = await Accounts.getUserFromChatId(telegramChatId);
 
-        if (data.length === 0) {
+        if (!id) {
             ctx.reply(noPermissions);
             logger.warn(error);
             return;
         }
 
-        const { id, role_id } = data[0];
         const dashboard_details = role_id === 1 ? await Dashboard.getDashboardDetails() : await Dashboard.getUserDashboardDetails(id);
         if (dashboard_details.trafficByCountry.length === 0) {
             ctx.reply(noDashboardDetails);
@@ -94,15 +97,14 @@ module.exports = {
     },
 
     async itinerariesCommand(ctx) {
-        const telegram_chat_id = await ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
-        const data = await Accounts.getUserUUIDFromChatId(telegram_chat_id);
-        if (data.length === 0) {
+        const telegramChatId = await ctx.update.callback_query?.from?.id || ctx.message?.from?.id;
+        const { id } = await Accounts.getUserFromChatId(telegramChatId);
+        if (!id) {
             ctx.reply(noPermissions);
             logger.warn(error);
             return;
         }
 
-        const { id } = data[0];
         const itinerary_details = await Itineraries.getUserItineraries(id);
         if (itinerary_details.length === 0) {
             ctx.reply(noItineraries);
@@ -114,7 +116,7 @@ module.exports = {
     },
 
     async apiDocumentationCommand(ctx) {
-        ctx.replyWithHTML("Link: <a href='https://docs.google.com/document/d/1uwBqQFhrHikR9pl9s1yidvFapXShNABp_OkhFqPTc8c/edit?usp=sharing'>API documentation</a>")
+        ctx.replyWithHTML(apiDocumentation);
     },
     
     async onMessage(ctx) {

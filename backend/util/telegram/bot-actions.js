@@ -11,4 +11,7 @@ module.exports = function(bot) {
     bot.action("dashboard", async (ctx) => await Telegram.dashboardCommand(ctx));
     bot.action("itineraries", async (ctx) => await Telegram.itinerariesCommand(ctx));
     bot.action("api_documentation", async (ctx) => await Telegram.apiDocumentationCommand(ctx));
+    bot.action("help", async (ctx) => await Telegram.helpCommand(ctx));
+    bot.action("about_this_bot", async (ctx) => await Telegram.aboutCommand(ctx));
+    bot.action("contact_me", async (ctx) => await Telegram.contactMeCommand(ctx));
 }

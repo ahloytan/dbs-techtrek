@@ -6,6 +6,7 @@ module.exports = function(bot) {
     bot.command("menu", async (ctx) => await Telegram.menuCommand(ctx));
     bot.command("help", async (ctx) => await Telegram.helpCommand(ctx));
     bot.command("about_this_bot", async (ctx) => await Telegram.aboutCommand(ctx));
+    bot.command("contact_me", async (ctx) => await Telegram.contactMeCommand(ctx));
 
     bot.telegram.setMyCommands([
         {
