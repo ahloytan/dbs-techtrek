@@ -51,7 +51,7 @@ const Page = () => {
       try {
         dispatch(setLoadingStatus(true));
         await auth.signIn(values.email, values.password);
-        router.push('/');
+        router.push('/llm');
 
       } catch (err) {
         helpers.setStatus({ success: false });

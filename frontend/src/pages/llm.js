@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import PromptSuggestions from '@/sections/genAI/prompt-suggestions';
 import Chat from '@/sections/genAI/chat';
-import { Box, Container, Typography, Stack, Button, SvgIcon } from '@mui/material';
-import { ChatBubbleBottomCenterIcon, ChatBubbleLeftIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/solid';
+import { Avatar, Box, Container, Typography, Stack, Button } from '@mui/material';
 import { sendPromptToLLM } from '@/api/llm';
 import PromptLoader from '@/components/genAI/prompt-loading';
 
@@ -21,15 +20,43 @@ const chatHistory = [
   `What are three great applications of quantum computing?`,
   `Three great applications of quantum computing are: Optimization of
   complex problems, Drug Discovery and Cryptography.`
-]
+];
+
+
+const models = [
+  {
+    name: "groq",
+    title: "Groq",
+    icon: "groq.png",
+    isDisabled: false
+  },
+  {
+    name: "gemini",
+    title: "Gemini",
+    icon: "gemini.png",
+    isDisabled: false
+  },
+  {
+    name: "chatGPT",
+    title: "ChatGPT",
+    icon: "chatgpt.webp",
+    isDisabled: false
+  },
+  {
+    name: "deepseek",
+    title: "DeepSeek (Coming Soon)",
+    icon: "deepseek.png",
+    isDisabled: true
+  }
+];
 
 const Page = () => {
-    const [model, setLLMModel] = useState("gemini");
+    const [selectedModel, setLLMModel] = useState("groq");
     const [prompt, setPrompt] = useState("Who is Youn Soo Bin from LCK?");
     const [isLoading, setIsLoading] = useState(false);
-    
-    const selectedLLM = (model) => {
-      setLLMModel(model)
+
+    const selectedLLM = (selectedModel) => {
+      setLLMModel(selectedModel)
     };
 
     const handleInputChange = (event) => {
@@ -40,7 +67,7 @@ const Page = () => {
     const sendPrompt = async () => {
       setPrompt("");
       setIsLoading(true);
-      let answer = await sendPromptToLLM(model, prompt);
+      let answer = await sendPromptToLLM(selectedModel, prompt);
       chatHistory.push(prompt);
       chatHistory.push(answer);
       setIsLoading(false);
@@ -83,42 +110,22 @@ const Page = () => {
                       direction="row"
                       spacing={1}
                     >
-                      <Button
-                          color="inherit"
-                          variant={model == 'gemini' ? 'contained' : ''}
-                          startIcon={(
-                            <SvgIcon fontSize="small">
-                              <ChatBubbleOvalLeftIcon />
-                            </SvgIcon>
-                          )}
-                          onClick={() => selectedLLM('gemini')}
-                        >
-                          Gemini
-                      </Button>
-                      <Button
-                          color="inherit"
-                          variant={model == 'chatGPT' ? 'contained' : ''}
-                          startIcon={(
-                            <SvgIcon fontSize="small">
-                              <ChatBubbleLeftIcon />
-                            </SvgIcon>
-                          )}
-                          onClick={() => selectedLLM('chatGPT')}
-                        >
-                          ChatGPT
-                        </Button>
+                      {models.map((model) => (
                         <Button
+                          key={model.name}
                           color="inherit"
-                          variant={model == 'awan' ? 'contained' : ''}
-                          startIcon={(
-                            <SvgIcon fontSize="small">
-                              <ChatBubbleBottomCenterIcon />
-                            </SvgIcon>
-                          )}
-                          onClick={() => selectedLLM('awan')}
+                          variant={selectedModel == model.name ? 'contained' : ''}
+                          startIcon={
+                            <Avatar
+                              src={`/assets/llm/${model.icon}`}
+                            />
+                          }
+                          onClick={() => selectedLLM(model.name)}
+                          disabled={model.isDisabled}
                         >
-                          Awan
-                        </Button>
+                          {model.title}
+                        </Button> 
+                      ))}
                       </Stack>
                     </Stack>
                   </Stack>

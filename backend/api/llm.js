@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../modules/logger');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { CHATGPT_API, GEMINI_API_KEY, AWAN_API_KEY } = process.env;
+const { CHATGPT_API, GEMINI_API_KEY, AWAN_API_KEYl, GROQ_API_KEY } = process.env;
+const Groq = require('groq-sdk');
+const groq = new Groq({ apiKey: GROQ_API_KEY });
 
 router.post('/chatgpt', async (req, res, next) => {
   try {
@@ -87,6 +89,28 @@ router.post('/awan', async (req, res, next) => {
     );
 
     res.status(200).json({data: response.data.choices[0].message.content})
+  } catch (error) {
+    logger.warn(error);
+    next(error);
+  }
+});
+
+router.post('/groq', async (req, res, next) => {
+  try {
+    const { prompt } = req.body;
+    if (!prompt) throw new Error("Empty message!");
+
+    const response = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      model: "llama-3.3-70b-versatile",
+    });
+
+    res.status(200).json({data: response.choices[0].message.content})
   } catch (error) {
     logger.warn(error);
     next(error);
