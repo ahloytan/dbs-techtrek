@@ -31,15 +31,15 @@ const models = [
     isDisabled: false
   },
   {
-    name: "gemini",
-    title: "Gemini",
-    icon: "gemini.png",
+    name: "hugging-face",
+    title: "Hugging Face",
+    icon: "hf.png",
     isDisabled: false
   },
   {
-    name: "chatGPT",
-    title: "ChatGPT",
-    icon: "chatgpt.webp",
+    name: "gemini",
+    title: "Gemini",
+    icon: "gemini.png",
     isDisabled: false
   },
   {
@@ -108,7 +108,8 @@ const Page = () => {
                     <Stack
                       alignItems="center"
                       direction="row"
-                      spacing={1}
+
+                      className="flex flex-wrap"
                     >
                       {models.map((model) => (
                         <Button

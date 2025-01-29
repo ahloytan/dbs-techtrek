@@ -9,6 +9,8 @@ const sendPromptToLLM = async (model, prompt) => {
   } catch (error) {
     console.log(error);
     // throw new Error(error);
+    const errorMsg = "Something went wrong. Please try again with another model. If all else fails, please contact the administrator (https://ahloytan.netlify.app/)"
+    return errorMsg;
   }
 }
 
