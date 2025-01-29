@@ -8,17 +8,8 @@ import { sendPromptToLLM } from '@/api/llm';
 import PromptLoader from '@/components/genAI/prompt-loading';
 
 const chatHistory = [
-  `Explain quantum computing in simple terms`,
-  `Certainly! Quantum computing is a new type of computing that relies on
-  the principles of quantum physics. Traditional computers, like the one
-  you might be using right now, use bits to store and process
-  information. These bits can represent either a 0 or a 1. In contrast,
-  quantum computers use quantum bits, or qubits. Unlike bits, qubits can represent not only a 0 or a 1 but also a
-  superposition of both states simultaneously. This means that a qubit
-  can be in multiple states at once, which allows quantum computers to
-  perform certain calculations much faster and more efficiently`,
   `What are three great applications of quantum computing?`,
-  `Three great applications of quantum computing are: Optimization of
+  `The three great applications of quantum computing are: Optimization of
   complex problems, Drug Discovery and Cryptography.`
 ];
 
@@ -44,7 +35,7 @@ const models = [
   },
   {
     name: "deepseek",
-    title: "DeepSeek (Coming Soon)",
+    title: "DeepSeek (WIP)",
     icon: "deepseek.png",
     isDisabled: true
   }
@@ -108,7 +99,6 @@ const Page = () => {
                     <Stack
                       alignItems="center"
                       direction="row"
-
                       className="flex flex-wrap"
                     >
                       {models.map((model) => (
