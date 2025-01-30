@@ -5,9 +5,7 @@ const logger = require('../modules/logger');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { CHATGPT_API, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY } = process.env;
 const Groq = require('groq-sdk');
-const groq = new Groq({ apiKey: GROQ_API_KEY });
 const { HfInference } = require('@huggingface/inference');
-const hf = new HfInference(HUGGING_FACE_API_KEY)
 
 // router.post('/chatgpt', async (req, res, next) => {
 //   try {
@@ -98,6 +96,7 @@ router.post('/gemini', async (req, res, next) => {
 // });
 
 router.post('/groq', async (req, res, next) => {
+  const groq = new Groq({ apiKey: GROQ_API_KEY });
   try {
     const { prompt } = req.body;
     if (!prompt) throw new Error("Empty message!");
@@ -120,6 +119,7 @@ router.post('/groq', async (req, res, next) => {
 });
 
 router.post('/hugging-face', async (req, res, next) => {
+  const hf = new HfInference(HUGGING_FACE_API_KEY);
   try {
     const { prompt } = req.body;
     if (!prompt) throw new Error("Empty message!");
