@@ -1,16 +1,17 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import PromptSuggestions from '@/sections/genAI/prompt-suggestions';
 import Chat from '@/sections/genAI/chat';
 import { Avatar, Box, Container, Typography, Stack, Button } from '@mui/material';
-import { sendPromptToLLM } from '@/api/llm';
+import { sendPromptToLLM, getChatHistory } from '@/api/llm';
 import PromptLoader from '@/components/genAI/prompt-loading';
 
-const chatHistory = [
-  `What are three great applications of quantum computing?`,
-  `The three great applications of quantum computing are: Optimization of
-  complex problems, Drug Discovery and Cryptography.`
+const chatHistory1 = [
+  {
+    role: "system",
+    content: "Hello! How may I help you today? Go ahead and ask me a question!"
+  }
 ];
 
 
@@ -42,6 +43,7 @@ const models = [
 ];
 
 const Page = () => {
+    const [chatHistory, setChatHistory] = useState([]);
     const [selectedModel, setLLMModel] = useState("groq");
     const [prompt, setPrompt] = useState("Who is Youn Soo Bin from LCK?");
     const [isLoading, setIsLoading] = useState(false);
@@ -55,17 +57,6 @@ const Page = () => {
       setPrompt(newValue);
     };
 
-    async function sendPrompt() {
-      setIsLoading(true);
-      setPrompt("");
-      await sendPromptToLLM(selectedModel, prompt)
-        .then((answer) => {
-          chatHistory.push(prompt);
-          chatHistory.push(answer);
-        })
-        .finally(() => setIsLoading(false));
-    }
-
     const onEnterKeyPressed = (e) => {
       if (e.key === 'Enter') {
         sendPrompt(); 
@@ -73,8 +64,36 @@ const Page = () => {
       }
     }
 
-    function handleSelectedPrompt(prompt) {
+    const handleSelectedPrompt = (prompt) => {
       setPrompt(prompt);
+    }
+    
+    useEffect(() => {
+      fetchChatHistory();
+    }, []);
+
+    //http
+    const sendPrompt = async () => {
+      setIsLoading(true);
+      chatHistory.push({ role: "user", content: prompt });
+      setPrompt("");
+      await sendPromptToLLM(selectedModel, prompt)
+        .then((answer) => {
+          chatHistory.push({ role: "system", content: answer });
+          console.log(chatHistory)
+        })
+        .finally(() => setIsLoading(false));
+    }
+
+    const fetchChatHistory = async () => {
+      const chatHistory = await getChatHistory();
+  
+      if (chatHistory.length) {
+        setChatHistory(chatHistory);
+        return;
+      }
+
+      setChatHistory(chatHistory1)
     }
 
     return (

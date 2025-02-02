@@ -3,7 +3,7 @@ import ChatPromptActions from "@/components/genAI/chat-prompt-actions";
 export default function Chat ({chatHistory}) {
     
     return chatHistory.map((msg, index) => (
-                index % 2 == 0 ? (
+                msg.role === "user" ? (
                     <div className="flex flex-row px-2 py-4 sm:px-4" key={index}>
                         <img
                             className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
@@ -11,7 +11,7 @@ export default function Chat ({chatHistory}) {
                         />
         
                         <div className="flex max-w-full items-center">
-                            <p>{[msg]}</p>
+                            <p>{[msg.content]}</p>
                         </div>
                     </div>
                 ) : (
@@ -24,7 +24,7 @@ export default function Chat ({chatHistory}) {
                             />
             
                             <div className="flex max-w-full items-center rounded-xl">
-                                <p>{[msg]}</p>
+                                <p>{[msg.content]}</p>
                             </div>
                         </div>
                     </div>

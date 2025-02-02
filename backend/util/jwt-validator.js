@@ -21,4 +21,4 @@ async function jwtValidator(req, res, next) {
     next();
 }
 
-module.exports = { jwtValidator, supabaseWithRLS };
+module.exports = { jwtValidator, supabaseWithRLS, supabase };

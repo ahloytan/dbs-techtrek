@@ -14,4 +14,15 @@ const sendPromptToLLM = async (model, prompt) => {
   }
 }
 
-export { sendPromptToLLM };
+const getChatHistory = async () => {
+  try {
+    const {data: { data }} = await api.get(`/llm/chat-history`);
+    return data;
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data.message);
+  }
+}
+
+export { sendPromptToLLM, getChatHistory };

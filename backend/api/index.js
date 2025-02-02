@@ -19,7 +19,7 @@ router.use('/countries', jwtValidator, countries);
 router.use('/customers', jwtValidator, customers);
 router.use('/dashboard', jwtValidator, dashboard);
 router.use('/destinations', jwtValidator, destinations);
-router.use('/llm', llm);
+router.use('/llm', jwtValidator, llm);
 router.use('/itineraries', jwtValidator, itineraries);
 router.use('/account', account);
 router.use('/ocr', jwtValidator, ocr);
