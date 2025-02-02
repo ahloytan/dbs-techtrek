@@ -27,10 +27,14 @@ router.post('/gemini', async (req, res, next) => {
     if (!prompt) throw new Error("Empty message!");
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro"});
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro"});
 
     const result = await model.generateContent(prompt);
     const { response } = await result;
+
+    const [, token] = req.headers.authorization.split(' ');
+    await LLM.addMessage(token, prompt, "user");
+    await LLM.addMessage(token, response.text(), "system");
 
     res.status(200).json({data: response.text()})
   } catch (error) {
