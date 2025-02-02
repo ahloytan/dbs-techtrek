@@ -55,13 +55,15 @@ const Page = () => {
       setPrompt(newValue);
     };
 
-    const sendPrompt = async () => {
-      setPrompt("");
+    async function sendPrompt() {
       setIsLoading(true);
-      let answer = await sendPromptToLLM(selectedModel, prompt);
-      chatHistory.push(prompt);
-      chatHistory.push(answer);
-      setIsLoading(false);
+      setPrompt("");
+      await sendPromptToLLM(selectedModel, prompt)
+        .then((answer) => {
+          chatHistory.push(prompt);
+          chatHistory.push(answer);
+        })
+        .finally(() => setIsLoading(false));
     }
 
     const onEnterKeyPressed = (e) => {
@@ -69,6 +71,10 @@ const Page = () => {
         sendPrompt(); 
         e.preventDefault();
       }
+    }
+
+    function handleSelectedPrompt(prompt) {
+      setPrompt(prompt);
     }
 
     return (
@@ -131,7 +137,7 @@ const Page = () => {
                   {isLoading && <PromptLoader/>}
                 </div>
                 {/* Prompt suggestions */}
-                <PromptSuggestions/>
+                <PromptSuggestions selectPrompt={handleSelectedPrompt}/>
                 {/* Prompt message input */}
                 <div className="mt-2">
                   <label htmlFor="chat-input" className="sr-only">Enter your prompt</label>
