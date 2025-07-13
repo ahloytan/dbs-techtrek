@@ -23,9 +23,9 @@ const models = [
     isDisabled: false
   },
   {
-    name: "mistral",
-    title: "Mistral",
-    icon: "mistral.png",
+    name: "gemini",
+    title: "Gemini",
+    icon: "gemini.png",
     isDisabled: false
   },
   {
@@ -35,17 +35,17 @@ const models = [
     isDisabled: false
   },
   {
-    name: "gemini",
-    title: "Gemini",
-    icon: "gemini.png",
-    isDisabled: false
-  },
-  {
     name: "deepseek",
     title: "DeepSeek",
     icon: "deepseek.png",
     isDisabled: false
-  }
+  },
+  {
+    name: "mistral",
+    title: "Mistral",
+    icon: "mistral.png",
+    isDisabled: false
+  },
 ];
 
 const Page = () => {
@@ -77,7 +77,7 @@ const Page = () => {
     const handleSelectedPrompt = (prompt) => {
       setPrompt(prompt);
     }
-    
+
     useEffect(() => {
       fetchChatHistory();
     }, []);
@@ -95,23 +95,24 @@ const Page = () => {
         .finally(() => setIsLoading(false));
     }
 
-    const clearChat = async () => {
-      setIsLoading(true);
-      setPrompt("");
-      setChatHistory(chatHistory1);
-      await clearUserChat()
-        .finally(() => setIsLoading(false));
-    }
-
     const fetchChatHistory = async () => {
       const chatHistory = await getChatHistory();
-  
+      console.log("CHOMIK XDD")
       if (chatHistory.length) {
         setChatHistory(chatHistory);
         return;
       }
 
-      setChatHistory(chatHistory1)
+      setChatHistory(chatHistory1);
+    }
+
+    
+    const clearChat = async () => {
+      setIsLoading(true);
+      setPrompt("");
+      setChatHistory([]);
+      await clearUserChat();
+      setIsLoading(false);
     }
 
     return (
