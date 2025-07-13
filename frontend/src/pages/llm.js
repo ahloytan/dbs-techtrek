@@ -204,7 +204,7 @@ const Page = () => {
                       onChange={handleInputChange}
                       onKeyDown={(e) => onEnterKeyPressed(e) }
                       id="chat-input"
-                      className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pl-10 pr-20 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-500 sm:text-base"
+                      className="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 pl-10 pr-40 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-500 sm:text-base"
                       placeholder="Enter your prompt"
                       rows="1"
                       required
@@ -213,9 +213,22 @@ const Page = () => {
                       variant="contained"
                       onClick={sendPrompt}
                       disabled={isLoading || !prompt}
-                      sx={{position: 'absolute', bottom: '8px', right: '130px'}}
+                      sx={{position: 'absolute', bottom: '8px', right: '80px'}}
                     >
-                      Send
+                      <svg
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M22 2L11 13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                      </svg>
                     </Button>
 
                     <Button
@@ -224,7 +237,19 @@ const Page = () => {
                       disabled={isLoading || prompt}
                       sx={{position: 'absolute', bottom: '8px', right: '10px'}}
                     >
-                      New Chat
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                      </svg>
                     </Button>
                   </div>
                 </div>
