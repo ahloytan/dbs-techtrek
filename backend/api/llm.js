@@ -1,17 +1,17 @@
-const axios = require('axios');
-const express = require('express');
-const router = express.Router();
-const logger = require('../modules/logger');
+require('dotenv').config();
+const { CHATGPT_API, DEEPSEEK_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY, MISTRAL_API_KEY } = process.env;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { CHATGPT_API, DEEPSEEK_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY } = process.env;
-const Groq = require('groq-sdk');
 const { InferenceClient } = require('@huggingface/inference');
+const axios = require('axios');
+const { Mistral } = require('@mistralai/mistralai');
+const client = new Mistral({apiKey: MISTRAL_API_KEY});
+const express = require('express');
+const Groq = require('groq-sdk');
 const LLM = require('../models/llm');
+const logger = require('../modules/logger');
 const OpenAI = require('openai');
-const openai = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: DEEPSEEK_API_KEY
-});
+const openai = new OpenAI({ baseURL: 'https://openrouter.ai/api/v1', apiKey: DEEPSEEK_API_KEY });
+const router = express.Router();
 
 router.delete('/clear-user-chat', async (req, res, next) => {
   try {
@@ -120,10 +120,35 @@ router.post('/deepseek', async (req, res, next) => {
 
     await LLM.addMessage(token, prompt, "user");
     const messages = await LLM.getConversation(token);
+
     const chatCompletion = await openai.chat.completions.create({
       model: 'deepseek/deepseek-chat-v3-0324:free',
       messages,
       max_tokens: 4000
+    });
+    
+    const output = chatCompletion.choices[0].message.content
+    await LLM.addMessage(token, output, "system");
+
+    res.status(200).json({data: output});
+  } catch (error) {
+    logger.warn(error);
+    next(error);
+  }
+});
+
+router.post('/mistral', async (req, res, next) => {
+  try {
+    const { prompt } = req.body;
+    if (!prompt) throw new Error("Empty message!");
+    const [, token] = req.headers.authorization.split(' ');
+
+    await LLM.addMessage(token, prompt, "user");
+    const messages = await LLM.getConversation(token);
+
+    const chatCompletion = await client.chat.complete({
+      model: 'mistral-large-latest',
+      messages,
     });
     
     const output = chatCompletion.choices[0].message.content

@@ -1,6 +1,6 @@
 import api from '../utils/axios.js';
 
-const clearUserChat = async (model, prompt) => {
+const clearUserChat = async () => {
   try {
     const {data: { data }} = await api.delete(`/llm/clear-user-chat`);
     return data;

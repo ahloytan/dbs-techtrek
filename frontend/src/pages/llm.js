@@ -23,6 +23,12 @@ const models = [
     isDisabled: false
   },
   {
+    name: "mistral",
+    title: "Mistral",
+    icon: "mistral.png",
+    isDisabled: false
+  },
+  {
     name: "hugging-face",
     title: "Hugging Face",
     icon: "hf.png",
@@ -92,10 +98,8 @@ const Page = () => {
     const clearChat = async () => {
       setIsLoading(true);
       setPrompt("");
-      await clearUserChat(selectedModel, prompt)
-        .then((answer) => {
-          setChatHistory(chatHistory1)
-        })
+      await clearUserChat()
+        .then(() => setChatHistory(chatHistory1))
         .finally(() => setIsLoading(false));
     }
 
@@ -212,7 +216,7 @@ const Page = () => {
                     <Button
                       variant="contained"
                       onClick={sendPrompt}
-                      disabled={isLoading || !prompt}
+                      disabled={isLoading || !Boolean(prompt)}
                       sx={{position: 'absolute', bottom: '8px', right: '80px'}}
                     >
                       <svg
@@ -234,7 +238,7 @@ const Page = () => {
                     <Button
                       variant="contained"
                       onClick={clearChat}
-                      disabled={isLoading || prompt}
+                      disabled={isLoading || Boolean(prompt)}
                       sx={{position: 'absolute', bottom: '8px', right: '10px'}}
                     >
                       <svg
