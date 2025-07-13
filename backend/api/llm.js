@@ -3,9 +3,12 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { InferenceClient } = require('@huggingface/inference');
 const axios = require('axios');
 const { Mistral } = require('@mistralai/mistralai');
-const client = new Mistral({apiKey: MISTRAL_API_KEY});
+const mistral = new Mistral({apiKey: MISTRAL_API_KEY});
+const huggingFace = new InferenceClient(HUGGING_FACE_API_KEY);
 const express = require('express');
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const Groq = require('groq-sdk');
+const groq = new Groq({ apiKey: GROQ_API_KEY });
 const LLM = require('../models/llm');
 const logger = require('../modules/logger');
 const OpenAI = require('openai');
@@ -42,7 +45,6 @@ router.post('/gemini', async (req, res, next) => {
     const { prompt } = req.body;
     if (!prompt) throw new Error("Empty message!");
 
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro"});
 
     const result = await model.generateContent(prompt);
@@ -60,7 +62,6 @@ router.post('/gemini', async (req, res, next) => {
 });
 
 router.post('/groq', async (req, res, next) => {
-  const groq = new Groq({ apiKey: GROQ_API_KEY });
   try {
     const { prompt } = req.body;
     if (!prompt) throw new Error("Empty message!");
@@ -90,12 +91,11 @@ router.post('/hugging-face', async (req, res, next) => {
     if (!prompt) throw new Error("Empty message!");
 
     const [, token] = req.headers.authorization.split(' ');
-    const client = new InferenceClient(HUGGING_FACE_API_KEY);
 
     await LLM.addMessage(token, prompt, "user");
     const messages = await LLM.getConversation(token);
     //https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard
-    const chatCompletion = await client.chatCompletion({
+    const chatCompletion = await huggingFace.chatCompletion({
         provider: "featherless-ai",
         model: "Qwen/Qwen2.5-Coder-32B-Instruct", //https://huggingface.co/docs/api-inference/en/tasks/chat-completion?code=js
         messages
@@ -145,7 +145,7 @@ router.post('/mistral', async (req, res, next) => {
     await LLM.addMessage(token, prompt, "user");
     const messages = await LLM.getConversation(token);
 
-    const chatCompletion = await client.chat.complete({
+    const chatCompletion = await mistral.chat.complete({
       model: 'mistral-large-latest',
       messages,
     });
