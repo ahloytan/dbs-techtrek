@@ -3,11 +3,28 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../modules/logger');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { CHATGPT_API, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY } = process.env;
+const { CHATGPT_API, DEEPSEEK_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY } = process.env;
 const Groq = require('groq-sdk');
-const { HfInference } = require('@huggingface/inference');
+const { InferenceClient } = require('@huggingface/inference');
 const LLM = require('../models/llm');
- 
+const OpenAI = require('openai');
+const openai = new OpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: DEEPSEEK_API_KEY
+});
+
+router.delete('/clear-user-chat', async (req, res, next) => {
+  try {
+    const [, token] = req.headers.authorization.split(' ');
+    const messages = await LLM.clearChatHistory(token);
+
+    res.status(200).json({data: messages})
+  } catch (error) {
+    logger.warn(error);
+    next(error);
+  }
+});
+
 router.get('/chat-history', async (req, res, next) => {
   try {
     const [, token] = req.headers.authorization.split(' ');
@@ -27,7 +44,7 @@ router.post('/gemini', async (req, res, next) => {
     if (!prompt) throw new Error("Empty message!");
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro"});
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro"});
 
     const result = await model.generateContent(prompt);
     const { response } = await result;
@@ -69,37 +86,55 @@ router.post('/groq', async (req, res, next) => {
 });
 
 router.post('/hugging-face', async (req, res, next) => {
-  const hf = new HfInference(HUGGING_FACE_API_KEY);
   try {
     const { prompt } = req.body;
     if (!prompt) throw new Error("Empty message!");
 
     const [, token] = req.headers.authorization.split(' ');
+    const client = new InferenceClient(HUGGING_FACE_API_KEY);
+
     await LLM.addMessage(token, prompt, "user");
     const messages = await LLM.getConversation(token);
-
-    const response = hf.chatCompletionStream({
-      model: "Qwen/Qwen2.5-Coder-32B-Instruct", //https://huggingface.co/docs/api-inference/en/tasks/chat-completion?code=js
-      messages: messages,
-      max_tokens: 1000
+    //https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard
+    const chatCompletion = await client.chatCompletion({
+        provider: "featherless-ai",
+        model: "Qwen/Qwen2.5-Coder-32B-Instruct", //https://huggingface.co/docs/api-inference/en/tasks/chat-completion?code=js
+        messages
     });
 
-    let output = ""
-    for await (const chunk of response) {
-      if (chunk?.choices?.length > 0) {
-        output += chunk.choices[0].delta.content;
-      }  
-    }
-
+    const output = chatCompletion.choices[0].message.content
     await LLM.addMessage(token, output, "system");
 
-    res.status(200).json({data: output})
+    res.status(200).json({data: output});
   } catch (error) {
     logger.warn(error);
     next(error);
   }
 });
 
+router.post('/deepseek', async (req, res, next) => {
+  try {
+    const { prompt } = req.body;
+    if (!prompt) throw new Error("Empty message!");
+    const [, token] = req.headers.authorization.split(' ');
+
+    await LLM.addMessage(token, prompt, "user");
+    const messages = await LLM.getConversation(token);
+    const chatCompletion = await openai.chat.completions.create({
+      model: 'deepseek/deepseek-chat-v3-0324:free',
+      messages,
+      max_tokens: 4000
+    });
+    
+    const output = chatCompletion.choices[0].message.content
+    await LLM.addMessage(token, output, "system");
+
+    res.status(200).json({data: output});
+  } catch (error) {
+    logger.warn(error);
+    next(error);
+  }
+});
 
 // router.post('/awan', async (req, res, next) => {
 //   try {

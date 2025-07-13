@@ -1,7 +1,9 @@
 import ChatPromptActions from "@/components/genAI/chat-prompt-actions";
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/github.css'; // choose any Highlight.js theme
 
 export default function Chat ({chatHistory}) {
-    
     return chatHistory.map((msg, index) => (
                 msg.role === "user" ? (
                     <div className="flex flex-row px-2 py-4 sm:px-4" key={index}>
@@ -24,7 +26,11 @@ export default function Chat ({chatHistory}) {
                             />
             
                             <div className="flex max-w-full items-center rounded-xl">
-                                <p>{[msg.content]}</p>
+                                <div>
+                                    <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                                        {msg.content}
+                                    </ReactMarkdown>
+                                </div>
                             </div>
                         </div>
                     </div>

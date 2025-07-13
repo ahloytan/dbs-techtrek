@@ -4,7 +4,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import PromptSuggestions from '@/sections/genAI/prompt-suggestions';
 import Chat from '@/sections/genAI/chat';
 import { Avatar, Box, Container, Typography, Stack, Button } from '@mui/material';
-import { sendPromptToLLM, getChatHistory } from '@/api/llm';
+import { clearUserChat, sendPromptToLLM, getChatHistory } from '@/api/llm';
 import PromptLoader from '@/components/genAI/prompt-loading';
 
 const chatHistory1 = [
@@ -36,16 +36,16 @@ const models = [
   },
   {
     name: "deepseek",
-    title: "DeepSeek (WIP)",
+    title: "DeepSeek",
     icon: "deepseek.png",
-    isDisabled: true
+    isDisabled: false
   }
 ];
 
 const Page = () => {
     const [chatHistory, setChatHistory] = useState([]);
     const [selectedModel, setLLMModel] = useState("groq");
-    const [prompt, setPrompt] = useState("Who is Youn Soo Bin from LCK?");
+    const [prompt, setPrompt] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const selectedLLM = (selectedModel) => {
@@ -62,6 +62,10 @@ const Page = () => {
         sendPrompt(); 
         e.preventDefault();
       }
+    }
+
+    const resetPrompt = (event) => {
+      setPrompt("");
     }
 
     const handleSelectedPrompt = (prompt) => {
@@ -81,6 +85,16 @@ const Page = () => {
         .then((answer) => {
           chatHistory.push({ role: "system", content: answer });
           console.log(chatHistory)
+        })
+        .finally(() => setIsLoading(false));
+    }
+
+    const clearChat = async () => {
+      setIsLoading(true);
+      setPrompt("");
+      await clearUserChat(selectedModel, prompt)
+        .then((answer) => {
+          setChatHistory(chatHistory1)
         })
         .finally(() => setIsLoading(false));
     }
@@ -161,9 +175,11 @@ const Page = () => {
                 <div className="mt-2">
                   <label htmlFor="chat-input" className="sr-only">Enter your prompt</label>
                   <div className="relative">
-                    <button
+                    {
+                    prompt && <button
                       type="button"
-                      className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-600"
+                      onClick={resetPrompt}
+                      className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-500"
                     >
                       <svg
                         aria-hidden="true"
@@ -176,16 +192,13 @@ const Page = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path
-                          d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z"
-                        ></path>
-                        <path d="M5 10a7 7 0 0 0 14 0"></path>
-                        <path d="M8 21l8 0"></path>
-                        <path d="M12 17l0 4"></path>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="15" y1="9" x2="9" y2="15" />
+                        <line x1="9" y1="9" x2="15" y2="15" />
                       </svg>
-                      <span className="sr-only">Use voice input</span>
+                      <span className="sr-only">Clear chat</span>
                     </button>
+                    }
                     <textarea
                       value={prompt}
                       onChange={handleInputChange}
@@ -200,9 +213,18 @@ const Page = () => {
                       variant="contained"
                       onClick={sendPrompt}
                       disabled={isLoading || !prompt}
-                      sx={{position: 'absolute', bottom: '8px', right: '10px'}}
+                      sx={{position: 'absolute', bottom: '8px', right: '130px'}}
                     >
                       Send
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      onClick={clearChat}
+                      disabled={isLoading || prompt}
+                      sx={{position: 'absolute', bottom: '8px', right: '10px'}}
+                    >
+                      New Chat
                     </Button>
                   </div>
                 </div>

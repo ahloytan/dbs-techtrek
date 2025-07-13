@@ -4,6 +4,19 @@ const { supabaseWithRLS, supabase } = require('../util/jwt-validator');
 const conversationsTable = 'conversation';
 
 module.exports = {  
+    async clearChatHistory(token) {
+        const { data: { user: { id } } } = await supabase.auth.getUser(token);
+
+        const { data, error } = await supabase
+        .from(conversationsTable)
+        .delete()
+        .eq('user_id', id)
+
+        if (error) throw new Error(error.message);
+
+        return data
+    }, 
+
     async getConversation(token) {
         const { data: { user: { id } } } = await supabase.auth.getUser(token);
 

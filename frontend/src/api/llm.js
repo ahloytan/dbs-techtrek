@@ -1,5 +1,17 @@
 import api from '../utils/axios.js';
 
+const clearUserChat = async (model, prompt) => {
+  try {
+    const {data: { data }} = await api.delete(`/llm/clear-user-chat`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    // throw new Error(error);
+    const errorMsg = "Something went wrong. Please try clearing chat again. If all else fails, please contact the administrator (https://ahloytan.netlify.app/)"
+    return errorMsg;
+  }
+}
+
 const sendPromptToLLM = async (model, prompt) => {
   try {
     const {data: { data }} = await api.post(`/llm/${model}`, {
@@ -25,4 +37,4 @@ const getChatHistory = async () => {
   }
 }
 
-export { sendPromptToLLM, getChatHistory };
+export { clearUserChat, sendPromptToLLM, getChatHistory };
