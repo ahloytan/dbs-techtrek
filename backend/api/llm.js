@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { CHATGPT_API, OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY, MISTRAL_API_KEY } = process.env;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { InferenceClient } = require('@huggingface/inference');

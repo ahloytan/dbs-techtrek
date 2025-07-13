@@ -1,13 +1,12 @@
 'use strict';
 
 const { Resend } = require('resend');
-require('dotenv').config();
 const { RESEND_API_KEY } = process.env;
 const express = require('express');
 const router = express.Router();
+const resend = new Resend(RESEND_API_KEY);
 
 router.post('/', async function (req, res, next) {
-    const resend = new Resend(RESEND_API_KEY);
     const {parentNameKanji, parentNameHiragana, studentNameKanji, studentNameHiragana, address, email, phone, bestTimeToCall, classes, comments } = req.body;
 
     const data = await resend.emails.send({
