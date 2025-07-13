@@ -98,8 +98,8 @@ const Page = () => {
     const clearChat = async () => {
       setIsLoading(true);
       setPrompt("");
+      setChatHistory(chatHistory1);
       await clearUserChat()
-        .then(() => setChatHistory(chatHistory1))
         .finally(() => setIsLoading(false));
     }
 

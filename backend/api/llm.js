@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { CHATGPT_API, DEEPSEEK_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY, MISTRAL_API_KEY } = process.env;
+const { CHATGPT_API, OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, HUGGING_FACE_API_KEY, MISTRAL_API_KEY } = process.env;
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { InferenceClient } = require('@huggingface/inference');
 const axios = require('axios');
@@ -10,7 +10,7 @@ const Groq = require('groq-sdk');
 const LLM = require('../models/llm');
 const logger = require('../modules/logger');
 const OpenAI = require('openai');
-const openai = new OpenAI({ baseURL: 'https://openrouter.ai/api/v1', apiKey: DEEPSEEK_API_KEY });
+const openai = new OpenAI({ baseURL: 'https://openrouter.ai/api/v1', apiKey: OPENAI_API_KEY });
 const router = express.Router();
 
 router.delete('/clear-user-chat', async (req, res, next) => {
