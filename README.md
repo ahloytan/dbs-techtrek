@@ -10,9 +10,9 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 
 # How to set-up
 
-## Pre-requisites
+## Pre-requisitess
 1. Ensure you have [Node.js](https://nodejs.org/en/download) installed
-2. Node.js (v18.18.0) | npm (v10.2.0)
+2. Node.js (v22.19.0) | npm (v11.6.0)
 3. Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 4. Install Supabase CLI
 
