@@ -38,13 +38,18 @@ A proof of concept full-stack web application for the DBS TechTrek Hackathon on 
 ```
 CHATGPT_API=""
 GEMINI_API_KEY="" 
+GROQ_API_KEY=""
 AWAN_API_KEY=""
+HUGGING_FACE_API_KEY=""
+MISTRAL_API_KEY=""
+OPENAI_API_KEY=""
 TELEGRAM_BOT_TOKEN=""
 TELEGRAM_SECRET_HASH=""
 FE_ENDPOINT=""
 FE_PREVIEW_ENDPOINT=""
 SUPABASE_URL=""
 SUPABASE_ANON_KEY=""
+RESEND_API_KEY=""
 ```
 3. Load the `schema.sql` (tables) and `seed.sql` (records) script located in `backend/supabase`
 4. Open command prompt, type in `cd backend`
