@@ -97,7 +97,6 @@ const Page = () => {
 
     const fetchChatHistory = async () => {
       const chatHistory = await getChatHistory();
-      console.log("CHOMIK XDD")
       if (chatHistory.length) {
         setChatHistory(chatHistory);
         return;
